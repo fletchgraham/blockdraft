@@ -1,7 +1,15 @@
-export default function HomePage() {
+import RegisterForm from "../components/RegisterForm";
+import { getUserFromCookies } from "../lib/getUser";
+
+export default async function Page() {
+  const user = await getUserFromCookies();
+  if (user) {
+    return <div>Welcome {user.username}</div>;
+  }
   return (
-    <div>
-      <h1>Home Page</h1>
-    </div>
+    <>
+      <p className="text-center text-2xl font-bold mb-5">Create an acount</p>
+      <RegisterForm />
+    </>
   );
 }
