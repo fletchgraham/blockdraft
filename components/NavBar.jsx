@@ -14,11 +14,18 @@ export default async function NavBar() {
       <div className="flex-none">
         <ul className="menu menu-horizontal px-1">
           {user && (
-            <li>
-              <form action={logout}>
-                <button>Log Out</button>
-              </form>
-            </li>
+            <>
+              <li className="mr-3">
+                <Link className="btn btn-primary" href="/import-urls">
+                  Import urls
+                </Link>
+              </li>
+              <li>
+                <form className="btn btn-ghost" action={logout}>
+                  <button>Log Out</button>
+                </form>
+              </li>
+            </>
           )}
           {!user && (
             <li>
