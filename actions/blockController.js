@@ -97,3 +97,18 @@ export const getBlocks = async () => {
 
   return blocks;
 };
+
+export const deleteBlock = async (formData) => {
+  const user = await getUserFromCookies();
+  if (!user) {
+    return redirect("/");
+  }
+
+  const blocksCollection = await getCollection("blocks");
+  await blocksCollection.deleteOne({
+    _id: ObjectId.createFromHexString(formData.get("blockId")),
+    userId: ObjectId.createFromHexString(user.userId),
+  });
+
+  return redirect("/");
+};

@@ -1,3 +1,5 @@
+import { deleteBlock } from "../actions/blockController";
+
 export default function BlockItem({ block }) {
   return (
     <div className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2 relative">
@@ -23,20 +25,10 @@ export default function BlockItem({ block }) {
         <p className="text-sm text-gray-500">{block.text}</p>
       </div>
 
-      {/* Dropdown menu */}
-      <details className="dropdown ml-auto">
-        <summary className="cursor-pointer p-2 rounded-full">
-          {/* &#x22EE; Unicode character for vertical ellipsis (three dots) */}
-        </summary>
-        <ul className="menu dropdown-content bg-base-100 rounded-box z-10 w-52 p-2 shadow">
-          <li>
-            <a>Item 1</a>
-          </li>
-          <li>
-            <a>Item 2</a>
-          </li>
-        </ul>
-      </details>
+      <form action={deleteBlock} className="btn btn-ghost ml-auto">
+        <input type="hidden" name="blockId" value={block._id.toString()} />
+        <button>X</button>
+      </form>
     </div>
   );
 }
