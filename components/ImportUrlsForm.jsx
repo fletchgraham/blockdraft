@@ -1,6 +1,10 @@
+"use client";
 import { importUrls } from "../actions/blockController";
+import { useActionState, useFormStatus } from "react-dom";
 
-export default async function ImportUrlsForm() {
+export default function ImportUrlsForm() {
+  const { pending } = useFormStatus();
+
   return (
     <form action={importUrls} className="max-w-lg mx-auto">
       <textarea
@@ -10,7 +14,9 @@ export default async function ImportUrlsForm() {
       ></textarea>
 
       <div className="text-center">
-        <button className="btn btn-primary mt-5">Import</button>
+        <button className="btn btn-primary mt-5">
+          {pending ? "Submitting..." : "Import"}
+        </button>
       </div>
     </form>
   );
