@@ -43,7 +43,7 @@ const getCleanUrlsFromFormData = (formData) => {
   }
 
   // for now just return if they didn't give us a string
-  if (typeof urls === "string") {
+  if (typeof urls !== "string") {
     return redirect("/");
   }
 
