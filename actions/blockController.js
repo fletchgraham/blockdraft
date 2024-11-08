@@ -57,10 +57,18 @@ const getCleanUrlsFromFormData = (formData) => {
   return urls.map((url) => url.trim());
 };
 
-export const importUrls = async (formData) => {
+export const importUrls = async (prevState, formData) => {
   const user = await getUserFromCookies();
   if (!user) {
     return redirect("/");
+  }
+
+  if (!formData) {
+    return "No form data";
+  }
+
+  if (!formData.get("urls")) {
+    return "Please paste some URLs above.";
   }
 
   const urls = getCleanUrlsFromFormData(formData);
