@@ -1,6 +1,8 @@
+import { deleteBlock } from "../actions/blockController";
+
 export default function BlockItem({ block }) {
   return (
-    <div className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2">
+    <div className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2 relative">
       {/* Thumbnail */}
       {block.thumbnailUrl && (
         <img
@@ -11,7 +13,7 @@ export default function BlockItem({ block }) {
       )}
 
       {/* Content */}
-      <div>
+      <div className="flex-1">
         <a
           href={block.url}
           target="_blank"
@@ -22,6 +24,11 @@ export default function BlockItem({ block }) {
         </a>
         <p className="text-sm text-gray-500">{block.text}</p>
       </div>
+
+      <form action={deleteBlock} className="btn btn-ghost ml-auto">
+        <input type="hidden" name="blockId" value={block._id.toString()} />
+        <button>X</button>
+      </form>
     </div>
   );
 }

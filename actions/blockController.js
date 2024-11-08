@@ -43,7 +43,7 @@ const getCleanUrlsFromFormData = (formData) => {
   }
 
   // for now just return if they didn't give us a string
-  if (typeof urls === "string") {
+  if (typeof urls !== "string") {
     return redirect("/");
   }
 
@@ -57,10 +57,18 @@ const getCleanUrlsFromFormData = (formData) => {
   return urls.map((url) => url.trim());
 };
 
-export const importUrls = async (formData) => {
+export const importUrls = async (prevState, formData) => {
   const user = await getUserFromCookies();
   if (!user) {
     return redirect("/");
+  }
+
+  if (!formData) {
+    return "No form data";
+  }
+
+  if (!formData.get("urls")) {
+    return "Please paste some URLs above.";
   }
 
   const urls = getCleanUrlsFromFormData(formData);
@@ -88,4 +96,19 @@ export const getBlocks = async () => {
     .toArray();
 
   return blocks;
+};
+
+export const deleteBlock = async (formData) => {
+  const user = await getUserFromCookies();
+  if (!user) {
+    return redirect("/");
+  }
+
+  const blocksCollection = await getCollection("blocks");
+  await blocksCollection.deleteOne({
+    _id: ObjectId.createFromHexString(formData.get("blockId")),
+    userId: ObjectId.createFromHexString(user.userId),
+  });
+
+  return redirect("/");
 };
