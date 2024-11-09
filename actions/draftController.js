@@ -1,6 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { getUserFromCookies } from "../lib/getUser";
 import { getCollection } from "../lib/db";
 
 function isLongerThan(str, length) {
@@ -12,10 +13,15 @@ function isShorterThan(str, length) {
 }
 
 export const createDraft = async (prevState, formData) => {
+  const user = await getUserFromCookies();
+  if (!user) {
+    return redirect("/");
+  }
   const errors = {};
 
   const draft = {
     name: formData.get("draftName"),
+    userId: user.userId,
   };
 
   if (isShorterThan(draft.name, 3)) {
@@ -37,9 +43,4 @@ export const createDraft = async (prevState, formData) => {
   await draftCollection.insertOne(draft);
 
   return redirect("/drafts");
-};
-
-export const getDrafts = async () => {
-  const draftCollection = await getCollection("drafts");
-  return await draftCollection.find().toArray();
 };
