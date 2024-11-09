@@ -1,19 +1,7 @@
-import { getCollection } from "../../lib/db";
-import { getUserFromCookies } from "../../lib/getUser";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-
-async function getDrafts(userId) {
-  const draftCollection = await getCollection("drafts");
-  const draftDocs = await draftCollection.find({ userId }).toArray();
-  const drafts = draftDocs.map((draftDoc) => {
-    return {
-      _id: draftDoc._id,
-      name: draftDoc.name,
-    };
-  });
-  return drafts;
-}
+import { getUserFromCookies } from "../../lib/getUser";
+import { getDrafts } from "../../lib/drafts";
 
 export default async function DraftsPage() {
   const user = await getUserFromCookies();
