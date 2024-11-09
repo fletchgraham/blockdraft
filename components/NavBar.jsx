@@ -20,6 +20,11 @@ export default async function NavBar() {
                   Import urls
                 </Link>
               </li>
+              <li className="mr-3">
+                <Link className="btn btn-ghost" href="/drafts">
+                  Drafts
+                </Link>
+              </li>
               <li>
                 <form className="btn btn-ghost" action={logout}>
                   <button>Log Out</button>
