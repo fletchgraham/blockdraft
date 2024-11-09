@@ -1,6 +1,10 @@
-import { deleteBlock } from "../actions/blockController";
+import { deleteBlock, moveBlockToDraft } from "../actions/blockController";
+import { getDrafts } from "../lib/drafts";
+import { getUserFromCookies } from "../lib/getUser";
 
-export default function BlockItem({ block }) {
+export default async function BlockItem({ block }) {
+  const user = await getUserFromCookies();
+  const drafts = await getDrafts(user.userId);
   return (
     <div className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2 relative">
       {/* Thumbnail */}
@@ -29,6 +33,33 @@ export default function BlockItem({ block }) {
         <input type="hidden" name="blockId" value={block._id.toString()} />
         <button>X</button>
       </form>
+      <div className="dropdown dropdown-end">
+        <div tabIndex={0} role="button" className="btn m-1">
+          +
+        </div>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+        >
+          {drafts.map((draft) => (
+            <li key={draft._id.toString()}>
+              <form action={moveBlockToDraft}>
+                <input
+                  type="hidden"
+                  name="blockId"
+                  value={block._id.toString()}
+                />
+                <input
+                  type="hidden"
+                  name="draftId"
+                  value={draft._id.toString()}
+                />
+                <button>{draft.name}</button>
+              </form>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

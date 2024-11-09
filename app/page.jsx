@@ -1,13 +1,15 @@
 import BlockList from "../components/BlockList";
 import RegisterForm from "../components/RegisterForm";
 import { getUserFromCookies } from "../lib/getUser";
+import { getBlocks } from "../lib/blocks";
 
 export default async function Page() {
   const user = await getUserFromCookies();
   if (user) {
+    const blocks = await getBlocks();
     return (
       <div className="max-w-md mx-auto">
-        <BlockList />
+        <BlockList blocks={blocks} />
       </div>
     );
   }

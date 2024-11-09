@@ -1,8 +1,6 @@
-import { getBlocks } from "../actions/blockController";
 import BlockItem from "./BlockItem";
 
-export default async function BlockList() {
-  const blocks = await getBlocks();
+export default async function BlockList({ blocks }) {
   return (
     <>
       {/* if no blocks, show a message */}
