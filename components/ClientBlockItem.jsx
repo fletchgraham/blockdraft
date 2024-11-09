@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 
 export default function ClientBlockItem({
   block,
@@ -21,15 +20,6 @@ export default function ClientBlockItem({
 
   return (
     <li className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2">
-      {block.thumbnailUrl && (
-        <Image
-          src={block.thumbnailUrl}
-          alt="Thumbnail"
-          width={64}
-          height={64}
-          className="object-cover rounded-md mr-4"
-        />
-      )}
       <div className="flex-1">
         <a
           href={block.url}
@@ -41,25 +31,21 @@ export default function ClientBlockItem({
         </a>
         <p className="text-sm text-gray-500">{block.text}</p>
       </div>
-
-      {/* Move Dropdown */}
-      <select
-        value={selectedListId}
-        onChange={(e) => setSelectedListId(e.target.value)}
-        className="mx-2"
-      >
-        <option value="">Move to...</option>
-        {lists
-          .filter((list) => list.id !== currentListId) // Exclude the current list
-          .map((list) => (
-            <option key={list.id} value={list.id}>
-              {`List ${list.id}`}
-            </option>
+      <div className="dropdown dropdown-end">
+        <div tabIndex={0} role="button" className="btn m-1">
+          M
+        </div>
+        <ul
+          tabIndex={0}
+          className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+        >
+          {lists.map((draft) => (
+            <li key={draft.id}>
+              <button onClick={handleMove}>{draft.id}</button>
+            </li>
           ))}
-      </select>
-      <button onClick={handleMove} className="btn btn-primary btn-sm">
-        Move
-      </button>
+        </ul>
+      </div>
     </li>
   );
 }
