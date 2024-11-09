@@ -1,20 +1,15 @@
 // components/ClientBlockItem.jsx
 "use client";
 
-import { useState } from "react";
-
 export default function ClientBlockItem({
   block,
   onMove,
   lists,
   currentListId,
 }) {
-  const [selectedListId, setSelectedListId] = useState("");
-
-  const handleMove = () => {
+  const handleMove = (selectedListId) => {
     if (selectedListId && selectedListId !== currentListId) {
       onMove(block, selectedListId);
-      setSelectedListId(""); // Reset after move
     }
   };
 
@@ -31,6 +26,8 @@ export default function ClientBlockItem({
         </a>
         <p className="text-sm text-gray-500">{block.text}</p>
       </div>
+
+      {/* Move Dropdown */}
       <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn m-1">
           M
@@ -39,11 +36,15 @@ export default function ClientBlockItem({
           tabIndex={0}
           className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
         >
-          {lists.map((draft) => (
-            <li key={draft.id}>
-              <button onClick={handleMove}>{draft.id}</button>
-            </li>
-          ))}
+          {lists
+            .filter((list) => list.id !== currentListId) // Exclude the current list
+            .map((list) => (
+              <li key={list.id}>
+                <button
+                  onClick={() => handleMove(list.id)}
+                >{`Move to List ${list.id}`}</button>
+              </li>
+            ))}
         </ul>
       </div>
     </li>
