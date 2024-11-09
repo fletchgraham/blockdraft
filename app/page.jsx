@@ -3,6 +3,7 @@ import Link from "next/link";
 import RegisterForm from "../components/RegisterForm";
 import { getUserFromCookies } from "../lib/getUser";
 import { getInboxBlocks } from "../lib/blocks";
+import BlockEditor from "@/components/BlockEditor";
 
 export default async function Page() {
   const user = await getUserFromCookies();
@@ -31,7 +32,8 @@ export default async function Page() {
 
   return (
     <>
-      <BlockList blocks={blocks} />
+      {/* <BlockList blocks={blocks} /> */}
+      <BlockEditor />
     </>
   );
 }
