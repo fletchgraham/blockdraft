@@ -1,16 +1,10 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { getUserFromCookies } from "../lib/getUser";
-import { getCollection } from "../lib/db";
 
-function isLongerThan(str, length) {
-  return str.length > length;
-}
-
-function isShorterThan(str, length) {
-  return str.length < length;
-}
+import { getUserFromCookies } from "@/lib/getUser";
+import { getCollection } from "@/lib/db";
+import { isShorterThan, isLongerThan } from "@/lib/validators";
 
 export const createDraft = async (prevState, formData) => {
   const user = await getUserFromCookies();

@@ -1,5 +1,5 @@
 "use client";
-import { importUrls } from "../actions/blockController";
+import { importUrls } from "@/actions/blocks/importUrls";
 import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 
