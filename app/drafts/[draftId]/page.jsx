@@ -1,6 +1,8 @@
 import { notFound, redirect } from "next/navigation";
 import { getUserFromCookies } from "../../../lib/getUser";
 import { getDraft } from "../../../lib/drafts";
+import BlockList from "../../../components/BlockList";
+import { getBlocksForDraft } from "../../../lib/blocks";
 
 export default async function DraftPage({ params }) {
   const user = await getUserFromCookies();
@@ -30,6 +32,7 @@ export default async function DraftPage({ params }) {
   return (
     <div>
       <h1>{draft.name}</h1>
+      <BlockList blocks={await getBlocksForDraft(draft._id)} />
     </div>
   );
 }

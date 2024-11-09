@@ -84,20 +84,6 @@ export const importUrls = async (prevState, formData) => {
   return redirect("/");
 };
 
-export const getBlocks = async () => {
-  const user = await getUserFromCookies();
-  if (!user) {
-    return redirect("/");
-  }
-
-  const blocksCollection = await getCollection("blocks");
-  const blocks = await blocksCollection
-    .find({ userId: ObjectId.createFromHexString(user.userId) })
-    .toArray();
-
-  return blocks;
-};
-
 export const deleteBlock = async (formData) => {
   const user = await getUserFromCookies();
   if (!user) {
@@ -111,4 +97,41 @@ export const deleteBlock = async (formData) => {
   });
 
   return redirect("/");
+};
+
+export const moveBlockToDraft = async (formData) => {
+  const user = await getUserFromCookies();
+  if (!user) {
+    return redirect("/");
+  }
+
+  const blocksCollection = await getCollection("blocks");
+  const block = await blocksCollection.findOne({
+    _id: ObjectId.createFromHexString(formData.get("blockId")),
+    userId: ObjectId.createFromHexString(user.userId),
+  });
+
+  if (!block) {
+    // todo: show error instead
+    return redirect("/");
+  }
+
+  const draftsCollection = await getCollection("drafts");
+  const draft = await draftsCollection.findOne({
+    _id: ObjectId.createFromHexString(formData.get("draftId")),
+  });
+
+  // set draftId on block
+  block.draftId = draft._id;
+
+  // update the block in the database
+  await blocksCollection.updateOne(
+    { _id: block._id },
+    { $set: { draftId: block.draftId } }
+  );
+
+  if (!draft) {
+    // todo show error instead
+    return redirect("/");
+  }
 };
