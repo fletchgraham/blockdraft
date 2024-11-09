@@ -1,5 +1,4 @@
-import { deleteBlock } from "@/actions/blocks/deleteBlock";
-import { moveBlockToDraft } from "@/actions/blocks/moveBlockToDraft";
+import { deleteBlock, moveBlockToDraft } from "@/actions/blocks";
 import { getDrafts } from "../lib/drafts";
 import { getUserFromCookies } from "../lib/getUser";
 

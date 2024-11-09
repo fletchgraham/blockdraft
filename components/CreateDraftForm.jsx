@@ -1,5 +1,5 @@
 "use client";
-import { createDraft } from "@/actions/drafts/create";
+import { createDraft } from "@/actions/drafts";
 import { useActionState } from "react";
 
 export default function CreateDraftForm() {
