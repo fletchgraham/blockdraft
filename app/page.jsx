@@ -6,27 +6,32 @@ import { getInboxBlocks } from "../lib/blocks";
 
 export default async function Page() {
   const user = await getUserFromCookies();
-  const blocks = await getInboxBlocks();
+
+  if (!user) {
+    return (
+      <>
+        <p className="text-center text-2xl font-bold mb-5">Create an account</p>
+        <RegisterForm />
+      </>
+    );
+  }
+
+  const blocks = await getInboxBlocks(user.userId);
+
+  if (!blocks.length) {
+    return (
+      <div className="text-center">
+        <p className="text-center text-2xl font-bold">Your inbox empty.</p>
+        <Link className="text-center text-xl link-primary" href="import-urls">
+          Import some URLs to get started.
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <>
-      {!user ? (
-        <>
-          <p className="text-center text-2xl font-bold mb-5">
-            Create an account
-          </p>
-          <RegisterForm />
-        </>
-      ) : blocks.length ? (
-        <BlockList blocks={blocks} />
-      ) : (
-        <div className="text-center">
-          <p className="text-center text-2xl font-bold">Your inbox empty.</p>
-          <Link className="text-center text-xl link-primary" href="import-urls">
-            Import some URLs to get started.
-          </Link>
-        </div>
-      )}
+      <BlockList blocks={blocks} />
     </>
   );
 }
