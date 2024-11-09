@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
           </div>
         </header>
         <main className="container mx-auto p-10">{children}</main>
-        <footer className="text-center">
+        <footer className="text-center fixed bottom-5 left-5">
           © {new Date().getFullYear()} blockdraft.ai
         </footer>
       </body>
