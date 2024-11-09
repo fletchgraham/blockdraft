@@ -8,7 +8,6 @@ import { getUserFromCookies } from "@/lib/getUser";
 import { getCollection } from "@/lib/db";
 
 const createBlockFromUrl = async (url) => {
-  console.log(url);
   const block = {
     url: url,
     title: "",
