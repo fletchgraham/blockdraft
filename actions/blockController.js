@@ -95,8 +95,6 @@ export const deleteBlock = async (formData) => {
     _id: ObjectId.createFromHexString(formData.get("blockId")),
     userId: ObjectId.createFromHexString(user.userId),
   });
-
-  return redirect("/");
 };
 
 export const moveBlockToDraft = async (formData) => {
