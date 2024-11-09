@@ -1,24 +1,25 @@
-// components/BlockEditor.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
 import ClientBlockList from "./ClientBlockList";
-import { v4 as uuidv4 } from "uuid"; // To generate unique IDs for each list
 
 export default function BlockEditor() {
-  const [lists, setLists] = useState([{ id: uuidv4(), blocks: [] }]);
+  const [lists, setLists] = useState([]);
 
-  // Add a new list
+  // Initialize with one empty list on the client
+  useEffect(() => {
+    setLists([{ id: uuidv4(), blocks: [] }]);
+  }, []);
+
   const addList = () => {
-    setLists([...lists, { id: uuidv4(), blocks: [] }]);
+    setLists((prevLists) => [...prevLists, { id: uuidv4(), blocks: [] }]);
   };
 
-  // Remove a list by ID
   const removeList = (id) => {
-    setLists(lists.filter((list) => list.id !== id));
+    setLists((prevLists) => prevLists.filter((list) => list.id !== id));
   };
 
-  // Move a block from one list to another
   const moveBlock = (fromListId, toListId, block) => {
     setLists((prevLists) => {
       return prevLists.map((list) => {
