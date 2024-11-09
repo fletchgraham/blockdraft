@@ -5,7 +5,6 @@ import { useState } from "react";
 import ClientBlockList from "./ClientBlockList";
 
 export default function BlockEditor() {
-  // Sample data to test in BlockEditor component
   const [leftBlocks, setLeftBlocks] = useState([
     {
       _id: "1",
@@ -36,14 +35,32 @@ export default function BlockEditor() {
     },
   ]);
 
+  const moveToRight = (block) => {
+    setLeftBlocks(leftBlocks.filter((b) => b._id !== block._id));
+    setRightBlocks([...rightBlocks, block]);
+  };
+
+  const moveToLeft = (block) => {
+    setRightBlocks(rightBlocks.filter((b) => b._id !== block._id));
+    setLeftBlocks([...leftBlocks, block]);
+  };
+
   return (
     <div className="block-editor-container">
       <div className="flex space-x-4">
         <div className="w-1/2">
-          <ClientBlockList blocks={leftBlocks} title="Inbox" />
+          <ClientBlockList
+            blocks={leftBlocks}
+            title="Inbox"
+            onMove={moveToRight}
+          />
         </div>
         <div className="w-1/2">
-          <ClientBlockList blocks={rightBlocks} title="Draft" />
+          <ClientBlockList
+            blocks={rightBlocks}
+            title="Draft"
+            onMove={moveToLeft}
+          />
         </div>
       </div>
     </div>

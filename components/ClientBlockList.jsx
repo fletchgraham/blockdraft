@@ -3,7 +3,7 @@
 
 import ClientBlockItem from "./ClientBlockItem";
 
-export default function ClientBlockList({ blocks, title }) {
+export default function ClientBlockList({ blocks, title, onMove }) {
   return (
     <div
       className="client-block-list"
@@ -12,7 +12,7 @@ export default function ClientBlockList({ blocks, title }) {
       <h2 className="text-center font-bold mb-2">{title}</h2>
       <ul>
         {blocks.map((block) => (
-          <ClientBlockItem key={block._id} block={block} />
+          <ClientBlockItem key={block._id} block={block} onMove={onMove} />
         ))}
       </ul>
     </div>

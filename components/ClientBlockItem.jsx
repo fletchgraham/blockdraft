@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 
-export default function ClientBlockItem({ block }) {
+export default function ClientBlockItem({ block, onMove }) {
   return (
     <li className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2">
       {block.thumbnailUrl && (
@@ -26,6 +26,12 @@ export default function ClientBlockItem({ block }) {
         </a>
         <p className="text-sm text-gray-500">{block.text}</p>
       </div>
+      <button
+        onClick={() => onMove(block)}
+        className="btn btn-sm btn-primary ml-4"
+      >
+        Move
+      </button>
     </li>
   );
 }
