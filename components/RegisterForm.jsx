@@ -1,6 +1,6 @@
 "use client";
 
-import { register } from "../actions/userController";
+import { register } from "@/actions/user/register";
 import { useActionState } from "react";
 
 export default function RegisterForm() {

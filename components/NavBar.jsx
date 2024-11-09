@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getUserFromCookies } from "../lib/getUser";
-import { logout } from "../actions/userController";
+import { logout } from "@/actions/user/logout";
 
 export default async function NavBar() {
   const user = await getUserFromCookies();
