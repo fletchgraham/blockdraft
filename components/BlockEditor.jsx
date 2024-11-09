@@ -1,5 +1,6 @@
 "use client";
 
+// components/BlockEditor.jsx
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ClientBlockList from "./ClientBlockList";
@@ -7,9 +8,38 @@ import ClientBlockList from "./ClientBlockList";
 export default function BlockEditor() {
   const [lists, setLists] = useState([]);
 
-  // Initialize with one empty list on the client
+  // Initialize with some sample data for testing
   useEffect(() => {
-    setLists([{ id: uuidv4(), blocks: [] }]);
+    setLists([
+      {
+        id: uuidv4(),
+        blocks: [
+          {
+            _id: "1",
+            title: "Sample Block 1",
+            text: "This is a sample block.",
+            thumbnailUrl: "",
+          },
+          {
+            _id: "2",
+            title: "Sample Block 2",
+            text: "Another sample block.",
+            thumbnailUrl: "",
+          },
+        ],
+      },
+      {
+        id: uuidv4(),
+        blocks: [
+          {
+            _id: "3",
+            title: "Sample Block 3",
+            text: "Yet another sample block.",
+            thumbnailUrl: "",
+          },
+        ],
+      },
+    ]);
   }, []);
 
   const addList = () => {
@@ -57,7 +87,9 @@ export default function BlockEditor() {
             <ClientBlockList
               blocks={list.blocks}
               title={`List ${list.id}`}
-              onMove={(block) => moveBlock(list.id, /* toListId */ null, block)}
+              onMove={(block, toListId) => moveBlock(list.id, toListId, block)}
+              lists={lists}
+              currentListId={list.id}
             />
           </div>
         ))}

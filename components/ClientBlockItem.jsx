@@ -1,9 +1,24 @@
 // components/ClientBlockItem.jsx
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 
-export default function ClientBlockItem({ block, onMove }) {
+export default function ClientBlockItem({
+  block,
+  onMove,
+  lists,
+  currentListId,
+}) {
+  const [selectedListId, setSelectedListId] = useState("");
+
+  const handleMove = () => {
+    if (selectedListId && selectedListId !== currentListId) {
+      onMove(block, selectedListId);
+      setSelectedListId(""); // Reset after move
+    }
+  };
+
   return (
     <li className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2">
       {block.thumbnailUrl && (
@@ -26,10 +41,23 @@ export default function ClientBlockItem({ block, onMove }) {
         </a>
         <p className="text-sm text-gray-500">{block.text}</p>
       </div>
-      <button
-        onClick={() => onMove(block)}
-        className="btn btn-sm btn-primary ml-4"
+
+      {/* Move Dropdown */}
+      <select
+        value={selectedListId}
+        onChange={(e) => setSelectedListId(e.target.value)}
+        className="mx-2"
       >
+        <option value="">Move to...</option>
+        {lists
+          .filter((list) => list.id !== currentListId) // Exclude the current list
+          .map((list) => (
+            <option key={list.id} value={list.id}>
+              {`List ${list.id}`}
+            </option>
+          ))}
+      </select>
+      <button onClick={handleMove} className="btn btn-primary btn-sm">
         Move
       </button>
     </li>
