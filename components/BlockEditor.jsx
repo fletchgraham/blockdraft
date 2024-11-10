@@ -7,6 +7,28 @@ import ClientBlockList from "./ClientBlockList";
 export default function BlockEditor() {
   const [lists, setLists] = useState([]);
 
+  // components/BlockEditor.jsx
+  const [syncStatus, setSyncStatus] = useState("Synced");
+
+  const syncData = async () => {
+    setSyncStatus("Syncing...");
+    try {
+      const response = await fetch("/api/sync", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lists),
+      });
+      if (response.ok) {
+        setSyncStatus("Synced");
+      } else {
+        setSyncStatus("Failed to sync");
+      }
+    } catch (error) {
+      console.error("Sync error:", error);
+      setSyncStatus("Failed to sync");
+    }
+  };
+
   // Fetch lists and blocks from API on component mount
   useEffect(() => {
     async function fetchData() {
@@ -35,6 +57,13 @@ export default function BlockEditor() {
 
     fetchData();
   }, []);
+
+  // components/BlockEditor.jsx
+  useEffect(() => {
+    const intervalId = setInterval(syncData, 10000);
+
+    return () => clearInterval(intervalId); // Clear the interval on component unmount
+  }, [lists]);
 
   const addList = () => {
     setLists((prevLists) => [
@@ -68,10 +97,12 @@ export default function BlockEditor() {
     <div className="block-editor-container h-screen flex flex-col">
       <header className="flex justify-between items-center p-4">
         <h2 className="text-center font-semibold">Block Editor</h2>
+        <span>{syncStatus}</span>
         <button onClick={addList} className="btn btn-primary">
           Add List
         </button>
       </header>
+
       <div className="flex space-x-4 flex-1 overflow-y-hidden p-4">
         {lists.map((list) => (
           <div
