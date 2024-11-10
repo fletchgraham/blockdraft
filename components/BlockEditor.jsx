@@ -2,47 +2,45 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { v4 as uuidv4 } from "uuid";
 import ClientBlockList from "./ClientBlockList";
 
 export default function BlockEditor() {
   const [lists, setLists] = useState([]);
 
+  // Fetch lists and blocks from API on component mount
   useEffect(() => {
-    setLists([
-      {
-        id: uuidv4(),
-        blocks: [
-          {
-            _id: "1",
-            title: "Sample Block 1",
-            text: "This is a sample block.",
-            thumbnailUrl: "",
-          },
-          {
-            _id: "2",
-            title: "Sample Block 2",
-            text: "Another sample block.",
-            thumbnailUrl: "",
-          },
-        ],
-      },
-      {
-        id: uuidv4(),
-        blocks: [
-          {
-            _id: "3",
-            title: "Sample Block 3",
-            text: "Yet another sample block.",
-            thumbnailUrl: "",
-          },
-        ],
-      },
-    ]);
+    async function fetchData() {
+      try {
+        const listsResponse = await fetch("/api/lists");
+        const blocksResponse = await fetch("/api/blocks");
+        const listsData = await listsResponse.json();
+        const blocksData = await blocksResponse.json();
+
+        // Transform lists to include block details
+        const blocksMap = blocksData.reduce((acc, block) => {
+          acc[block._id] = block;
+          return acc;
+        }, {});
+
+        const populatedLists = listsData.map((list) => ({
+          ...list,
+          blocks: list.blockIds.map((id) => blocksMap[id]),
+        }));
+
+        setLists(populatedLists);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+
+    fetchData();
   }, []);
 
   const addList = () => {
-    setLists((prevLists) => [...prevLists, { id: uuidv4(), blocks: [] }]);
+    setLists((prevLists) => [
+      ...prevLists,
+      { id: `list${prevLists.length + 1}`, blocks: [] },
+    ]);
   };
 
   const removeList = (id) => {
