@@ -1,6 +1,6 @@
+// components/BlockEditor.jsx
 "use client";
 
-// components/BlockEditor.jsx
 import { useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import ClientBlockList from "./ClientBlockList";
@@ -8,7 +8,6 @@ import ClientBlockList from "./ClientBlockList";
 export default function BlockEditor() {
   const [lists, setLists] = useState([]);
 
-  // Initialize with some sample data for testing
   useEffect(() => {
     setLists([
       {
@@ -68,16 +67,19 @@ export default function BlockEditor() {
   };
 
   return (
-    <div className="block-editor-container">
-      <header className="flex justify-between items-center mb-4">
+    <div className="block-editor-container h-screen flex flex-col">
+      <header className="flex justify-between items-center p-4">
         <h2 className="text-center font-semibold">Block Editor</h2>
         <button onClick={addList} className="btn btn-primary">
           Add List
         </button>
       </header>
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 flex-1 overflow-y-hidden p-4">
         {lists.map((list) => (
-          <div key={list.id} className="w-1/3 relative">
+          <div
+            key={list.id}
+            className="w-1/3 flex flex-col border-2 h-full relative"
+          >
             <button
               onClick={() => removeList(list.id)}
               className="absolute top-0 right-0 m-2 text-gray-500 hover:text-red-600"
