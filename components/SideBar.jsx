@@ -23,7 +23,7 @@ export default async function Sidebar({ children }) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-white border-gray-800 border-r text-base-content min-h-full w-60 p-4">
+        <ul className="menu bg-white border-gray-800 border-r text-base-content min-h-full w-56 p-4">
           {/* Sidebar content here */}
           <li className="mb-10">
             <Link className="text-xl btn btn-ghost" href="/">
