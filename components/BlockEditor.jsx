@@ -95,7 +95,17 @@ export default function BlockEditor() {
 
   return (
     <div className="block-editor-container h-screen flex flex-col">
-      <header className="flex justify-between items-center p-4">
+      <header className="flex justify-between items-center p-2 border-b border-black">
+        <label
+          htmlFor="my-drawer-2"
+          className="btn btn-ghost drawer-button lg:hidden"
+        >
+          <div className="space-y-2">
+            <span className="block h-0.5 w-8 bg-gray-600"></span>
+            <span className="block h-0.5 w-8 bg-gray-600"></span>
+            <span className="block h-0.5 w-8 bg-gray-600"></span>
+          </div>
+        </label>
         <h2 className="text-center font-semibold">Block Editor</h2>
         <span>{syncStatus}</span>
         <button onClick={addList} className="btn btn-primary">
@@ -105,10 +115,7 @@ export default function BlockEditor() {
 
       <div className="flex space-x-4 flex-1 overflow-y-hidden p-4">
         {lists.map((list) => (
-          <div
-            key={list.id}
-            className="w-1/3 flex flex-col border-2 h-full relative"
-          >
+          <div key={list.id} className="w-1/3 flex flex-col h-full relative">
             <button
               onClick={() => removeList(list.id)}
               className="absolute top-0 right-0 m-2 text-gray-500 hover:text-red-600"

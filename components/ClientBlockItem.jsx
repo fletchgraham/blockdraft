@@ -14,7 +14,7 @@ export default function ClientBlockItem({
   };
 
   return (
-    <li className="flex items-center p-4 bg-base-100 shadow rounded-lg mb-2">
+    <li className="flex items-center border border-black p-4 bg-base-100 rounded-lg mb-2">
       <div className="flex-1">
         <a
           href={block.url}

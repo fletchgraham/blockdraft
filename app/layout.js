@@ -1,5 +1,6 @@
 import "./global.css";
 import NavBar from "../components/NavBar";
+import Sidebar from "@/components/SideBar";
 
 export const metadata = {
   title: "BlockDraft.ai",
@@ -10,12 +11,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
       <body>
-        <header className="shadow-md">
-          <div className="container mx-auto">
-            <NavBar />
-          </div>
-        </header>
-        <main className="container mx-auto p-10">{children}</main>
+        <Sidebar>
+          <main className="container mx-auto">{children}</main>
+        </Sidebar>
         <footer className="text-center fixed bottom-5 left-5">
           © {new Date().getFullYear()} blockdraft.ai
         </footer>

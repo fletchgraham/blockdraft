@@ -11,9 +11,7 @@ export default async function LoginPage() {
 
   return (
     <div>
-      <h2 className="text-center text-2xl font-bold mt-10 mb-5">
-        Welcome Back!
-      </h2>
+      <h2 className="text-center text-2xl font-bold mb-5">Welcome Back!</h2>
       <LoginForm />
     </div>
   );

@@ -11,7 +11,9 @@ export default async function Page() {
   if (!user) {
     return (
       <>
-        <p className="text-center text-2xl font-bold mb-5">Create an account</p>
+        <h2 className="text-center text-2xl font-bold mb-5">
+          Create an account
+        </h2>
         <RegisterForm />
       </>
     );
