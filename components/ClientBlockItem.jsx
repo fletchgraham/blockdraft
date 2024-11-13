@@ -14,7 +14,7 @@ export default function ClientBlockItem({
   };
 
   return (
-    <li className="flex items-center border border-black p-4 bg-base-100 rounded-lg mb-2">
+    <li className="flex items-center shadow p-4 bg-base-100 rounded-lg mb-2">
       <div className="flex-1">
         <a
           href={block.url}
@@ -29,7 +29,11 @@ export default function ClientBlockItem({
 
       {/* Move Dropdown */}
       <div className="dropdown dropdown-end">
-        <div tabIndex={0} role="button" className="btn m-1">
+        <div
+          tabIndex={0}
+          role="button"
+          className="btn btn-ghost text-gray-200 m-1"
+        >
           M
         </div>
         <ul
