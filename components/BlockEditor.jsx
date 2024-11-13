@@ -2,16 +2,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { DragDropContext } from "@hello-pangea/dnd";
 import ClientBlockList from "./ClientBlockList";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
   const [draft, setDraft] = useState({ blocks: [] });
   const [drafts, setDrafts] = useState([]);
+  const [syncStatus, setSyncStatus] = useState("Synced");
 
-  // Fetch blocks from API on component mount
   useEffect(() => {
-    async function inboxBlocks() {
+    async function fetchInboxBlocks() {
       try {
         const response = await fetch("/api/blocks2");
         const data = await response.json();
@@ -20,10 +21,9 @@ export default function BlockEditor() {
         console.error("Error fetching data:", error);
       }
     }
-    inboxBlocks();
+    fetchInboxBlocks();
   }, []);
 
-  // Fetch drafts from API on component mount
   useEffect(() => {
     async function fetchDrafts() {
       try {
@@ -37,8 +37,6 @@ export default function BlockEditor() {
     }
     fetchDrafts();
   }, []);
-
-  const [syncStatus, setSyncStatus] = useState("Synced");
 
   const syncData = async () => {
     setSyncStatus("Syncing...");
@@ -61,33 +59,58 @@ export default function BlockEditor() {
 
   useEffect(() => {
     const intervalId = setInterval(syncData, 10000);
-
-    return () => clearInterval(intervalId); // Clear the interval on component unmount
+    return () => clearInterval(intervalId);
   }, [drafts]);
 
   const handleOpenDraft = (draftId) => {
-    console.log(`Opening draft ${draftId}`);
     setDraft(drafts.find((draft) => draft._id === draftId));
+  };
+
+  const onDragEnd = (result) => {
+    const { source, destination } = result;
+
+    if (!destination) return;
+
+    if (source.droppableId === destination.droppableId) {
+      // Reordering within the same list
+      if (source.droppableId === "inbox") {
+        const reorderedBlocks = Array.from(inboxBlocks);
+        const [movedBlock] = reorderedBlocks.splice(source.index, 1);
+        reorderedBlocks.splice(destination.index, 0, movedBlock);
+        setInboxBlocks(reorderedBlocks);
+      } else if (source.droppableId === "draft") {
+        const reorderedBlocks = Array.from(draft.blocks);
+        const [movedBlock] = reorderedBlocks.splice(source.index, 1);
+        reorderedBlocks.splice(destination.index, 0, movedBlock);
+        setDraft({ ...draft, blocks: reorderedBlocks });
+      }
+    } else {
+      // Moving between lists
+      if (
+        source.droppableId === "inbox" &&
+        destination.droppableId === "draft"
+      ) {
+        const [movedBlock] = inboxBlocks.splice(source.index, 1);
+        draft.blocks.splice(destination.index, 0, movedBlock);
+        setInboxBlocks([...inboxBlocks]);
+        setDraft({ ...draft, blocks: [...draft.blocks] });
+      } else if (
+        source.droppableId === "draft" &&
+        destination.droppableId === "inbox"
+      ) {
+        const [movedBlock] = draft.blocks.splice(source.index, 1);
+        inboxBlocks.splice(destination.index, 0, movedBlock);
+        setDraft({ ...draft, blocks: [...draft.blocks] });
+        setInboxBlocks([...inboxBlocks]);
+      }
+    }
   };
 
   return (
     <div className="block-editor-container h-screen flex flex-col">
       <header className="flex justify-between items-center p-2 border-b border-black">
-        <label
-          htmlFor="my-drawer-2"
-          className="btn btn-ghost drawer-button lg:hidden"
-        >
-          <div className="space-y-2">
-            <span className="block h-0.5 w-8 bg-gray-600"></span>
-            <span className="block h-0.5 w-8 bg-gray-600"></span>
-            <span className="block h-0.5 w-8 bg-gray-600"></span>
-          </div>
-        </label>
-
         <h2 className="text-center font-semibold">Block Editor</h2>
-
         <span>{syncStatus}</span>
-
         <div className="dropdown dropdown-end">
           <div tabIndex={0} role="button" className="btn m-1">
             Open Draft
@@ -105,23 +128,25 @@ export default function BlockEditor() {
         </div>
       </header>
 
-      <div className="flex space-x-4 flex-1 p-4">
-        <div key="inbox" className="w-1/2 flex flex-col h-full relative">
-          <ClientBlockList
-            blocks={inboxBlocks}
-            title="Inbox"
-            onMove={(block, toListId) => moveBlock("inbox", toListId, block)}
-          />
-        </div>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <div className="flex space-x-4 flex-1 p-4">
+          <div key="inbox" className="w-1/2 flex flex-col h-full relative">
+            <ClientBlockList
+              blocks={inboxBlocks}
+              title="Inbox"
+              droppableId="inbox"
+            />
+          </div>
 
-        <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
-          <ClientBlockList
-            blocks={draft.blocks}
-            title={draft.name}
-            onMove={(block, toListId) => moveBlock(draft.id, toListId, block)}
-          />
+          <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
+            <ClientBlockList
+              blocks={draft.blocks}
+              title={draft.name}
+              droppableId="draft"
+            />
+          </div>
         </div>
-      </div>
+      </DragDropContext>
     </div>
   );
 }
