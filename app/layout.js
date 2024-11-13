@@ -9,7 +9,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en" data-theme="lofi">
       <body>
         <Sidebar>
           <main className="container mx-auto">{children}</main>
