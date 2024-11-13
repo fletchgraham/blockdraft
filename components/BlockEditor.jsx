@@ -8,11 +8,10 @@ export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
   const [draft, setDraft] = useState({ blocks: [] });
   const [drafts, setDrafts] = useState([]);
-  const [lists, setLists] = useState([]);
 
   // Fetch blocks from API on component mount
   useEffect(() => {
-    async function fetchBlocks() {
+    async function inboxBlocks() {
       try {
         const response = await fetch("/api/blocks2");
         const data = await response.json();
@@ -21,7 +20,7 @@ export default function BlockEditor() {
         console.error("Error fetching data:", error);
       }
     }
-    fetchBlocks();
+    inboxBlocks();
   }, []);
 
   // Fetch drafts from API on component mount
@@ -31,7 +30,7 @@ export default function BlockEditor() {
         const response = await fetch("/api/drafts");
         const data = await response.json();
         setDrafts(data);
-        console.log(drafts);
+        setDraft(data[0]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -39,7 +38,6 @@ export default function BlockEditor() {
     fetchDrafts();
   }, []);
 
-  // components/BlockEditor.jsx
   const [syncStatus, setSyncStatus] = useState("Synced");
 
   const syncData = async () => {
@@ -48,7 +46,7 @@ export default function BlockEditor() {
       const response = await fetch("/api/sync", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(lists),
+        body: JSON.stringify(drafts),
       });
       if (response.ok) {
         setSyncStatus("Synced");
@@ -61,73 +59,15 @@ export default function BlockEditor() {
     }
   };
 
-  // Fetch lists and blocks from API on component mount
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const listsResponse = await fetch("/api/lists");
-        const blocksResponse = await fetch("/api/blocks");
-        const listsData = await listsResponse.json();
-        const blocksData = await blocksResponse.json();
-
-        // Transform lists to include block details
-        const blocksMap = blocksData.reduce((acc, block) => {
-          acc[block._id] = block;
-          return acc;
-        }, {});
-
-        const populatedLists = listsData.map((list) => ({
-          ...list,
-          blocks: list.blockIds.map((id) => blocksMap[id]),
-        }));
-
-        setLists(populatedLists);
-        setDraft(populatedLists[0]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-
-  // components/BlockEditor.jsx
   useEffect(() => {
     const intervalId = setInterval(syncData, 10000);
 
     return () => clearInterval(intervalId); // Clear the interval on component unmount
-  }, [lists]);
-
-  const addList = () => {
-    setLists((prevLists) => [
-      ...prevLists,
-      { id: `list${prevLists.length + 1}`, blocks: [] },
-    ]);
-  };
-
-  const removeList = (id) => {
-    setLists((prevLists) => prevLists.filter((list) => list.id !== id));
-  };
-
-  const moveBlock = (fromListId, toListId, block) => {
-    setLists((prevLists) => {
-      return prevLists.map((list) => {
-        if (list.id === fromListId) {
-          return {
-            ...list,
-            blocks: list.blocks.filter((b) => b._id !== block._id),
-          };
-        }
-        if (list.id === toListId) {
-          return { ...list, blocks: [...list.blocks, block] };
-        }
-        return list;
-      });
-    });
-  };
+  }, [drafts]);
 
   const handleOpenDraft = (draftId) => {
     console.log(`Opening draft ${draftId}`);
+    setDraft(drafts.find((draft) => draft._id === draftId));
   };
 
   return (
@@ -157,11 +97,7 @@ export default function BlockEditor() {
             className="dropdown-content menu border border-black bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
           >
             {drafts.map((draft) => (
-              <li
-                key={draft._id}
-                onClick={() => handleOpenDraft(draft._id)}
-                onClickclassName="menu-title"
-              >
+              <li key={draft._id} onClick={() => handleOpenDraft(draft._id)}>
                 <a>{draft.name}</a>
               </li>
             ))}
@@ -181,7 +117,7 @@ export default function BlockEditor() {
         <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
           <ClientBlockList
             blocks={draft.blocks}
-            title={draft.title}
+            title={draft.name}
             onMove={(block, toListId) => moveBlock(draft.id, toListId, block)}
           />
         </div>
