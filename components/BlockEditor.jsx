@@ -7,6 +7,7 @@ import ClientBlockList from "./ClientBlockList";
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
   const [draft, setDraft] = useState({ blocks: [] });
+  const [drafts, setDrafts] = useState([]);
   const [lists, setLists] = useState([]);
 
   // Fetch blocks from API on component mount
@@ -21,6 +22,21 @@ export default function BlockEditor() {
       }
     }
     fetchBlocks();
+  }, []);
+
+  // Fetch drafts from API on component mount
+  useEffect(() => {
+    async function fetchDrafts() {
+      try {
+        const response = await fetch("/api/drafts");
+        const data = await response.json();
+        setDrafts(data);
+        console.log(drafts);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchDrafts();
   }, []);
 
   // components/BlockEditor.jsx
@@ -110,6 +126,10 @@ export default function BlockEditor() {
     });
   };
 
+  const handleOpenDraft = (draftId) => {
+    console.log(`Opening draft ${draftId}`);
+  };
+
   return (
     <div className="block-editor-container h-screen flex flex-col">
       <header className="flex justify-between items-center p-2 border-b border-black">
@@ -123,11 +143,30 @@ export default function BlockEditor() {
             <span className="block h-0.5 w-8 bg-gray-600"></span>
           </div>
         </label>
+
         <h2 className="text-center font-semibold">Block Editor</h2>
+
         <span>{syncStatus}</span>
-        <button onClick={addList} className="btn btn-primary">
-          Add List
-        </button>
+
+        <div className="dropdown dropdown-end">
+          <div tabIndex={0} role="button" className="btn m-1">
+            Open Draft
+          </div>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu border border-black bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+          >
+            {drafts.map((draft) => (
+              <li
+                key={draft._id}
+                onClick={() => handleOpenDraft(draft._id)}
+                onClickclassName="menu-title"
+              >
+                <a>{draft.name}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
       </header>
 
       <div className="flex space-x-4 flex-1 p-4">
@@ -137,14 +176,15 @@ export default function BlockEditor() {
             title="Inbox"
             onMove={(block, toListId) => moveBlock("inbox", toListId, block)}
           />
-        </div>{" "}
+        </div>
+
         <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
           <ClientBlockList
             blocks={draft.blocks}
             title={draft.title}
             onMove={(block, toListId) => moveBlock(draft.id, toListId, block)}
           />
-        </div>{" "}
+        </div>
       </div>
     </div>
   );
