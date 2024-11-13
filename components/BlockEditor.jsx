@@ -5,7 +5,22 @@ import { useState, useEffect } from "react";
 import ClientBlockList from "./ClientBlockList";
 
 export default function BlockEditor() {
+  const [inboxBlocks, setInboxBlocks] = useState([]);
   const [lists, setLists] = useState([]);
+
+  // Fetch blocks from API on component mount
+  useEffect(() => {
+    async function fetchBlocks() {
+      try {
+        const response = await fetch("/api/blocks2");
+        const data = await response.json();
+        setInboxBlocks(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+    fetchBlocks();
+  }, []);
 
   // components/BlockEditor.jsx
   const [syncStatus, setSyncStatus] = useState("Synced");
@@ -114,6 +129,15 @@ export default function BlockEditor() {
       </header>
 
       <div className="flex space-x-4 flex-1 p-4">
+        <div key="inbox" className="w-1/3 flex flex-col h-full relative">
+          <ClientBlockList
+            blocks={inboxBlocks}
+            title="Inbox"
+            onMove={(block, toListId) => moveBlock("inbox", toListId, block)}
+            lists={lists}
+            currentListId="inbox"
+          />
+        </div>{" "}
         {lists.map((list) => (
           <div key={list.id} className="w-1/3 flex flex-col h-full relative">
             <button
