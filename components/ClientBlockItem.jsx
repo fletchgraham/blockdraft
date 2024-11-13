@@ -1,20 +1,17 @@
 // components/ClientBlockItem.jsx
 "use client";
 
-export default function ClientBlockItem({
-  block,
-  onMove,
-  lists,
-  currentListId,
-}) {
-  const handleMove = (selectedListId) => {
-    if (selectedListId && selectedListId !== currentListId) {
-      onMove(block, selectedListId);
-    }
-  };
-
+export default function ClientBlockItem({ block }) {
   return (
     <li className="flex items-center shadow p-4 bg-base-100 rounded-lg mb-2">
+      {/* Thumbnail */}
+      {block.thumbnailUrl && (
+        <img
+          src={block.thumbnailUrl}
+          alt="Thumbnail"
+          className="w-16 h-16 object-cover rounded-md mr-4"
+        />
+      )}
       <div className="flex-1">
         <a
           href={block.url}
@@ -25,31 +22,6 @@ export default function ClientBlockItem({
           {block.title}
         </a>
         <p className="text-sm text-gray-500">{block.text}</p>
-      </div>
-
-      {/* Move Dropdown */}
-      <div className="dropdown dropdown-end">
-        <div
-          tabIndex={0}
-          role="button"
-          className="btn btn-ghost text-gray-200 m-1"
-        >
-          M
-        </div>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-        >
-          {lists
-            .filter((list) => list.id !== currentListId) // Exclude the current list
-            .map((list) => (
-              <li key={list.id}>
-                <button
-                  onClick={() => handleMove(list.id)}
-                >{`Move to List ${list.id}`}</button>
-              </li>
-            ))}
-        </ul>
       </div>
     </li>
   );

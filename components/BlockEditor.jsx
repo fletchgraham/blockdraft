@@ -6,6 +6,7 @@ import ClientBlockList from "./ClientBlockList";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
+  const [draft, setDraft] = useState({ blocks: [] });
   const [lists, setLists] = useState([]);
 
   // Fetch blocks from API on component mount
@@ -65,6 +66,7 @@ export default function BlockEditor() {
         }));
 
         setLists(populatedLists);
+        setDraft(populatedLists[0]);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -129,32 +131,20 @@ export default function BlockEditor() {
       </header>
 
       <div className="flex space-x-4 flex-1 p-4">
-        <div key="inbox" className="w-1/3 flex flex-col h-full relative">
+        <div key="inbox" className="w-1/2 flex flex-col h-full relative">
           <ClientBlockList
             blocks={inboxBlocks}
             title="Inbox"
             onMove={(block, toListId) => moveBlock("inbox", toListId, block)}
-            lists={lists}
-            currentListId="inbox"
           />
         </div>{" "}
-        {lists.map((list) => (
-          <div key={list.id} className="w-1/3 flex flex-col h-full relative">
-            <button
-              onClick={() => removeList(list.id)}
-              className="absolute top-0 right-0 m-2 text-gray-500 hover:text-red-600"
-            >
-              X
-            </button>
-            <ClientBlockList
-              blocks={list.blocks}
-              title={`List ${list.id}`}
-              onMove={(block, toListId) => moveBlock(list.id, toListId, block)}
-              lists={lists}
-              currentListId={list.id}
-            />
-          </div>
-        ))}
+        <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
+          <ClientBlockList
+            blocks={draft.blocks}
+            title={draft.title}
+            onMove={(block, toListId) => moveBlock(draft.id, toListId, block)}
+          />
+        </div>{" "}
       </div>
     </div>
   );
