@@ -113,7 +113,7 @@ export default function BlockEditor() {
         </button>
       </header>
 
-      <div className="flex space-x-4 flex-1 overflow-y-hidden p-4">
+      <div className="flex space-x-4 flex-1 p-4">
         {lists.map((list) => (
           <div key={list.id} className="w-1/3 flex flex-col h-full relative">
             <button

@@ -11,10 +11,7 @@ export default function ClientBlockList({
   currentListId,
 }) {
   return (
-    <div
-      className="client-block-list"
-      style={{ overflowY: "auto", maxHeight: "400px" }}
-    >
+    <div className="client-block-list">
       <h2 className="text-center font-bold mb-2">{title}</h2>
       <ul>
         {blocks.map((block) => (
