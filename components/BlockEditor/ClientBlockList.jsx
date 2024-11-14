@@ -14,7 +14,7 @@ export default function ClientBlockList({ blocks, title, droppableId }) {
           {...provided.droppableProps}
         >
           <h2 className="text-center font-bold mb-2">{title}</h2>
-          <ul>
+          <ul className="min-h-80">
             {blocks.map((block, index) => (
               <ClientBlockItem key={block._id} block={block} index={index} />
             ))}

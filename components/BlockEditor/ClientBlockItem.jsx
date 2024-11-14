@@ -29,7 +29,7 @@ export default function ClientBlockItem({ block, index }) {
             >
               {block.title}
             </a>
-            <p className="text-sm text-gray-500">{block.text}</p>
+            {/* <p className="text-sm text-gray-500">{block.text}</p> */}
           </div>
         </li>
       )}
