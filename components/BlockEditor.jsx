@@ -38,7 +38,7 @@ export default function BlockEditor() {
   useEffect(() => {
     async function fetchInboxBlocks() {
       try {
-        const response = await fetch("/api/blocks2");
+        const response = await fetch("/api/blocks");
         const data = await response.json();
         setInboxBlocks(data);
       } catch (error) {

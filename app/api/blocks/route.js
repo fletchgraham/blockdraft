@@ -1,26 +1,9 @@
-// app/api/blocks/route.js
+import { getBlocks, getInboxBlocks } from "@/lib/blocks";
+import { getUserFromCookies } from "@/lib/getUser";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const blocks = [
-    {
-      _id: "1",
-      title: "Sample Block 1",
-      text: "This is a sample block.",
-      thumbnailUrl: "",
-    },
-    {
-      _id: "2",
-      title: "Sample Block 2",
-      text: "Another sample block.",
-      thumbnailUrl: "",
-    },
-    {
-      _id: "3",
-      title: "Sample Block 3",
-      text: "Yet another sample block.",
-      thumbnailUrl: "",
-    },
-  ];
+  const user = await getUserFromCookies();
+  const blocks = await getInboxBlocks(user.userId);
   return NextResponse.json(blocks);
 }
