@@ -1,2 +1,2 @@
 export { handleDragEnd } from "./handleDragEnd";
-export { fetchInboxBlocks } from "./fetchUtils";
+export { fetchInboxBlocks, fetchDrafts } from "./fetchUtils";

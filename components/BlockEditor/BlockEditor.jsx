@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import ClientBlockList from "./ClientBlockList";
 import Link from "next/link";
-import { fetchInboxBlocks, handleDragEnd } from "./utils";
+import { fetchDrafts, fetchInboxBlocks, handleDragEnd } from "./utils";
 
 const syncData = async (drafts, isChanged, setSyncStatus, setIsChanged) => {
   if (!isChanged) return;
@@ -36,37 +36,30 @@ export default function BlockEditor() {
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
 
+  // Fetch inbox blocks on initial load
   useEffect(() => {
     fetchInboxBlocks(setInboxBlocks);
   }, []);
 
+  // Fetch drafts on initial load
   useEffect(() => {
-    async function fetchDrafts() {
-      try {
-        const response = await fetch("/api/drafts");
-        const data = await response.json();
-        setDrafts(data);
-        setDraft(data[0]);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchDrafts();
+    fetchDrafts(setDrafts, setDraft);
   }, []);
 
-  // effect to update sync status when there's a change
+  // Update sync status when changes are made
   useEffect(() => {
     if (isChanged) {
       setSyncStatus("Waiting to sync...");
     }
   }, [isChanged]);
 
-  // an effect to update drafts when draft is updated
+  // Update the drafts state when a draft is updated
   useEffect(() => {
     const updatedDrafts = drafts.map((d) => (d._id === draft._id ? draft : d));
     setDrafts(updatedDrafts);
   }, [draft]);
 
+  // Sync data regularly if changes are made
   useEffect(() => {
     const intervalId = setInterval(() => {
       syncData(drafts, isChanged, setSyncStatus, setIsChanged);
