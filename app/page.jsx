@@ -3,7 +3,7 @@ import Link from "next/link";
 import RegisterForm from "../components/RegisterForm";
 import { getUserFromCookies } from "../lib/getUser";
 import { getInboxBlocks } from "../lib/blocks";
-import BlockEditor from "@/components/BlockEditor";
+import BlockEditor from "@/components/BlockEditor/BlockEditor";
 
 export default async function Page() {
   const user = await getUserFromCookies();
