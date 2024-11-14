@@ -1,33 +1,17 @@
-// components/BlockEditor.jsx
 "use client";
 
 import { useState, useEffect } from "react";
-import { DragDropContext } from "@hello-pangea/dnd";
-import ClientBlockList from "./ClientBlockList";
 import Link from "next/link";
-import { fetchDrafts, fetchInboxBlocks, handleDragEnd } from "./utils";
 
-const syncData = async (drafts, isChanged, setSyncStatus, setIsChanged) => {
-  if (!isChanged) return;
+import { DragDropContext } from "@hello-pangea/dnd";
 
-  setSyncStatus("Syncing...");
-  try {
-    const response = await fetch("/api/sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(drafts),
-    });
-    if (response.ok) {
-      setSyncStatus("Synced");
-      setIsChanged(false); // Reset isChanged here to avoid re-syncing
-    } else {
-      setSyncStatus("Failed to sync");
-    }
-  } catch (error) {
-    console.error("Sync error:", error);
-    setSyncStatus("Failed to sync");
-  }
-};
+import ClientBlockList from "./ClientBlockList";
+import {
+  fetchDrafts,
+  fetchInboxBlocks,
+  handleDragEnd,
+  syncData,
+} from "./utils";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
