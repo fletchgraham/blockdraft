@@ -75,9 +75,9 @@ export default function BlockEditor() {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(syncData, 5000);
+    const intervalId = setInterval(syncData, 2000);
     return () => clearInterval(intervalId);
-  }, [isChanged]);
+  }, [drafts]);
 
   const handleOpenDraft = (draftId) => {
     setDraft(drafts.find((draft) => draft._id === draftId));

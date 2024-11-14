@@ -9,23 +9,29 @@ export async function POST(request) {
 
   const blocksInDrafts = [];
 
-  // use the updated drafts to move blocks around
-  // and update the database
+  // Iterate through each draft and update blocks with draftId and order
   for (const draft of updatedDrafts) {
-    for (const block of draft.blocks) {
+    for (const [index, block] of draft.blocks.entries()) {
       const mongoBlockId = ObjectId.createFromHexString(block._id);
+
+      // Update the draftId and order for each block in the draft
       await blocksCollection.updateOne(
         { _id: mongoBlockId },
-        { $set: { draftId: ObjectId.createFromHexString(draft._id) } }
+        {
+          $set: {
+            draftId: ObjectId.createFromHexString(draft._id),
+            order: index, // Set the order to the current index in the draft's blocks array
+          },
+        }
       );
       blocksInDrafts.push(mongoBlockId);
     }
   }
 
-  // remove blocks that are not in any drafts
+  // Unset draftId and order for blocks not in any drafts
   await blocksCollection.updateMany(
     { _id: { $nin: blocksInDrafts } },
-    { $unset: { draftId: "" } }
+    { $unset: { draftId: "", order: "" } }
   );
 
   return NextResponse.json({ success: true });
