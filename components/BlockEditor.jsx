@@ -38,6 +38,12 @@ export default function BlockEditor() {
     fetchDrafts();
   }, []);
 
+  // an effect to update drafts when draft is updated
+  useEffect(() => {
+    const updatedDrafts = drafts.map((d) => (d._id === draft._id ? draft : d));
+    setDrafts(updatedDrafts);
+  }, [draft]);
+
   const syncData = async () => {
     setSyncStatus("Syncing...");
     try {
@@ -69,39 +75,71 @@ export default function BlockEditor() {
   const onDragEnd = (result) => {
     const { source, destination } = result;
 
+    // If there’s no destination (e.g., item was dragged out of the list), do nothing
     if (!destination) return;
 
+    // If the source and destination lists are the same, handle reordering within that list
     if (source.droppableId === destination.droppableId) {
-      // Reordering within the same list
+      // Check if the move is within the "inbox" list
       if (source.droppableId === "inbox") {
-        const reorderedBlocks = Array.from(inboxBlocks);
-        const [movedBlock] = reorderedBlocks.splice(source.index, 1);
-        reorderedBlocks.splice(destination.index, 0, movedBlock);
-        setInboxBlocks(reorderedBlocks);
-      } else if (source.droppableId === "draft") {
-        const reorderedBlocks = Array.from(draft.blocks);
-        const [movedBlock] = reorderedBlocks.splice(source.index, 1);
-        reorderedBlocks.splice(destination.index, 0, movedBlock);
-        setDraft({ ...draft, blocks: reorderedBlocks });
+        // Create a new copy of the inboxBlocks array
+        const reorderedInboxBlocks = Array.from(inboxBlocks);
+
+        // Remove the item from its original position and insert it at the new index
+        const [movedBlock] = reorderedInboxBlocks.splice(source.index, 1);
+        reorderedInboxBlocks.splice(destination.index, 0, movedBlock);
+
+        // Update the state with the new order for inboxBlocks
+        setInboxBlocks(reorderedInboxBlocks);
       }
-    } else {
-      // Moving between lists
+      // Check if the move is within the "draft" list
+      else if (source.droppableId === "draft") {
+        // Create a new copy of the draft.blocks array
+        const reorderedDraftBlocks = Array.from(draft.blocks);
+
+        // Remove the item from its original position and insert it at the new index
+        const [movedBlock] = reorderedDraftBlocks.splice(source.index, 1);
+        reorderedDraftBlocks.splice(destination.index, 0, movedBlock);
+
+        // Update the draft with the reordered blocks
+        setDraft({ ...draft, blocks: reorderedDraftBlocks });
+      }
+    }
+    // If moving items between different lists, handle accordingly
+    else {
+      // Moving from "inbox" to "draft"
       if (
         source.droppableId === "inbox" &&
         destination.droppableId === "draft"
       ) {
-        const [movedBlock] = inboxBlocks.splice(source.index, 1);
-        draft.blocks.splice(destination.index, 0, movedBlock);
-        setInboxBlocks([...inboxBlocks]);
-        setDraft({ ...draft, blocks: [...draft.blocks] });
-      } else if (
+        // Create a copy of both the inbox and draft blocks arrays
+        const newInboxBlocks = Array.from(inboxBlocks);
+        const newDraftBlocks = Array.from(draft.blocks);
+
+        // Remove the item from inbox and add it to draft at the specified index
+        const [movedBlock] = newInboxBlocks.splice(source.index, 1);
+        newDraftBlocks.splice(destination.index, 0, movedBlock);
+
+        // Update both inboxBlocks and draft.blocks states to reflect the new positions
+        setInboxBlocks(newInboxBlocks);
+        setDraft({ ...draft, blocks: newDraftBlocks });
+      }
+      // Moving from "draft" to "inbox"
+      else if (
         source.droppableId === "draft" &&
         destination.droppableId === "inbox"
       ) {
-        const [movedBlock] = draft.blocks.splice(source.index, 1);
-        inboxBlocks.splice(destination.index, 0, movedBlock);
-        setDraft({ ...draft, blocks: [...draft.blocks] });
-        setInboxBlocks([...inboxBlocks]);
+        // Create a copy of both the draft and inbox blocks arrays
+        const newDraftBlocks = Array.from(draft.blocks);
+        const newInboxBlocks = Array.from(inboxBlocks);
+
+        // Remove the item from draft and add it to inbox at the specified index
+        const [movedBlock] = newDraftBlocks.splice(source.index, 1);
+        newInboxBlocks.splice(destination.index, 0, movedBlock);
+
+        // Update both draft.blocks and inboxBlocks states to reflect the new positions
+        setDraft({ ...draft, blocks: newDraftBlocks });
+        setInboxBlocks(newInboxBlocks);
       }
     }
   };
