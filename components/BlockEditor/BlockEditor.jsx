@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import ClientBlockList from "./ClientBlockList";
 import Link from "next/link";
-import { handleDragEnd } from "./utils";
+import { fetchInboxBlocks, handleDragEnd } from "./utils";
 
 const syncData = async (drafts, isChanged, setSyncStatus, setIsChanged) => {
   if (!isChanged) return;
@@ -37,16 +37,7 @@ export default function BlockEditor() {
   const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
-    async function fetchInboxBlocks() {
-      try {
-        const response = await fetch("/api/blocks");
-        const data = await response.json();
-        setInboxBlocks(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    }
-    fetchInboxBlocks();
+    fetchInboxBlocks(setInboxBlocks);
   }, []);
 
   useEffect(() => {
