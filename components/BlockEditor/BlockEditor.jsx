@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
 
 import { DragDropContext } from "@hello-pangea/dnd";
 
 import ClientBlockList from "./ClientBlockList";
+import BlockEditorHeader from "./BlockEditorHeader";
+
 import {
   fetchDrafts,
   fetchInboxBlocks,
@@ -68,28 +69,11 @@ export default function BlockEditor() {
 
   return (
     <div className="block-editor-container h-screen flex flex-col">
-      <header className="flex justify-between items-center p-2 border-b border-black">
-        <h2 className="text-center font-semibold">Block Editor</h2>
-        <span>{syncStatus}</span>
-        <div className="dropdown dropdown-end">
-          <div tabIndex={0} role="button" className="btn m-1">
-            Open Draft
-          </div>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu border border-black bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
-          >
-            {drafts.map((draft) => (
-              <li key={draft._id} onClick={() => handleOpenDraft(draft._id)}>
-                <a>{draft.name}</a>
-              </li>
-            ))}
-            <li key="new">
-              <Link href="/drafts/create">+ New Draft</Link>
-            </li>
-          </ul>
-        </div>
-      </header>
+      <BlockEditorHeader
+        syncStatus={syncStatus}
+        drafts={drafts}
+        handleOpenDraft={handleOpenDraft}
+      />
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex space-x-4 flex-1 p-4">
