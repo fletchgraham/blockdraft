@@ -3,6 +3,7 @@ import Link from "next/link";
 import RegisterForm from "../components/RegisterForm";
 import { getUserFromCookies } from "../lib/getUser";
 import { getInboxBlocks } from "../lib/blocks";
+import BlockEditor from "@/components/BlockEditor/BlockEditor";
 
 export default async function Page() {
   const user = await getUserFromCookies();
@@ -10,7 +11,9 @@ export default async function Page() {
   if (!user) {
     return (
       <>
-        <p className="text-center text-2xl font-bold mb-5">Create an account</p>
+        <h2 className="text-center text-2xl font-bold mb-5">
+          Create an account
+        </h2>
         <RegisterForm />
       </>
     );
@@ -31,7 +34,8 @@ export default async function Page() {
 
   return (
     <>
-      <BlockList blocks={blocks} />
+      {/* <BlockList blocks={blocks} /> */}
+      <BlockEditor />
     </>
   );
 }
