@@ -4,12 +4,14 @@
 import { useState, useEffect } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import ClientBlockList from "./ClientBlockList";
+import Link from "next/link";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
   const [draft, setDraft] = useState({ blocks: [] });
   const [drafts, setDrafts] = useState([]);
   const [syncStatus, setSyncStatus] = useState("Synced");
+  const [isChanged, setIsChanged] = useState(false);
 
   useEffect(() => {
     async function fetchInboxBlocks() {
@@ -38,6 +40,15 @@ export default function BlockEditor() {
     fetchDrafts();
   }, []);
 
+  // effect to update sync status when there's a change
+  useEffect(() => {
+    if (isChanged) {
+      setSyncStatus("Waiting to sync...");
+    } else {
+      setSyncStatus("Synced");
+    }
+  }, [isChanged]);
+
   // an effect to update drafts when draft is updated
   useEffect(() => {
     const updatedDrafts = drafts.map((d) => (d._id === draft._id ? draft : d));
@@ -45,6 +56,7 @@ export default function BlockEditor() {
   }, [draft]);
 
   const syncData = async () => {
+    if (!isChanged) return;
     setSyncStatus("Syncing...");
     try {
       const response = await fetch("/api/sync", {
@@ -77,6 +89,8 @@ export default function BlockEditor() {
 
     // If there’s no destination (e.g., item was dragged out of the list), do nothing
     if (!destination) return;
+
+    setIsChanged(true);
 
     // If the source and destination lists are the same, handle reordering within that list
     if (source.droppableId === destination.droppableId) {
@@ -162,6 +176,9 @@ export default function BlockEditor() {
                 <a>{draft.name}</a>
               </li>
             ))}
+            <li key="new">
+              <Link href="/drafts/create">+ New Draft</Link>
+            </li>
           </ul>
         </div>
       </header>
@@ -176,13 +193,17 @@ export default function BlockEditor() {
             />
           </div>
 
-          <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
-            <ClientBlockList
-              blocks={draft.blocks}
-              title={draft.name}
-              droppableId="draft"
-            />
-          </div>
+          {draft ? (
+            <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
+              <ClientBlockList
+                blocks={draft.blocks}
+                title={draft.name}
+                droppableId="draft"
+              />
+            </div>
+          ) : (
+            <p>No Drafts.</p>
+          )}
         </div>
       </DragDropContext>
     </div>
