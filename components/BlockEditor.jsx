@@ -44,8 +44,6 @@ export default function BlockEditor() {
   useEffect(() => {
     if (isChanged) {
       setSyncStatus("Waiting to sync...");
-    } else {
-      setSyncStatus("Synced");
     }
   }, [isChanged]);
 
@@ -66,6 +64,7 @@ export default function BlockEditor() {
       });
       if (response.ok) {
         setSyncStatus("Synced");
+        setIsChanged(false);
       } else {
         setSyncStatus("Failed to sync");
       }
@@ -76,9 +75,9 @@ export default function BlockEditor() {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(syncData, 10000);
+    const intervalId = setInterval(syncData, 5000);
     return () => clearInterval(intervalId);
-  }, [drafts]);
+  }, [isChanged]);
 
   const handleOpenDraft = (draftId) => {
     setDraft(drafts.find((draft) => draft._id === draftId));
