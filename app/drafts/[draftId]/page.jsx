@@ -1,4 +1,5 @@
 import { notFound, redirect } from "next/navigation";
+import Link from "next/link";
 import { getUserFromCookies } from "../../../lib/getUser";
 import { getDraft } from "../../../lib/drafts";
 import BlockList from "../../../components/BlockList";
@@ -32,6 +33,7 @@ export default async function DraftPage({ params }) {
   return (
     <div>
       <h1>{draft.name}</h1>
+      <Link href={`/generated/${draft._id}`}>Generate Article</Link>
       <BlockList blocks={await getBlocksForDraft(draft._id)} />
     </div>
   );
