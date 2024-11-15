@@ -1,11 +1,27 @@
-// components/ClientBlockList.jsx
 "use client";
 
+import { useState } from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import ClientBlockItem from "./ClientBlockItem";
 
-export default function ClientBlockList({ blocks, title, droppableId }) {
+export default function ClientBlockList({
+  blocks,
+  title,
+  droppableId,
+  addBlock,
+}) {
+  const [newBlockContent, setNewBlockContent] = useState(""); // New state for block content
   const newBlockModalId = `newBlockModal-${droppableId}`;
+
+  const handleAddBlock = (e) => {
+    e.preventDefault();
+    if (newBlockContent.trim()) {
+      addBlock(droppableId, { content: newBlockContent }); // Pass new block content to addBlock function
+      setNewBlockContent(""); // Reset input field
+      document.getElementById(newBlockModalId).close(); // Close the modal
+    }
+  };
+
   return (
     <Droppable droppableId={droppableId}>
       {(provided) => (
@@ -27,23 +43,39 @@ export default function ClientBlockList({ blocks, title, droppableId }) {
                   document.getElementById(newBlockModalId).showModal()
                 }
               >
-                + New Block
+                + New Custom Block
               </button>
             </li>
           </ul>
-          {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+          {/* Modal for adding a new block */}
           <dialog id={newBlockModalId} className="modal">
             <div className="modal-box">
-              <h3 className="font-bold text-lg">Hello!</h3>
-              <p className="py-4">
-                Press ESC key or click the button below to close
-              </p>
-              <div className="modal-action">
-                <form method="dialog">
-                  {/* if there is a button in form, it will close the modal */}
-                  <button className="btn">Close</button>
-                </form>
-              </div>
+              <h3 className="font-bold text-lg">Add a New Custom Block</h3>
+              <form onSubmit={handleAddBlock} className="py-4">
+                <input
+                  type="text"
+                  placeholder="Enter block content"
+                  className="input input-bordered w-full mb-4"
+                  value={newBlockContent}
+                  onChange={(e) => setNewBlockContent(e.target.value)}
+                  required
+                />
+                <div className="modal-action">
+                  <button type="submit" className="btn">
+                    Add Block
+                  </button>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() =>
+                      document.getElementById(newBlockModalId).close()
+                    }
+                  >
+                    Close
+                  </button>
+                </div>
+              </form>
             </div>
           </dialog>
         </div>
