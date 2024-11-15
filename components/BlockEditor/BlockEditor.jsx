@@ -86,7 +86,7 @@ export default function BlockEditor() {
       const newBlocks = await response.json();
       setDraft((prevDraft) => ({
         ...prevDraft,
-        blocks: [...prevDraft.blocks, newBlocks[0]], // Assuming only one block is returned
+        blocks: [newBlocks[0], ...prevDraft.blocks], // Assuming only one block is returned
       }));
     } catch (error) {
       // Handle network or unexpected errors
