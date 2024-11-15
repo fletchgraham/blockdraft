@@ -20,8 +20,6 @@ export default function GenerateProgress({ initialComplete, initialTotal }) {
 
   return (
     <div>
-      <h1>Generating Your Article</h1>
-      <p>Your article is being generated.</p>
       <progress
         className="progress w-full"
         value={complete}

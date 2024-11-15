@@ -9,25 +9,52 @@ export default async function GeneratedPage({ params }) {
     redirect("/");
   }
 
-  const draftId = await params.draftId;
-  const blocks = await getBlocksForDraft(params.draftId);
+  const draftId = params.draftId;
+  const blocks = await getBlocksForDraft(draftId);
 
-  // get blocks with url prop
+  // Filter blocks with a URL
   const blocksWithUrl = blocks.filter((block) => block.url);
-  const blocksWithUrlandSummary = blocksWithUrl.map(
-    async (block) => block.summary
-  );
+  const summarizedBlocks = blocksWithUrl.filter((block) => block.summary);
 
   return (
-    <div>
-      <GenerateProgress initialComplete={0} initialTotal={blocks.length} />
-      <h1>Generated Page for {draftId}</h1>
-      <p>{`URL Blocks Summarized: ${blocksWithUrlandSummary.length} / ${blocksWithUrl.length}`}</p>
-      <ul>
+    <div className="max-w-3xl mx-auto p-6">
+      <GenerateProgress
+        initialComplete={0}
+        initialTotal={blocksWithUrl.length}
+      />
+      <p className="text-lg mb-6">
+        {`URL Blocks Summarized: ${summarizedBlocks.length} / ${blocksWithUrl.length}`}
+      </p>
+      <div className="space-y-8">
         {blocks.map((block) => (
-          <li key={block._id.toString()}>{block.title || block.content}</li>
+          <div key={block._id.toString()}>
+            {block.content && (
+              <h2 className="text-2xl font-semibold mb-4">{block.content}</h2>
+            )}
+            {block.thumbnailUrl && (
+              <div className="flex justify-center mb-4">
+                <img
+                  src={block.thumbnailUrl}
+                  alt="Block thumbnail"
+                  className="max-w-full w-48 h-auto rounded shadow"
+                />
+              </div>
+            )}
+            <p className="font-bold text-lg mb-2">
+              <a
+                href={block.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
+              >
+                {block.title}
+              </a>
+            </p>
+            {block.summary && <p className="text-gray-700">{block.summary}</p>}
+            <hr className="my-4" />
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
