@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getCollection } from "@/lib/db"; // MongoDB connection helper
+import { ObjectId } from "mongodb";
 
 export async function POST(req) {
   try {
@@ -32,6 +33,11 @@ export async function POST(req) {
         );
       }
     }
+
+    // turn draftId into ObjectId
+    body.forEach((block) => {
+      block.draftId = ObjectId.createFromHexString(block.draftId);
+    });
 
     // Get the MongoDB collection
     const blocksCollection = await getCollection("blocks");
