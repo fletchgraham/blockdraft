@@ -16,7 +16,7 @@ export default function ClientBlockList({
   const handleAddBlock = (e) => {
     e.preventDefault();
     if (newBlockContent.trim()) {
-      addBlock(droppableId, { content: newBlockContent }); // Pass new block content to addBlock function
+      addBlock(droppableId, newBlockContent); // Add the block to the draft
       setNewBlockContent(""); // Reset input field
       document.getElementById(newBlockModalId).close(); // Close the modal
     }

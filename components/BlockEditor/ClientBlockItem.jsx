@@ -13,6 +13,7 @@ export default function ClientBlockItem({ block, index }) {
           {...provided.dragHandleProps}
           className="flex items-center shadow p-4 bg-base-100 rounded-lg mb-2"
         >
+          {block.type === "custom" && <p>{block.content}</p>}
           {block.thumbnailUrl && (
             <img
               src={block.thumbnailUrl}

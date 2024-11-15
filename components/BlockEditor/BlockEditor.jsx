@@ -56,6 +56,45 @@ export default function BlockEditor() {
     setDraft(drafts.find((draft) => draft._id === draftId));
   };
 
+  const addBlock = async (droppableId, contents) => {
+    try {
+      // Create a block object
+      const block = {
+        draftId: draft._id,
+        type: "custom",
+        content: contents,
+      };
+
+      // Make an API request to add the block
+      const response = await fetch(`/api/blocks/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify([block]),
+      });
+
+      // Handle non-successful responses
+      if (!response.ok) {
+        const error = await response.json();
+        console.error("Error adding block:", error.message);
+        alert(`Failed to add block: ${error.message}`);
+        return;
+      }
+
+      // Parse the response and update the state
+      const newBlocks = await response.json();
+      setDraft((prevDraft) => ({
+        ...prevDraft,
+        blocks: [...prevDraft.blocks, newBlocks[0]], // Assuming only one block is returned
+      }));
+    } catch (error) {
+      // Handle network or unexpected errors
+      console.error("Unexpected error:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
+  };
+
   const onDragEnd = (result) => {
     handleDragEnd(
       result,
@@ -82,15 +121,17 @@ export default function BlockEditor() {
               blocks={inboxBlocks}
               title="Inbox"
               droppableId="inbox"
+              addBlock={addBlock}
             />
           </div>
 
           {draft ? (
-            <div key={draft.id} className="w-1/2 flex flex-col h-full relative">
+            <div className="w-1/2 flex flex-col h-full relative">
               <ClientBlockList
                 blocks={draft.blocks}
                 title={draft.name}
                 droppableId="draft"
+                addBlock={addBlock}
               />
             </div>
           ) : (
