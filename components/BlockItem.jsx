@@ -26,7 +26,8 @@ export default async function BlockItem({ block }) {
         >
           {block.title}
         </a>
-        <p className="text-sm text-gray-500">{block.text}</p>
+        <p>{block.content}</p>
+        <p className="text-sm text-gray-500">{block.summary}</p>
       </div>
 
       <form action={deleteBlock} className="btn btn-ghost ml-auto">
