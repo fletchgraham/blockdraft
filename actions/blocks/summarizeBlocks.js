@@ -25,12 +25,6 @@ export async function summarizeBlocks(draftId) {
       return;
     }
 
-    // clear summaries first for now
-    await blocksCollection.updateMany(
-      { draftId: ObjectId.createFromHexString(draftId) },
-      { $unset: { summary: "" } }
-    );
-
     // Process each block in parallel
     await Promise.allSettled(
       blocks.map(async (block) => {

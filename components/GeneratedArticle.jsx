@@ -1,53 +1,6 @@
-"use client";
-import { useState, useEffect } from "react";
-import GenerateProgress from "@/components/GenerateProgress";
-
-function getSummarizedProgress(blocks) {
-  const blocksWithUrl = blocks.filter((block) => block.url);
-  const summarizedBlocks = blocksWithUrl.filter((block) => block.summary);
-
-  return {
-    completed: summarizedBlocks.length,
-    total: blocksWithUrl.length,
-  };
-}
-
-async function getBlocks(draftId) {
-  try {
-    const response = await fetch("/api/drafts");
-    const drafts = await response.json();
-    const draft = drafts.find((draft) => draft._id === draftId);
-    return draft.blocks;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-}
-
-export default function GeneratedArticle({ startingBlocks }) {
-  const [blocks, setBlocks] = useState(startingBlocks);
-  const [progress, setProgress] = useState(getSummarizedProgress(blocks));
-
-  //   // get blocks again every half second until complete
-  //   useEffect(() => {
-  //     const interval = setInterval(async () => {
-  //       const id = blocks[0].draftId;
-  //       const newBlocks = await getBlocks(id);
-  //       setBlocks(newBlocks);
-  //     }, 500);
-
-  //     return () => clearInterval(interval);
-  //   }, [blocks]);
-
-  useEffect(() => {
-    setProgress(getSummarizedProgress(blocks));
-  }, [blocks]);
-
+export default function GeneratedArticle({ blocks }) {
   return (
     <div className="max-w-3xl mx-auto p-6">
-      <GenerateProgress progress={progress} />
-      <p className="text-lg mb-6">
-        {`URL Blocks Summarized: ${progress.completed} / ${progress.total}`}
-      </p>
       <div className="space-y-8">
         {blocks.map((block) => (
           <div key={block._id.toString()}>

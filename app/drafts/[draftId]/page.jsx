@@ -1,9 +1,10 @@
 import { notFound, redirect } from "next/navigation";
-import Link from "next/link";
-import { getUserFromCookies } from "../../../lib/getUser";
-import { getDraft } from "../../../lib/drafts";
-import BlockList from "../../../components/BlockList";
-import { getBlocksForDraft } from "../../../lib/blocks";
+
+import { getUserFromCookies } from "@/lib/getUser";
+import { getBlocksForDraft } from "@/lib/blocks";
+import { getDraft } from "@/lib/drafts";
+import { summarizeBlocks } from "@/actions/blocks/summarizeBlocks";
+import GeneratedArticle from "@/components/GeneratedArticle";
 
 export default async function DraftPage({ params }) {
   const user = await getUserFromCookies();
@@ -11,6 +12,10 @@ export default async function DraftPage({ params }) {
     return redirect("/");
   }
 
+  const { draftId } = await params;
+  await summarizeBlocks(draftId);
+
+  const blocks = await getBlocksForDraft(draftId);
   let draft;
 
   try {
@@ -30,11 +35,23 @@ export default async function DraftPage({ params }) {
     notFound();
   }
 
+  // scrub blocks of user id
+  blocks.forEach((block) => {
+    delete block.userId;
+  });
+
+  // convert blocks to simple objects
+  blocks.forEach((block) => {
+    block._id = block._id.toString();
+    if (block.draftId) {
+      block.draftId = block.draftId.toString();
+    }
+  });
+
   return (
-    <div>
-      <h1>{draft.name}</h1>
-      <Link href={`/generated/${draft._id}`}>Generate Article</Link>
-      <BlockList blocks={await getBlocksForDraft(draft._id)} />
-    </div>
+    <>
+      <h1 className="text-3xl">{draft.name}</h1>
+      <GeneratedArticle blocks={blocks} />
+    </>
   );
 }
