@@ -1,27 +1,33 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getUserFromCookies } from "@/lib/getUser";
-import { getDrafts } from "@/lib/db";
+import { getDraftsWithBlocks } from "@/lib/db";
+import DraftCard from "@/components/DraftCard";
 
 export default async function DraftsPage() {
   const user = await getUserFromCookies();
   if (!user) {
     return redirect("/");
   }
-  const drafts = await getDrafts(user.userId);
+
+  // Fetch drafts with blocks to get thumbnail URLs
+  const drafts = await getDraftsWithBlocks();
+
   return (
-    <div>
-      <h1>Drafts</h1>
-      <ul>
+    <div className="p-4">
+      <h1 className="text-3xl font-bold mb-6">Drafts</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {drafts.map((draft) => (
-          <li key={draft._id}>
-            <Link href={`/drafts/${draft._id}`}>{draft.name}</Link>
-          </li>
+          <DraftCard key={draft._id} draft={draft} />
         ))}
-        <li>
-          <Link href="/drafts/create">New Draft</Link>
-        </li>
-      </ul>
+        <div className="card card-compact bg-base-100 w-60 shadow-md">
+          <div className="card-body flex items-center justify-center">
+            <Link href="/drafts/create" className="btn btn-primary">
+              + New Draft
+            </Link>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
