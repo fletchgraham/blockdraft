@@ -4,6 +4,7 @@ import { getUserFromCookies } from "@/lib/getUser";
 import { getDraft, getBlocksForDraft } from "@/lib/db";
 import { summarizeBlocks } from "@/actions/blocks/summarizeBlocks";
 import GeneratedArticle from "@/components/GeneratedArticle";
+import CopyToClipboard from "@/components/CopyDraftToClipBoard";
 
 export default async function DraftPage({ params }) {
   const user = await getUserFromCookies();
@@ -33,6 +34,7 @@ export default async function DraftPage({ params }) {
   return (
     <>
       <h1 className="text-3xl">{draft.name}</h1>
+      <CopyToClipboard blocks={blocks} />
       <GeneratedArticle blocks={blocks} />
     </>
   );
