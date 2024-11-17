@@ -1,76 +1,131 @@
 "use client";
 
-import React from "react";
-import ReactDOMServer from "react-dom/server";
+import React, { useState } from "react";
+
+const processImageFromUrl = async (
+  url,
+  targetSize = { width: 200, height: 150 }
+) => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous"; // Handle CORS issues
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      const { width: targetWidth, height: targetHeight } = targetSize;
+
+      // Calculate aspect ratio and resize
+      const aspectRatio = img.width / img.height;
+      let newWidth, newHeight;
+
+      if (aspectRatio > targetWidth / targetHeight) {
+        newHeight = targetHeight;
+        newWidth = aspectRatio * newHeight;
+      } else {
+        newWidth = targetWidth;
+        newHeight = targetWidth / aspectRatio;
+      }
+
+      canvas.width = targetWidth;
+      canvas.height = targetHeight;
+
+      // Draw the resized and cropped image on the canvas
+      ctx.drawImage(
+        img,
+        (newWidth - targetWidth) / -2,
+        (newHeight - targetHeight) / -2,
+        newWidth,
+        newHeight
+      );
+
+      // Convert the canvas content to a base64 string
+      const base64String = canvas.toDataURL("image/jpeg", 0.5); // Adjust quality as needed
+      resolve(base64String);
+    };
+
+    img.onerror = (err) => reject(err);
+    img.src = url;
+  });
+};
+
+const generateHtmlForClipboard = async (blocks) => {
+  const processedBlocks = await Promise.all(
+    blocks.map(async (block) => {
+      const { content, summary, thumbnailUrl, url, title } = block;
+
+      let processedImage = null;
+      if (thumbnailUrl) {
+        try {
+          processedImage = await processImageFromUrl(thumbnailUrl);
+        } catch (error) {
+          console.error("Error processing image:", error);
+        }
+      }
+
+      return `
+        <div style="margin-bottom: 1em;">
+          ${content ? `<h2>${content}</h2>` : ""}
+          ${
+            processedImage
+              ? `<img src="${processedImage}" alt="Thumbnail" style="width:200px;height:150px;" />`
+              : ""
+          }
+          ${title ? `<a href="${url}" target="_blank">${title}</a>` : ""}
+          ${summary ? `<p>${summary}</p>` : ""}
+        </div>
+      `;
+    })
+  );
+
+  return processedBlocks.join("\n");
+};
 
 export default function CopyToClipboard({ blocks }) {
-  // Function to copy HTML to clipboard
-  const copyToClipboard = () => {
-    // Use JSX to create the article structure
-    const articleContent = (
-      <div>
-        {blocks.map((block) => (
-          <div key={block._id} style={{ marginBottom: "1em" }}>
-            {block.content && <h2>{block.content}</h2>}
-            {block.thumbnailUrl && (
-              <img
-                src={block.thumbnailUrl}
-                alt=""
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  objectFit: "cover",
-                  marginBottom: "0.5em",
-                }}
-              />
-            )}
-            {block.title && (
-              <p>
-                <strong>
-                  <a href={block.url} target="_blank" rel="noopener noreferrer">
-                    {block.title}
-                  </a>
-                </strong>
-              </p>
-            )}
-            {block.summary && (
-              <p style={{ color: "#888", fontSize: "0.9em" }}>
-                {block.summary}
-              </p>
-            )}
-          </div>
-        ))}
-      </div>
-    );
+  const [isProcessing, setIsProcessing] = useState(false);
 
-    // Convert JSX to HTML
-    const articleHtml = ReactDOMServer.renderToStaticMarkup(articleContent);
-
-    // Copy HTML to clipboard
-    const tempElement = document.createElement("div");
-    tempElement.innerHTML = articleHtml;
-    document.body.appendChild(tempElement);
-
-    const range = document.createRange();
-    range.selectNode(tempElement);
-    const selection = window.getSelection();
-    selection.removeAllRanges();
-    selection.addRange(range);
+  const copyToClipboard = async () => {
+    setIsProcessing(true);
 
     try {
-      document.execCommand("copy");
-      alert("Article copied as rich text!");
-    } catch (err) {
-      console.error("Failed to copy: ", err);
-    }
+      const htmlContent = await generateHtmlForClipboard(blocks);
 
-    selection.removeAllRanges();
-    document.body.removeChild(tempElement);
+      // Create a temporary element to hold the HTML
+      const tempElement = document.createElement("div");
+      tempElement.innerHTML = htmlContent;
+      document.body.appendChild(tempElement);
+
+      // Select and copy the content
+      const range = document.createRange();
+      range.selectNode(tempElement);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+
+      try {
+        document.execCommand("copy");
+        alert("Copied to clipboard!");
+      } catch (err) {
+        console.error("Error copying to clipboard:", err);
+      }
+
+      // Clean up
+      selection.removeAllRanges();
+      document.body.removeChild(tempElement);
+    } catch (error) {
+      console.error("Error generating HTML:", error);
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
-    <button className="btn btn-primary mt-4" onClick={copyToClipboard}>
-      Copy to Clipboard
+    <button
+      className={`btn btn-primary mt-4 ${isProcessing ? "loading" : ""}`}
+      onClick={copyToClipboard}
+      disabled={isProcessing}
+    >
+      {isProcessing ? "Processing..." : "Copy to Clipboard"}
     </button>
   );
 }
