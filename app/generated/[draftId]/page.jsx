@@ -10,7 +10,7 @@ export default async function GeneratedPage({ params }) {
     redirect("/");
   }
 
-  const draftId = params.draftId;
+  const { draftId } = await params;
 
   await summarizeBlocks(draftId);
 
