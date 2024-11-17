@@ -30,10 +30,6 @@ export default async function DraftPage({ params }) {
     notFound();
   }
 
-  if (draft.userId !== user.userId) {
-    notFound();
-  }
-
   return (
     <>
       <h1 className="text-3xl">{draft.name}</h1>
