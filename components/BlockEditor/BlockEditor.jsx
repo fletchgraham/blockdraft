@@ -8,8 +8,9 @@ import ClientBlockList from "./ClientBlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
 
-import { fetchDrafts, handleDragEnd, syncData } from "./utils";
+import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks } from "@/lib/blocks";
+import { getDraftsWithBlocks } from "@/lib/drafts";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -28,7 +29,13 @@ export default function BlockEditor() {
 
   // Fetch drafts on initial load
   useEffect(() => {
-    fetchDrafts(setDrafts, setDraft);
+    const fetchDraftsData = async () => {
+      const drafts = await getDraftsWithBlocks();
+      console.log(drafts);
+      setDrafts(drafts);
+      setDraft(drafts[0]);
+    };
+    fetchDraftsData();
   }, []);
 
   // Update sync status when changes are made

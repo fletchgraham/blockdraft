@@ -35,19 +35,6 @@ export default async function DraftPage({ params }) {
     notFound();
   }
 
-  // scrub blocks of user id
-  blocks.forEach((block) => {
-    delete block.userId;
-  });
-
-  // convert blocks to simple objects
-  blocks.forEach((block) => {
-    block._id = block._id.toString();
-    if (block.draftId) {
-      block.draftId = block.draftId.toString();
-    }
-  });
-
   return (
     <>
       <h1 className="text-3xl">{draft.name}</h1>
