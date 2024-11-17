@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 
 import DraftCard from "./DraftCard";
 import { getDraftsWithBlocks } from "@/lib/db";
+import { deleteDraft } from "@/actions/drafts";
 
 export default function DraftsGrid() {
   const [drafts, setDrafts] = useState([]);
@@ -18,6 +19,17 @@ export default function DraftsGrid() {
   }, []);
 
   const handleDelete = async (draftId, moveBlocksToInbox) => {
+    try {
+      // Call the server action directly
+      const result = await deleteDraft(draftId, moveBlocksToInbox);
+
+      // remove draft from drafts
+      setDrafts((drafts) => drafts.filter((draft) => draft._id !== draftId));
+    } catch (error) {
+      console.error("Failed to add block:", error);
+      alert("An error occurred while adding the block.");
+    }
+
     try {
       console.log("Deleting draft:", draftId);
     } catch (error) {
