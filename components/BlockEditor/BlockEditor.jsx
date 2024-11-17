@@ -31,7 +31,6 @@ export default function BlockEditor() {
   useEffect(() => {
     const fetchDraftsData = async () => {
       const drafts = await getDraftsWithBlocks();
-      console.log(drafts);
       setDrafts(drafts);
       setDraft(drafts[0]);
     };
