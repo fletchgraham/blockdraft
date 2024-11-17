@@ -89,7 +89,19 @@ export default function DraftCard({ draft, onDelete }) {
                 >
                   Confirm Delete
                 </button>
-                <button className="btn">Cancel</button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => {
+                    document
+                      .getElementById(`delete-modal-${draft._id}`)
+                      .close();
+                    setConfirmationText("");
+                    setMoveBlocksToInbox(false);
+                  }}
+                >
+                  Cancel
+                </button>
               </div>
             </form>
           </dialog>
