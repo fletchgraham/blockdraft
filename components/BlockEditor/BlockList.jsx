@@ -2,14 +2,9 @@
 
 import { useState } from "react";
 import { Droppable } from "@hello-pangea/dnd";
-import ClientBlockItem from "./ClientBlockItem";
+import BlockItem from "./BlockItem";
 
-export default function ClientBlockList({
-  blocks,
-  title,
-  droppableId,
-  addBlock,
-}) {
+export default function BlockList({ blocks, title, droppableId, addBlock }) {
   const [newBlockContent, setNewBlockContent] = useState(""); // New state for block content
   const newBlockModalId = `newBlockModal-${droppableId}`;
 
@@ -33,7 +28,7 @@ export default function ClientBlockList({
           <h2 className="text-center font-bold mb-2">{title}</h2>
           <ul className="min-h-80">
             {blocks.map((block, index) => (
-              <ClientBlockItem key={block._id} block={block} index={index} />
+              <BlockItem key={block._id} block={block} index={index} />
             ))}
             {provided.placeholder}
             <li>

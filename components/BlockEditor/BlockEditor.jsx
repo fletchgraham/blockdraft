@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 import { DragDropContext } from "@hello-pangea/dnd";
 
-import ClientBlockList from "./ClientBlockList";
+import BlockList from "./BlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
 
@@ -106,7 +106,7 @@ export default function BlockEditor() {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex space-x-4 flex-1 p-4">
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
-            <ClientBlockList
+            <BlockList
               blocks={inboxBlocks}
               title="Inbox"
               droppableId="inbox"
@@ -116,7 +116,7 @@ export default function BlockEditor() {
 
           {draft ? (
             <div className="w-1/2 flex flex-col h-full relative">
-              <ClientBlockList
+              <BlockList
                 blocks={draft.blocks}
                 title={draft.name}
                 droppableId="draft"

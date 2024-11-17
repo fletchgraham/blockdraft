@@ -18,7 +18,6 @@ export default async function Page() {
 
   return (
     <>
-      {/* <BlockList blocks={blocks} /> */}
       <BlockEditor />
     </>
   );
