@@ -27,7 +27,7 @@ export default function GeneratedArticle({ blocks }) {
               </a>
             </p>
             {block.summary && <p className="text-gray-700">{block.summary}</p>}
-            <hr className="my-4" />
+            {block.type !== "custom" && <hr className="my-4" />}
           </div>
         ))}
       </div>
