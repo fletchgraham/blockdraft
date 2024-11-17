@@ -68,7 +68,6 @@ export default function DraftCard({ draft, onDelete }) {
                   className="input input-bordered"
                   value={confirmationText}
                   onChange={(e) => setConfirmationText(e.target.value)}
-                  required
                 />
               </div>
               <div className="form-control mb-4">
