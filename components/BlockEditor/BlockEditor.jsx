@@ -19,22 +19,17 @@ export default function BlockEditor() {
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
 
-  // Fetch inbox blocks on initial load
   useEffect(() => {
-    const fetchInboxBlocks = async () => {
-      setInboxBlocks(await getInboxBlocks());
-    };
-    fetchInboxBlocks();
-  }, []);
-
-  // Fetch drafts on initial load
-  useEffect(() => {
-    const fetchDraftsData = async () => {
-      const drafts = await getDraftsWithBlocks();
+    const fetchData = async () => {
+      const [inboxBlocks, drafts] = await Promise.all([
+        getInboxBlocks(),
+        getDraftsWithBlocks(),
+      ]);
+      setInboxBlocks(inboxBlocks);
       setDrafts(drafts);
-      setDraft(drafts[0]);
+      if (drafts.length > 0) setDraft(drafts[0]);
     };
-    fetchDraftsData();
+    fetchData();
   }, []);
 
   // Update sync status when changes are made
