@@ -10,19 +10,10 @@ export default function CopyToClipboard({ blocks }) {
     const articleContent = (
       <div>
         {blocks.map((block) => (
-          <div key={block._id} style={{ marginBottom: "1em" }}>
+          <div key={block._id}>
             {block.content && <h2>{block.content}</h2>}
             {block.thumbnailUrl && (
-              <img
-                src={block.thumbnailUrl}
-                alt=""
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  objectFit: "cover",
-                  marginBottom: "0.5em",
-                }}
-              />
+              <img src={block.thumbnailUrl} alt={block.title} />
             )}
             {block.title && (
               <p>
@@ -33,11 +24,8 @@ export default function CopyToClipboard({ blocks }) {
                 </strong>
               </p>
             )}
-            {block.summary && (
-              <p style={{ color: "#888", fontSize: "0.9em" }}>
-                {block.summary}
-              </p>
-            )}
+            {block.summary && <p>{block.summary}</p>}
+            {block.type !== "custom" && <hr />}
           </div>
         ))}
       </div>
