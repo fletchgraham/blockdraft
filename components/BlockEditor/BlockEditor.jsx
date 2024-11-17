@@ -6,6 +6,7 @@ import { DragDropContext } from "@hello-pangea/dnd";
 
 import ClientBlockList from "./ClientBlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
+import { addBlock } from "@/actions/blocks";
 
 import {
   fetchDrafts,
@@ -56,42 +57,25 @@ export default function BlockEditor() {
     setDraft(drafts.find((draft) => draft._id === draftId));
   };
 
-  const addBlock = async (droppableId, contents) => {
+  const addBlockToDraft = async (contents) => {
     try {
-      // Create a block object
       const block = {
         draftId: draft._id,
         type: "custom",
         content: contents,
       };
 
-      // Make an API request to add the block
-      const response = await fetch(`/api/blocks/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify([block]),
-      });
+      // Call the server action directly
+      const newBlock = await addBlock(block);
 
-      // Handle non-successful responses
-      if (!response.ok) {
-        const error = await response.json();
-        console.error("Error adding block:", error.message);
-        alert(`Failed to add block: ${error.message}`);
-        return;
-      }
-
-      // Parse the response and update the state
-      const newBlocks = await response.json();
+      // Update state with the newly added block
       setDraft((prevDraft) => ({
         ...prevDraft,
-        blocks: [newBlocks[0], ...prevDraft.blocks], // Assuming only one block is returned
+        blocks: [newBlock, ...prevDraft.blocks],
       }));
     } catch (error) {
-      // Handle network or unexpected errors
-      console.error("Unexpected error:", error);
-      alert("An unexpected error occurred. Please try again.");
+      console.error("Failed to add block:", error);
+      alert("An error occurred while adding the block.");
     }
   };
 
@@ -121,7 +105,7 @@ export default function BlockEditor() {
               blocks={inboxBlocks}
               title="Inbox"
               droppableId="inbox"
-              addBlock={addBlock}
+              addBlock={addBlockToDraft}
             />
           </div>
 
@@ -131,7 +115,7 @@ export default function BlockEditor() {
                 blocks={draft.blocks}
                 title={draft.name}
                 droppableId="draft"
-                addBlock={addBlock}
+                addBlock={addBlockToDraft}
               />
             </div>
           ) : (
