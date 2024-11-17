@@ -1,8 +1,5 @@
-import BlockList from "../components/BlockList";
-import Link from "next/link";
 import RegisterForm from "../components/RegisterForm";
 import { getUserFromCookies } from "../lib/getUser";
-import { getInboxBlocks } from "../lib/blocks";
 import BlockEditor from "@/components/BlockEditor/BlockEditor";
 
 export default async function Page() {
@@ -16,19 +13,6 @@ export default async function Page() {
         </h2>
         <RegisterForm />
       </>
-    );
-  }
-
-  const blocks = await getInboxBlocks(user.userId);
-
-  if (!blocks.length) {
-    return (
-      <div className="text-center">
-        <p className="text-center text-2xl font-bold">Your inbox empty.</p>
-        <Link className="text-center text-xl link-primary" href="import-urls">
-          Import some URLs to get started.
-        </Link>
-      </div>
     );
   }
 

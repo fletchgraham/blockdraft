@@ -8,12 +8,8 @@ import ClientBlockList from "./ClientBlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
 
-import {
-  fetchDrafts,
-  fetchInboxBlocks,
-  handleDragEnd,
-  syncData,
-} from "./utils";
+import { fetchDrafts, handleDragEnd, syncData } from "./utils";
+import { getInboxBlocks } from "@/lib/blocks";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -24,7 +20,10 @@ export default function BlockEditor() {
 
   // Fetch inbox blocks on initial load
   useEffect(() => {
-    fetchInboxBlocks(setInboxBlocks);
+    const fetchInboxBlocks = async () => {
+      setInboxBlocks(await getInboxBlocks());
+    };
+    fetchInboxBlocks();
   }, []);
 
   // Fetch drafts on initial load
