@@ -1,8 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 
 import { getUserFromCookies } from "@/lib/getUser";
-import { getBlocksForDraft } from "@/lib/blocks";
-import { getDraft } from "@/lib/drafts";
+import { getDraft, getBlocksForDraft } from "@/lib/db";
 import { summarizeBlocks } from "@/actions/blocks/summarizeBlocks";
 import GeneratedArticle from "@/components/GeneratedArticle";
 

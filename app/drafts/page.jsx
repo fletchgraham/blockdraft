@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { getUserFromCookies } from "../../lib/getUser";
-import { getDrafts } from "../../lib/drafts";
+import { getUserFromCookies } from "@/lib/getUser";
+import { getDrafts } from "@/lib/db";
 
 export default async function DraftsPage() {
   const user = await getUserFromCookies();

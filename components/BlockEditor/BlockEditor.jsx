@@ -9,8 +9,7 @@ import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
 
 import { handleDragEnd, syncData } from "./utils";
-import { getInboxBlocks } from "@/lib/blocks";
-import { getDraftsWithBlocks } from "@/lib/drafts";
+import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
