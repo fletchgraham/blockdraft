@@ -87,27 +87,25 @@ export default function BlockEditor() {
       />
 
       {/* Tab Navigation for Small Screens */}
-      <div className="flex lg:hidden justify-center border-b">
+      <div className="flex md:hidden justify-center border-b mb-4 tabs tabs-boxed">
         <button
-          className={`flex-1 p-2 ${
-            activeTab === "inbox" ? "font-bold border-b-2 border-blue-500" : ""
-          }`}
+          role="tab"
+          className={`tab flex-1 ${activeTab === "inbox" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("inbox")}
         >
           Inbox
         </button>
         <button
-          className={`flex-1 p-2 ${
-            activeTab === "draft" ? "font-bold border-b-2 border-blue-500" : ""
-          }`}
+          role="tab"
+          className={`tab flex-1 ${activeTab === "draft" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("draft")}
         >
-          Draft
+          {`Draft: ${draft.name}`}
         </button>
       </div>
 
       {/* Tabbed Layout for Small Screens */}
-      <div className="lg:hidden">
+      <div className="md:hidden">
         {activeTab === "inbox" && (
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full">
@@ -135,9 +133,10 @@ export default function BlockEditor() {
       </div>
 
       {/* Side-by-Side Layout for Larger Screens */}
-      <div className="hidden lg:flex space-x-4 flex-1 p-4">
+      <div className="hidden md:flex space-x-4 flex-1 p-4">
         <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
+            <h2 className="text-center font-bold mb-2">Inbox</h2>
             <BlockList
               blocks={inboxBlocks}
               title="Inbox"
@@ -148,6 +147,7 @@ export default function BlockEditor() {
 
           {draft ? (
             <div className="w-1/2 flex flex-col h-full relative">
+              <h2 className="text-center font-bold mb-2">{draft.name}</h2>
               <BlockList
                 blocks={draft.blocks}
                 title={draft.name}
