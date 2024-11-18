@@ -1,13 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
 import { DragDropContext } from "@hello-pangea/dnd";
-
 import BlockList from "./BlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
-
 import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 
@@ -17,6 +14,7 @@ export default function BlockEditor() {
   const [drafts, setDrafts] = useState([]);
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
+  const [activeTab, setActiveTab] = useState("inbox"); // State for active tab
 
   useEffect(() => {
     const fetchData = async () => {
@@ -31,20 +29,15 @@ export default function BlockEditor() {
     fetchData();
   }, []);
 
-  // Update sync status when changes are made
   useEffect(() => {
-    if (isChanged) {
-      setSyncStatus("Waiting to sync...");
-    }
+    if (isChanged) setSyncStatus("Waiting to sync...");
   }, [isChanged]);
 
-  // Update the drafts state when a draft is updated
   useEffect(() => {
     const updatedDrafts = drafts.map((d) => (d._id === draft._id ? draft : d));
     setDrafts(updatedDrafts);
   }, [draft]);
 
-  // Sync data regularly if changes are made
   useEffect(() => {
     const intervalId = setInterval(() => {
       syncData(drafts, isChanged, setSyncStatus, setIsChanged);
@@ -63,11 +56,7 @@ export default function BlockEditor() {
         type: "custom",
         content: contents,
       };
-
-      // Call the server action directly
       const newBlock = await addBlock(block);
-
-      // Update state with the newly added block
       setDraft((prevDraft) => ({
         ...prevDraft,
         blocks: [newBlock, ...prevDraft.blocks],
@@ -97,8 +86,57 @@ export default function BlockEditor() {
         handleOpenDraft={handleOpenDraft}
       />
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex space-x-4 flex-1 p-4">
+      {/* Tab Navigation for Small Screens */}
+      <div className="flex lg:hidden justify-center border-b">
+        <button
+          className={`flex-1 p-2 ${
+            activeTab === "inbox" ? "font-bold border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => setActiveTab("inbox")}
+        >
+          Inbox
+        </button>
+        <button
+          className={`flex-1 p-2 ${
+            activeTab === "draft" ? "font-bold border-b-2 border-blue-500" : ""
+          }`}
+          onClick={() => setActiveTab("draft")}
+        >
+          Draft
+        </button>
+      </div>
+
+      {/* Tabbed Layout for Small Screens */}
+      <div className="lg:hidden">
+        {activeTab === "inbox" && (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className="flex flex-col h-full">
+              <BlockList
+                blocks={inboxBlocks}
+                title="Inbox"
+                droppableId="inbox"
+                addBlock={addBlockToDraft}
+              />
+            </div>
+          </DragDropContext>
+        )}
+        {activeTab === "draft" && draft && (
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className="flex flex-col h-full">
+              <BlockList
+                blocks={draft.blocks}
+                title={draft.name}
+                droppableId="draft"
+                addBlock={addBlockToDraft}
+              />
+            </div>
+          </DragDropContext>
+        )}
+      </div>
+
+      {/* Side-by-Side Layout for Larger Screens */}
+      <div className="hidden lg:flex space-x-4 flex-1 p-4">
+        <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
             <BlockList
               blocks={inboxBlocks}
@@ -120,8 +158,8 @@ export default function BlockEditor() {
           ) : (
             <p>No Drafts.</p>
           )}
-        </div>
-      </DragDropContext>
+        </DragDropContext>
+      </div>
     </div>
   );
 }
