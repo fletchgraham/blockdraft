@@ -5,6 +5,7 @@ import GeneratedArticle from "@/components/GeneratedArticle";
 import sharp from "sharp";
 import CopyToClipboard from "@/components/CopyDraftToClipBoard";
 import { summarizeBlocks } from "@/actions/blocks";
+import Header from "@/components/Header";
 
 async function processImageToBase64(url) {
   try {
@@ -59,8 +60,9 @@ export default async function DraftPage({ params }) {
 
   return (
     <>
-      <h1 className="text-3xl">{draft.name}</h1>
-      <CopyToClipboard blocks={processedBlocks} />
+      <Header title={`Draft: ${draft.name}`}>
+        <CopyToClipboard blocks={processedBlocks} />
+      </Header>
       <GeneratedArticle blocks={processedBlocks} />
     </>
   );
