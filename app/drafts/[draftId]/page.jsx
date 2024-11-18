@@ -4,6 +4,7 @@ import { getDraft, getBlocksForDraft } from "@/lib/db";
 import GeneratedArticle from "@/components/GeneratedArticle";
 import sharp from "sharp";
 import CopyToClipboard from "@/components/CopyDraftToClipBoard";
+import { summarizeBlocks } from "@/actions/blocks";
 
 async function processImageToBase64(url) {
   try {
@@ -36,11 +37,13 @@ export default async function DraftPage({ params }) {
     return redirect("/");
   }
 
-  const { draftId } = params;
+  const { draftId } = await params;
   const draft = await getDraft(draftId);
   if (!draft) {
     notFound();
   }
+
+  await summarizeBlocks(draftId);
 
   const blocks = await getBlocksForDraft(draftId);
 
