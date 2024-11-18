@@ -1,3 +1,7 @@
+"use client";
+
+import { syncDrafts } from "@/actions/drafts/syncDrafts";
+
 export const syncData = async (
   drafts,
   isChanged,
@@ -8,15 +12,13 @@ export const syncData = async (
 
   setSyncStatus("Syncing...");
   try {
-    const response = await fetch("/api/sync", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(drafts),
-    });
-    if (response.ok) {
+    const result = await syncDrafts(drafts); // Call the server action directly
+
+    if (result.success) {
       setSyncStatus("Synced");
       setIsChanged(false); // Reset isChanged here to avoid re-syncing
     } else {
+      console.error("Sync failed:", result.error);
       setSyncStatus("Failed to sync");
     }
   } catch (error) {

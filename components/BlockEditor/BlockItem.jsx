@@ -1,9 +1,8 @@
-// components/ClientBlockItem.jsx
 "use client";
 
 import { Draggable } from "@hello-pangea/dnd";
 
-export default function ClientBlockItem({ block, index }) {
+export default function BlockItem({ block, index }) {
   return (
     <Draggable draggableId={block._id} index={index}>
       {(provided) => (

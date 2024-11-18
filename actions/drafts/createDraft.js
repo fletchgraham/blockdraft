@@ -16,6 +16,7 @@ export const createDraft = async (prevState, formData) => {
   const draft = {
     name: formData.get("draftName"),
     userId: user.userId,
+    createdAt: new Date(),
   };
 
   if (isShorterThan(draft.name, 3)) {

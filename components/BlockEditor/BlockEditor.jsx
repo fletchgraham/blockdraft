@@ -4,15 +4,12 @@ import { useState, useEffect } from "react";
 
 import { DragDropContext } from "@hello-pangea/dnd";
 
-import ClientBlockList from "./ClientBlockList";
+import BlockList from "./BlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
+import { addBlock } from "@/actions/blocks";
 
-import {
-  fetchDrafts,
-  fetchInboxBlocks,
-  handleDragEnd,
-  syncData,
-} from "./utils";
+import { handleDragEnd, syncData } from "./utils";
+import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -21,14 +18,17 @@ export default function BlockEditor() {
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
 
-  // Fetch inbox blocks on initial load
   useEffect(() => {
-    fetchInboxBlocks(setInboxBlocks);
-  }, []);
-
-  // Fetch drafts on initial load
-  useEffect(() => {
-    fetchDrafts(setDrafts, setDraft);
+    const fetchData = async () => {
+      const [inboxBlocks, drafts] = await Promise.all([
+        getInboxBlocks(),
+        getDraftsWithBlocks(),
+      ]);
+      setInboxBlocks(inboxBlocks);
+      setDrafts(drafts);
+      if (drafts.length > 0) setDraft(drafts[0]);
+    };
+    fetchData();
   }, []);
 
   // Update sync status when changes are made
@@ -56,42 +56,25 @@ export default function BlockEditor() {
     setDraft(drafts.find((draft) => draft._id === draftId));
   };
 
-  const addBlock = async (droppableId, contents) => {
+  const addBlockToDraft = async (contents) => {
     try {
-      // Create a block object
       const block = {
         draftId: draft._id,
         type: "custom",
         content: contents,
       };
 
-      // Make an API request to add the block
-      const response = await fetch(`/api/blocks/add`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify([block]),
-      });
+      // Call the server action directly
+      const newBlock = await addBlock(block);
 
-      // Handle non-successful responses
-      if (!response.ok) {
-        const error = await response.json();
-        console.error("Error adding block:", error.message);
-        alert(`Failed to add block: ${error.message}`);
-        return;
-      }
-
-      // Parse the response and update the state
-      const newBlocks = await response.json();
+      // Update state with the newly added block
       setDraft((prevDraft) => ({
         ...prevDraft,
-        blocks: [newBlocks[0], ...prevDraft.blocks], // Assuming only one block is returned
+        blocks: [newBlock, ...prevDraft.blocks],
       }));
     } catch (error) {
-      // Handle network or unexpected errors
-      console.error("Unexpected error:", error);
-      alert("An unexpected error occurred. Please try again.");
+      console.error("Failed to add block:", error);
+      alert("An error occurred while adding the block.");
     }
   };
 
@@ -117,21 +100,21 @@ export default function BlockEditor() {
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex space-x-4 flex-1 p-4">
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
-            <ClientBlockList
+            <BlockList
               blocks={inboxBlocks}
               title="Inbox"
               droppableId="inbox"
-              addBlock={addBlock}
+              addBlock={addBlockToDraft}
             />
           </div>
 
           {draft ? (
             <div className="w-1/2 flex flex-col h-full relative">
-              <ClientBlockList
+              <BlockList
                 blocks={draft.blocks}
                 title={draft.name}
                 droppableId="draft"
-                addBlock={addBlock}
+                addBlock={addBlockToDraft}
               />
             </div>
           ) : (
