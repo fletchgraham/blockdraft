@@ -12,7 +12,9 @@ export default function BlockItem({ block, index }) {
           {...provided.dragHandleProps}
           className="flex items-center shadow p-4 bg-base-100 rounded-lg mb-2"
         >
-          {block.type === "custom" && <p>{block.content}</p>}
+          {block.type === "custom" && (
+            <p className="text-lg font-semibold">{block.content}</p>
+          )}
           {block.thumbnailUrl && (
             <img
               src={block.thumbnailUrl}
@@ -25,11 +27,10 @@ export default function BlockItem({ block, index }) {
               href={block.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-lg font-bold text-primary hover:underline"
+              className="font-semibold text-primary hover:underline"
             >
               {block.title}
             </a>
-            {/* <p className="text-sm text-gray-500">{block.text}</p> */}
           </div>
         </li>
       )}

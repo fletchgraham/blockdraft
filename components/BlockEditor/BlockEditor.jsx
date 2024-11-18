@@ -90,7 +90,7 @@ export default function BlockEditor() {
   };
 
   return (
-    <div className="block-editor-container h-screen flex flex-col">
+    <div className="flex flex-col">
       <BlockEditorHeader
         syncStatus={syncStatus}
         drafts={drafts}
