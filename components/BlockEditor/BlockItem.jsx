@@ -9,11 +9,11 @@ export default function BlockItem({ block, index }) {
         <li
           ref={provided.innerRef}
           {...provided.draggableProps} // Apply draggableProps to the entire list item
-          className="flex items-center shadow p-4 bg-base-100 rounded-lg mb-2"
+          className="flex items-center shadow bg-base-100 rounded-lg mb-2"
         >
           <div
             {...provided.dragHandleProps}
-            className="flex flex-1 items-center"
+            className="flex flex-1 items-center p-4"
           >
             {block.type === "custom" && (
               <p className="text-lg font-semibold">{block.content}</p>
@@ -36,19 +36,28 @@ export default function BlockItem({ block, index }) {
               </a>
             </div>
           </div>
-          <div className="dropdown dropdown-end">
-            <div tabIndex={0} role="button" className="btn m-1">
-              |
+          <div className="dropdown dropdown-end md:hidden">
+            <div tabIndex={0} role="button" className="btn btn-ghost">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="gray"
+                viewBox="-5 0 5 24"
+                className="w-2 h-6"
+              >
+                <circle cx="0" cy="6" r="1.5" />
+                <circle cx="0" cy="12" r="1.5" />
+                <circle cx="0" cy="18" r="1.5" />
+              </svg>
             </div>
             <ul
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
             >
               <li>
-                <a>Item 1</a>
+                <a>Move to</a>
               </li>
               <li>
-                <a>Item 2</a>
+                <a>Delete</a>
               </li>
             </ul>
           </div>
