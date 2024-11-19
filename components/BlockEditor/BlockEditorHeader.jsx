@@ -18,7 +18,7 @@ export default function BlockEditorHeader({
         </div>
       </label>
 
-      <h2 className="text-center font-semibold">Block Editor</h2>
+      <h2 className="text-center font-semibold">Draft Editor</h2>
       <span>{syncStatus}</span>
       <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn m-1">
