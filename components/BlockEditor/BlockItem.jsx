@@ -36,8 +36,8 @@ export default function BlockItem({ block, index }) {
               </a>
             </div>
           </div>
-          <div className="dropdown dropdown-end md:hidden">
-            <div tabIndex={0} role="button" className="btn btn-ghost">
+          <details className="dropdown dropdown-end md:hidden">
+            <summary className="btn btn-ghost">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="gray"
@@ -48,7 +48,7 @@ export default function BlockItem({ block, index }) {
                 <circle cx="0" cy="12" r="1.5" />
                 <circle cx="0" cy="18" r="1.5" />
               </svg>
-            </div>
+            </summary>
             <ul
               tabIndex={0}
               className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
@@ -60,7 +60,7 @@ export default function BlockItem({ block, index }) {
                 <a>Delete</a>
               </li>
             </ul>
-          </div>
+          </details>
         </li>
       )}
     </Draggable>
