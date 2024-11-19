@@ -36,7 +36,7 @@ export default function BlockItem({ block, index }) {
               </a>
             </div>
           </div>
-          <details className="dropdown dropdown-end md:hidden">
+          <details className="dropdown dropdown-end sm:hidden">
             <summary className="btn btn-ghost">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

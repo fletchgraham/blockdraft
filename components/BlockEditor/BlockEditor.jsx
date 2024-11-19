@@ -87,7 +87,7 @@ export default function BlockEditor() {
       />
 
       {/* Tab Navigation for Small Screens */}
-      <div className="flex md:hidden justify-center border-b mb-4 tabs tabs-boxed">
+      <div className="flex sm:hidden justify-center border-b mb-4 tabs tabs-boxed">
         <button
           role="tab"
           className={`tab flex-1 ${activeTab === "inbox" ? "tab-active" : ""}`}
@@ -105,7 +105,7 @@ export default function BlockEditor() {
       </div>
 
       {/* Tabbed Layout for Small Screens */}
-      <div className="md:hidden">
+      <div className="sm:hidden">
         {activeTab === "inbox" && (
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full">
@@ -133,7 +133,7 @@ export default function BlockEditor() {
       </div>
 
       {/* Side-by-Side Layout for Larger Screens */}
-      <div className="hidden md:flex space-x-4 flex-1 p-4">
+      <div className="hidden sm:flex space-x-4 flex-1 p-4">
         <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
             <h2 className="text-center font-bold mb-2">Inbox</h2>
