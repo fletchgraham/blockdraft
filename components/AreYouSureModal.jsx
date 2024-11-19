@@ -1,17 +1,33 @@
-export default function AreYouSureModal({ modalId, onConfirm }) {
+export default function AreYouSureModal({
+  modalId,
+  onConfirm,
+  title = "Are you sure?",
+  message = "This action cannot be undone.",
+}) {
   return (
     <>
       <dialog id={modalId} className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Hello!</h3>
-          <p className="py-4">
-            Press ESC key or click the button below to close
-          </p>
+          <h3 className="font-bold text-lg">{title}</h3>
+          <p className="py-4">{message}</p>
           <div className="modal-action">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn">Close</button>
-            </form>
+            {/* Cancel button */}
+            <button
+              className="btn btn-neutral"
+              onClick={() => document.getElementById(modalId).close()}
+            >
+              Cancel
+            </button>
+            {/* Confirm button */}
+            <button
+              className="btn btn-error"
+              onClick={() => {
+                onConfirm();
+                document.getElementById(modalId).close();
+              }}
+            >
+              Confirm
+            </button>
           </div>
         </div>
       </dialog>
