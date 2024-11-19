@@ -10,9 +10,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="lofi">
       <body>
-        <Sidebar>
-          <main className="container mx-auto">{children}</main>
-        </Sidebar>
+        <Sidebar>{children}</Sidebar>
       </body>
     </html>
   );
