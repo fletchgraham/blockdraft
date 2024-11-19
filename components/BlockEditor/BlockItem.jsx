@@ -1,68 +1,83 @@
 "use client";
 
 import { Draggable } from "@hello-pangea/dnd";
+import AreYouSureModal from "@/components/AreYouSureModal";
 
 export default function BlockItem({ block, index }) {
+  // make a uuid
+  const deleteModalId = Math.random().toString(36).substring(7);
   return (
-    <Draggable draggableId={block._id} index={index}>
-      {(provided) => (
-        <li
-          ref={provided.innerRef}
-          {...provided.draggableProps} // Apply draggableProps to the entire list item
-          className="flex items-center shadow bg-base-100 rounded-lg mb-2"
-        >
-          <div
-            {...provided.dragHandleProps}
-            className="flex flex-1 items-center p-4"
+    <>
+      <Draggable draggableId={block._id} index={index}>
+        {(provided) => (
+          <li
+            ref={provided.innerRef}
+            {...provided.draggableProps} // Apply draggableProps to the entire list item
+            className="flex items-center shadow bg-base-100 rounded-lg mb-2"
           >
-            {block.type === "custom" && (
-              <p className="text-lg font-semibold">{block.content}</p>
-            )}
-            {block.thumbnailUrl && (
-              <img
-                src={block.thumbnailUrl}
-                alt="Thumbnail"
-                className="w-16 h-16 object-cover rounded-md mr-4"
-              />
-            )}
-            <div className="flex-1">
-              <a
-                href={block.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-primary hover:underline"
-              >
-                {block.title}
-              </a>
-            </div>
-          </div>
-          <details className="dropdown dropdown-end sm:hidden">
-            <summary className="btn btn-ghost">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="gray"
-                viewBox="-5 0 5 24"
-                className="w-2 h-6"
-              >
-                <circle cx="0" cy="6" r="1.5" />
-                <circle cx="0" cy="12" r="1.5" />
-                <circle cx="0" cy="18" r="1.5" />
-              </svg>
-            </summary>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+            <div
+              {...provided.dragHandleProps}
+              className="flex flex-1 items-center p-4"
             >
-              <li>
-                <a>Move to</a>
-              </li>
-              <li>
-                <a>Delete</a>
-              </li>
-            </ul>
-          </details>
-        </li>
-      )}
-    </Draggable>
+              {block.type === "custom" && (
+                <p className="text-lg font-semibold">{block.content}</p>
+              )}
+              {block.thumbnailUrl && (
+                <img
+                  src={block.thumbnailUrl}
+                  alt="Thumbnail"
+                  className="w-16 h-16 object-cover rounded-md mr-4"
+                />
+              )}
+              <div className="flex-1">
+                <a
+                  href={block.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-primary hover:underline"
+                >
+                  {block.title}
+                </a>
+              </div>
+            </div>
+            <details className="dropdown dropdown-end">
+              <summary className="btn btn-ghost">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="gray"
+                  viewBox="-5 0 5 24"
+                  className="w-2 h-6"
+                >
+                  <circle cx="0" cy="6" r="1.5" />
+                  <circle cx="0" cy="12" r="1.5" />
+                  <circle cx="0" cy="18" r="1.5" />
+                </svg>
+              </summary>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li>
+                  <a>Move to</a>
+                </li>
+                <li>
+                  <button
+                    onClick={() =>
+                      document.getElementById(deleteModalId).showModal()
+                    }
+                  >
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </details>
+          </li>
+        )}
+      </Draggable>
+      <AreYouSureModal
+        modalId={deleteModalId}
+        onConfirm={() => console.log("Delete")}
+      />
+    </>
   );
 }
