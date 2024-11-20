@@ -13,7 +13,7 @@ export default function BlockItem({ block, index, onDeleteBlock }) {
           <li
             ref={provided.innerRef}
             {...provided.draggableProps} // Apply draggableProps to the entire list item
-            className="flex items-center shadow bg-base-100 rounded-lg mb-2"
+            className="flex items-center shadow bg-base-100 rounded-lg mb-2 group"
           >
             <div
               {...provided.dragHandleProps}
@@ -41,12 +41,12 @@ export default function BlockItem({ block, index, onDeleteBlock }) {
               </div>
             </div>
             <details className="dropdown dropdown-end">
-              <summary className="btn btn-ghost">
+              <summary className="btn btn-link">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="gray"
                   viewBox="-5 0 5 24"
-                  className="w-2 h-6"
+                  className="w-2 h-6 sm:opacity-0 sm:transition sm:group-hover:opacity-100"
                 >
                   <circle cx="0" cy="6" r="1.5" />
                   <circle cx="0" cy="12" r="1.5" />
