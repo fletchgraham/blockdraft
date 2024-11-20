@@ -60,7 +60,7 @@ export default async function DraftPage({ params }) {
 
   return (
     <>
-      <Header title={`Draft: ${draft.name}`}>
+      <Header title={`${draft.name} - Preview`}>
         <CopyToClipboard blocks={processedBlocks} />
       </Header>
       <GeneratedArticle blocks={processedBlocks} />

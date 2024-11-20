@@ -5,6 +5,7 @@ import { DragDropContext } from "@hello-pangea/dnd";
 import BlockList from "./BlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
+import { deleteBlock } from "@/actions/blocks";
 import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 
@@ -67,6 +68,46 @@ export default function BlockEditor() {
     }
   };
 
+  const handleDeleteBlock = async (block) => {
+    const result = await deleteBlock(block._id);
+    if (result.success) {
+      // if the block has a draftId, remove it from the draft
+      if (block.draftId) {
+        setDraft((prevDraft) => ({
+          ...prevDraft,
+          blocks: prevDraft.blocks.filter((b) => b._id !== block._id),
+        }));
+      } else {
+        setInboxBlocks((prevBlocks) =>
+          prevBlocks.filter((b) => b._id !== block._id)
+        );
+      }
+    } else {
+      alert("An error occurred while deleting the block");
+    }
+  };
+
+  const handleBlockMove = async (block, destination) => {
+    if (destination === "inbox") {
+      const updatedBlock = { ...block, draftId: null };
+      setDraft((prevDraft) => ({
+        ...prevDraft,
+        blocks: prevDraft.blocks.filter((b) => b._id !== block._id),
+      }));
+      setInboxBlocks((prevBlocks) => [updatedBlock, ...prevBlocks]);
+    } else {
+      const updatedBlock = { ...block, draftId: draft._id };
+      setInboxBlocks((prevBlocks) =>
+        prevBlocks.filter((b) => b._id !== block._id)
+      );
+      setDraft((prevDraft) => ({
+        ...prevDraft,
+        blocks: [updatedBlock, ...prevDraft.blocks],
+      }));
+    }
+    setIsChanged(true);
+  };
+
   const onDragEnd = (result) => {
     handleDragEnd(
       result,
@@ -87,7 +128,7 @@ export default function BlockEditor() {
       />
 
       {/* Tab Navigation for Small Screens */}
-      <div className="flex md:hidden justify-center border-b mb-4 tabs tabs-boxed">
+      <div className="flex sm:hidden justify-center border-b mb-4 tabs tabs-boxed">
         <button
           role="tab"
           className={`tab flex-1 ${activeTab === "inbox" ? "tab-active" : ""}`}
@@ -105,7 +146,7 @@ export default function BlockEditor() {
       </div>
 
       {/* Tabbed Layout for Small Screens */}
-      <div className="md:hidden">
+      <div className="sm:hidden">
         {activeTab === "inbox" && (
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full">
@@ -114,6 +155,8 @@ export default function BlockEditor() {
                 title="Inbox"
                 droppableId="inbox"
                 addBlock={addBlockToDraft}
+                onDeleteBlock={handleDeleteBlock}
+                onBlockMove={handleBlockMove}
               />
             </div>
           </DragDropContext>
@@ -126,6 +169,8 @@ export default function BlockEditor() {
                 title={draft.name}
                 droppableId="draft"
                 addBlock={addBlockToDraft}
+                onDeleteBlock={handleDeleteBlock}
+                onBlockMove={handleBlockMove}
               />
             </div>
           </DragDropContext>
@@ -133,7 +178,7 @@ export default function BlockEditor() {
       </div>
 
       {/* Side-by-Side Layout for Larger Screens */}
-      <div className="hidden md:flex space-x-4 flex-1 p-4">
+      <div className="hidden sm:flex space-x-4 flex-1 p-4">
         <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
             <h2 className="text-center font-bold mb-2">Inbox</h2>
@@ -142,6 +187,7 @@ export default function BlockEditor() {
               title="Inbox"
               droppableId="inbox"
               addBlock={addBlockToDraft}
+              onDeleteBlock={handleDeleteBlock}
             />
           </div>
 
@@ -153,6 +199,7 @@ export default function BlockEditor() {
                 title={draft.name}
                 droppableId="draft"
                 addBlock={addBlockToDraft}
+                onDeleteBlock={handleDeleteBlock}
               />
             </div>
           ) : (

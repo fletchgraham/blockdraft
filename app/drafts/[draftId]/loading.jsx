@@ -1,7 +1,7 @@
 export default function Loading() {
   return (
     <div className="text-center">
-      <p>Summarizing Blocks...</p>
+      <span className="loading loading-bars loading-lg"></span>
     </div>
   );
 }
