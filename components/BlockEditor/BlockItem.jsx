@@ -3,7 +3,12 @@
 import { Draggable } from "@hello-pangea/dnd";
 import AreYouSureModal from "@/components/AreYouSureModal";
 
-export default function BlockItem({ block, index, onDeleteBlock }) {
+export default function BlockItem({
+  block,
+  index,
+  onDeleteBlock,
+  onBlockMove,
+}) {
   // make a uuid
   const deleteModalId = Math.random().toString(36).substring(7);
   return (
@@ -58,7 +63,13 @@ export default function BlockItem({ block, index, onDeleteBlock }) {
                 className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
               >
                 <li>
-                  <a>Move to</a>
+                  <button
+                    onClick={() =>
+                      onBlockMove(block, block.draftId ? "inbox" : "draft")
+                    }
+                  >
+                    Move to {block.draftId ? "Inbox" : "Draft"}
+                  </button>
                 </li>
                 <li>
                   <button

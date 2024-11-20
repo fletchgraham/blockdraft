@@ -87,6 +87,27 @@ export default function BlockEditor() {
     }
   };
 
+  const handleBlockMove = async (block, destination) => {
+    if (destination === "inbox") {
+      const updatedBlock = { ...block, draftId: null };
+      setDraft((prevDraft) => ({
+        ...prevDraft,
+        blocks: prevDraft.blocks.filter((b) => b._id !== block._id),
+      }));
+      setInboxBlocks((prevBlocks) => [updatedBlock, ...prevBlocks]);
+    } else {
+      const updatedBlock = { ...block, draftId: draft._id };
+      setInboxBlocks((prevBlocks) =>
+        prevBlocks.filter((b) => b._id !== block._id)
+      );
+      setDraft((prevDraft) => ({
+        ...prevDraft,
+        blocks: [updatedBlock, ...prevDraft.blocks],
+      }));
+    }
+    setIsChanged(true);
+  };
+
   const onDragEnd = (result) => {
     handleDragEnd(
       result,
@@ -135,6 +156,7 @@ export default function BlockEditor() {
                 droppableId="inbox"
                 addBlock={addBlockToDraft}
                 onDeleteBlock={handleDeleteBlock}
+                onBlockMove={handleBlockMove}
               />
             </div>
           </DragDropContext>
@@ -148,6 +170,7 @@ export default function BlockEditor() {
                 droppableId="draft"
                 addBlock={addBlockToDraft}
                 onDeleteBlock={handleDeleteBlock}
+                onBlockMove={handleBlockMove}
               />
             </div>
           </DragDropContext>

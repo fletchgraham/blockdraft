@@ -9,6 +9,7 @@ export default function BlockList({
   droppableId,
   addBlock,
   onDeleteBlock,
+  onBlockMove,
 }) {
   const [newBlockContent, setNewBlockContent] = useState(""); // New state for block content
   const newBlockModalId = `newBlockModal-${droppableId}`;
@@ -37,6 +38,7 @@ export default function BlockList({
                 block={block}
                 index={index}
                 onDeleteBlock={onDeleteBlock}
+                onBlockMove={onBlockMove}
               />
             ))}
             {provided.placeholder}
