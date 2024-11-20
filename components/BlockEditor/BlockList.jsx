@@ -4,7 +4,12 @@ import { useState } from "react";
 import { Droppable } from "@hello-pangea/dnd";
 import BlockItem from "./BlockItem";
 
-export default function BlockList({ blocks, title, droppableId, addBlock }) {
+export default function BlockList({
+  blocks,
+  droppableId,
+  addBlock,
+  onDeleteBlock,
+}) {
   const [newBlockContent, setNewBlockContent] = useState(""); // New state for block content
   const newBlockModalId = `newBlockModal-${droppableId}`;
 
@@ -27,7 +32,12 @@ export default function BlockList({ blocks, title, droppableId, addBlock }) {
         >
           <ul className="min-h-80">
             {blocks.map((block, index) => (
-              <BlockItem key={block._id} block={block} index={index} />
+              <BlockItem
+                key={block._id}
+                block={block}
+                index={index}
+                onDeleteBlock={onDeleteBlock}
+              />
             ))}
             {provided.placeholder}
             <li>

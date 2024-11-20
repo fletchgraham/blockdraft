@@ -3,7 +3,7 @@
 import { Draggable } from "@hello-pangea/dnd";
 import AreYouSureModal from "@/components/AreYouSureModal";
 
-export default function BlockItem({ block, index }) {
+export default function BlockItem({ block, index, onDeleteBlock }) {
   // make a uuid
   const deleteModalId = Math.random().toString(36).substring(7);
   return (
@@ -76,7 +76,7 @@ export default function BlockItem({ block, index }) {
       </Draggable>
       <AreYouSureModal
         modalId={deleteModalId}
-        onConfirm={() => console.log("Delete")}
+        onConfirm={() => onDeleteBlock(block)}
       />
     </>
   );

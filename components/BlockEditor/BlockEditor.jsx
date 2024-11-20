@@ -5,6 +5,7 @@ import { DragDropContext } from "@hello-pangea/dnd";
 import BlockList from "./BlockList";
 import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
+import { deleteBlock } from "@/actions/blocks";
 import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 
@@ -67,6 +68,25 @@ export default function BlockEditor() {
     }
   };
 
+  const handleDeleteBlock = async (block) => {
+    const result = await deleteBlock(block._id);
+    if (result.success) {
+      // if the block has a draftId, remove it from the draft
+      if (block.draftId) {
+        setDraft((prevDraft) => ({
+          ...prevDraft,
+          blocks: prevDraft.blocks.filter((b) => b._id !== block._id),
+        }));
+      } else {
+        setInboxBlocks((prevBlocks) =>
+          prevBlocks.filter((b) => b._id !== block._id)
+        );
+      }
+    } else {
+      alert("An error occurred while deleting the block");
+    }
+  };
+
   const onDragEnd = (result) => {
     handleDragEnd(
       result,
@@ -114,6 +134,7 @@ export default function BlockEditor() {
                 title="Inbox"
                 droppableId="inbox"
                 addBlock={addBlockToDraft}
+                onDeleteBlock={handleDeleteBlock}
               />
             </div>
           </DragDropContext>
@@ -126,6 +147,7 @@ export default function BlockEditor() {
                 title={draft.name}
                 droppableId="draft"
                 addBlock={addBlockToDraft}
+                onDeleteBlock={handleDeleteBlock}
               />
             </div>
           </DragDropContext>
@@ -142,6 +164,7 @@ export default function BlockEditor() {
               title="Inbox"
               droppableId="inbox"
               addBlock={addBlockToDraft}
+              onDeleteBlock={handleDeleteBlock}
             />
           </div>
 
@@ -153,6 +176,7 @@ export default function BlockEditor() {
                 title={draft.name}
                 droppableId="draft"
                 addBlock={addBlockToDraft}
+                onDeleteBlock={handleDeleteBlock}
               />
             </div>
           ) : (
