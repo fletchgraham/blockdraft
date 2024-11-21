@@ -76,7 +76,7 @@ export const importUrls = async (prevState, formData) => {
 
   // add the user id to each block
   blocks.forEach((block) => {
-    block.userId = ObjectId.createFromHexString(session.user.id);
+    block.userId = ObjectId.createFromHexString(user.userId);
   });
 
   const blocksCollection = await getCollection("blocks");

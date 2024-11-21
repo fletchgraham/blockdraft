@@ -16,7 +16,7 @@ export const createDraft = async (prevState, formData) => {
 
   const draft = {
     name: formData.get("draftName"),
-    userId: ObjectId.createFromHexString(user.id),
+    userId: ObjectId.createFromHexString(user.userId),
     createdAt: new Date(),
   };
 

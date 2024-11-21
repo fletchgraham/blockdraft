@@ -17,7 +17,7 @@ export const deleteBlock = async (blockId) => {
   try {
     await blocksCollection.deleteOne({
       _id: ObjectId.createFromHexString(blockId),
-      userId: ObjectId.createFromHexString(user.id),
+      userId: ObjectId.createFromHexString(user.userId),
     });
   } catch (error) {
     console.error("Error deleting block", error);
@@ -26,7 +26,7 @@ export const deleteBlock = async (blockId) => {
   // see if the block is actually gone
   const block = await blocksCollection.findOne({
     _id: ObjectId.createFromHexString(blockId),
-    userId: ObjectId.createFromHexString(user.id),
+    userId: ObjectId.createFromHexString(user.userId),
   });
 
   return { success: !block };

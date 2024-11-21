@@ -15,7 +15,7 @@ export const moveBlockToDraft = async (formData) => {
   const blocksCollection = await getCollection("blocks");
   const block = await blocksCollection.findOne({
     _id: ObjectId.createFromHexString(formData.get("blockId")),
-    userId: ObjectId.createFromHexString(user.id),
+    userId: ObjectId.createFromHexString(user.userId),
   });
 
   if (!block) {

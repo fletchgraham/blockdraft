@@ -9,13 +9,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt: async ({ token, user }) => {
       if (user) {
         // Add additional data to the JWT token
-        token.id = user.id;
+        token.userId = user.id;
       }
       return token;
     },
     session: async ({ session, token }) => {
       // Add the data from the JWT token to the session
-      session.user.id = token.id;
+      session.user.userId = token.userId;
 
       return session;
     },
