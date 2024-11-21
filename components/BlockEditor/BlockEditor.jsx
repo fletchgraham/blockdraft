@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import { DragDropContext } from "@hello-pangea/dnd";
 import BlockList from "./BlockList";
-import BlockEditorHeader from "./BlockEditorHeader";
 import { addBlock } from "@/actions/blocks";
 import { deleteBlock } from "@/actions/blocks";
 import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
+import Header from "../Header";
+import OpenDraftMenu from "./OpenDraftMenu";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -121,11 +122,10 @@ export default function BlockEditor() {
 
   return (
     <div className="flex flex-col">
-      <BlockEditorHeader
-        syncStatus={syncStatus}
-        drafts={drafts}
-        handleOpenDraft={handleOpenDraft}
-      />
+      <Header title="Draft Editor">
+        <span className="btn btn-ghost">{syncStatus}</span>
+        <OpenDraftMenu drafts={drafts} onOpenDraft={handleOpenDraft} />
+      </Header>
 
       {/* Tab Navigation for Small Screens */}
       <div className="flex sm:hidden justify-center border-b mb-4 tabs tabs-boxed">

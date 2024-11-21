@@ -10,7 +10,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="lofi">
       <body>
-        <Sidebar>{children}</Sidebar>
+        <Sidebar>
+          <main className="w-full">{children}</main>
+        </Sidebar>
       </body>
     </html>
   );
