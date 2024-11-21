@@ -5,7 +5,8 @@ import DraftsGrid from "@/components/DraftGrid/DraftsGrid";
 import Header from "@/components/Header";
 
 export default async function DraftsPage() {
-  const user = (await auth()).user;
+  // get user if exists
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

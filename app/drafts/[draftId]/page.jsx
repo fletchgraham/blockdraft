@@ -33,7 +33,7 @@ async function processImageToBase64(url) {
 }
 
 export default async function DraftPage({ params }) {
-  const user = (await auth()).user;
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

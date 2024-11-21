@@ -8,7 +8,7 @@ import { getCollection } from "@/lib/db";
 import { isShorterThan, isLongerThan } from "@/lib/validators";
 
 export const createDraft = async (prevState, formData) => {
-  const user = (await auth()).user;
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

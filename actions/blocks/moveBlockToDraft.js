@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
 export const moveBlockToDraft = async (formData) => {
-  const user = (await auth()).user;
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

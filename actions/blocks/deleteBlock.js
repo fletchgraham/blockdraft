@@ -7,7 +7,7 @@ import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
 export const deleteBlock = async (blockId) => {
-  const user = (await auth()).user;
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }
