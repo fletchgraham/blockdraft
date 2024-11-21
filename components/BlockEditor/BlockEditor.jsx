@@ -9,6 +9,7 @@ import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 import Header from "../Header";
 import OpenDraftMenu from "./OpenDraftMenu";
+import { useWarnOnUnsavedChanges } from "@/hooks";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -17,6 +18,8 @@ export default function BlockEditor() {
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
   const [activeTab, setActiveTab] = useState("inbox"); // State for active tab
+
+  useWarnOnUnsavedChanges(isChanged);
 
   useEffect(() => {
     const fetchData = async () => {
