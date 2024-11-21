@@ -1,13 +1,13 @@
 import SignIn from "@/components/SignIn";
 import RegisterForm from "../components/RegisterForm";
-import { getUserFromCookies } from "../lib/getUser";
+import { auth } from "@/auth";
 import BlockEditor from "@/components/BlockEditor/BlockEditor";
 import Header from "@/components/Header";
 
 export default async function Page() {
-  const user = await getUserFromCookies();
+  const session = await auth();
 
-  if (!user) {
+  if (!session) {
     return (
       <>
         <Header title="Register" />

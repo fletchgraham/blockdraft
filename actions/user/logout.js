@@ -1,9 +1,9 @@
 "use server";
 
+import { signOut } from "@/auth";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 
 export const logout = async function () {
-  (await cookies()).delete("blockdraft");
+  await signOut();
   redirect("/");
 };
