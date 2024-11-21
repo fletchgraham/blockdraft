@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 import * as cheerio from "cheerio";
 
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
 const createBlockFromUrl = async (url) => {
@@ -58,9 +58,9 @@ const getCleanUrlsFromFormData = (formData) => {
 };
 
 export const importUrls = async (prevState, formData) => {
-  const user = await getUserFromCookies();
-  if (!user) {
-    return redirect("/");
+  const session = await auth(); // Get the session data
+  if (!session || !session.user?.id) {
+    return redirect("/"); // Redirect if the user is not authenticated
   }
 
   if (!formData) {
@@ -76,7 +76,7 @@ export const importUrls = async (prevState, formData) => {
 
   // add the user id to each block
   blocks.forEach((block) => {
-    block.userId = ObjectId.createFromHexString(user.userId);
+    block.userId = ObjectId.createFromHexString(session.user.id);
   });
 
   const blocksCollection = await getCollection("blocks");

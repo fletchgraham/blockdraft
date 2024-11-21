@@ -5,7 +5,7 @@ import Header from "@/components/Header";
 
 export default async function LoginPage() {
   // Redirect to home page if user is already logged in
-  const user = await getUserFromCookies();
+  const user = (await auth()).user;
   if (user) {
     return redirect("/");
   }

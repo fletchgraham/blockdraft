@@ -3,11 +3,11 @@
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
 export const deleteBlock = async (blockId) => {
-  const user = await getUserFromCookies();
+  const user = (await auth()).user;
   if (!user) {
     return redirect("/");
   }
@@ -17,7 +17,7 @@ export const deleteBlock = async (blockId) => {
   try {
     await blocksCollection.deleteOne({
       _id: ObjectId.createFromHexString(blockId),
-      userId: ObjectId.createFromHexString(user.userId),
+      userId: ObjectId.createFromHexString(user.id),
     });
   } catch (error) {
     console.error("Error deleting block", error);
@@ -26,7 +26,7 @@ export const deleteBlock = async (blockId) => {
   // see if the block is actually gone
   const block = await blocksCollection.findOne({
     _id: ObjectId.createFromHexString(blockId),
-    userId: ObjectId.createFromHexString(user.userId),
+    userId: ObjectId.createFromHexString(user.id),
   });
 
   return { success: !block };
