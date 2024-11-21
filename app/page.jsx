@@ -12,11 +12,11 @@ export default async function Page() {
       <>
         <Header title="Register" />
         <div className="mx-auto max-w-md flex flex-col items-center mt-10">
-          <SignIn />
-          <p>or</p>
           <h2 className="text-center text-2xl font-bold m-2">
             Create an account
           </h2>
+          <SignIn />
+          <p>or</p>
           <RegisterForm />
         </div>
       </>
