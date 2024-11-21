@@ -5,7 +5,7 @@ ROOT = Path(__file__).parent  # Assumes the script is in the project root
 OUTPUT_FILE = ROOT / 'project_structure.txt'
 
 # Specify subdirectories to include in the scan
-SUBDIRS_TO_SCAN = ['actions', 'app', 'components', 'lib']  # Adjust these as needed
+SUBDIRS_TO_SCAN = ['actions', 'app', 'components', 'lib', 'hooks']  # Adjust these as needed
 
 # Open the output file in write mode
 with open(OUTPUT_FILE, 'w') as f:
