@@ -58,9 +58,9 @@ const getCleanUrlsFromFormData = (formData) => {
 };
 
 export const importUrls = async (prevState, formData) => {
-  const session = await auth(); // Get the session data
-  if (!session || !session.user?.id) {
-    return redirect("/"); // Redirect if the user is not authenticated
+  const user = (await auth())?.user;
+  if (!user) {
+    return redirect("/");
   }
 
   if (!formData) {
