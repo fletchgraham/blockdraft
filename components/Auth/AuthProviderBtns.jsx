@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { GitHubLogo } from "@/components/Icons";
+import { GitHubLogo } from "@/components/Logos";
 
 export default function AuthProviderBtns() {
   return (
