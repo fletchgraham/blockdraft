@@ -1,4 +1,3 @@
-import { GitHubLogo } from "@/components/Icons";
 import AuthProviderBtns from "./AuthProviderBtns";
 import LoginWithEmail from "./LoginWithEmail";
 
