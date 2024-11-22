@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
-import LoginForm from "../../components/LoginForm";
+import { LoginForm } from "@/components/Auth";
+
 import Header from "@/components/Header";
 import { auth } from "@/auth";
 
@@ -13,9 +14,6 @@ export default async function LoginPage() {
   return (
     <div>
       <Header title="Login" />
-      <h2 className="text-center text-2xl font-bold mb-5 mt-10">
-        Welcome Back!
-      </h2>
       <LoginForm />
     </div>
   );

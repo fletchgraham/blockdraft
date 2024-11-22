@@ -1,10 +1,10 @@
 "use client";
 
-import { register } from "@/actions/user";
+import { login } from "@/actions/user";
 import { useActionState } from "react";
 
-export default function RegisterForm() {
-  const [state, formAction] = useActionState(register, {});
+export default function LoginWithEmail() {
+  const [state, formAction] = useActionState(login, {});
 
   return (
     <form action={formAction} className="w-full p-4">
@@ -61,7 +61,7 @@ export default function RegisterForm() {
           autoComplete="off"
           type="password"
           className="grow"
-          placeholder=""
+          placeholder="Password"
         />
       </label>
       {state.errors?.password && (
@@ -82,7 +82,7 @@ export default function RegisterForm() {
           <span>{state.errors.password}</span>
         </div>
       )}
-      <button className="btn btn-primary w-full">Create account</button>
+      <button className="btn btn-primary w-full">Login</button>
     </form>
   );
 }

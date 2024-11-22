@@ -1,13 +1,13 @@
 "use client";
 
-import { login } from "@/actions/user";
+import { register } from "@/actions/user";
 import { useActionState } from "react";
 
-export default function LoginForm() {
-  const [state, formAction] = useActionState(login, {});
+export default function RegisterWithEmail() {
+  const [state, formAction] = useActionState(register, {});
 
   return (
-    <form action={formAction} className="max-w-xs mx-auto">
+    <form action={formAction} className="w-full p-4">
       <label className="input input-bordered flex items-center gap-2 mb-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -82,7 +82,7 @@ export default function LoginForm() {
           <span>{state.errors.password}</span>
         </div>
       )}
-      <button className="btn btn-primary w-full">Login</button>
+      <button className="btn btn-primary w-full">Create account</button>
     </form>
   );
 }
