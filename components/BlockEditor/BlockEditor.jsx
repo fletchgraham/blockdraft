@@ -191,6 +191,7 @@ export default function BlockEditor() {
               droppableId="inbox"
               addBlock={addBlockToDraft}
               onDeleteBlock={handleDeleteBlock}
+              onBlockMove={handleBlockMove}
             />
           </div>
 
@@ -203,6 +204,7 @@ export default function BlockEditor() {
                 droppableId="draft"
                 addBlock={addBlockToDraft}
                 onDeleteBlock={handleDeleteBlock}
+                onBlockMove={handleBlockMove}
               />
             </div>
           ) : (
