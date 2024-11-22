@@ -1,9 +1,15 @@
 "use server";
 
+import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 import { ObjectId } from "mongodb";
 
 export async function addBlock(block) {
+  const user = (await auth())?.user;
+  if (!user) {
+    throw new Error("User not authenticated");
+  }
+
   // Validate block
   if (
     !block.draftId ||
@@ -20,6 +26,9 @@ export async function addBlock(block) {
 
   // Convert draftId to ObjectId
   block.draftId = ObjectId.createFromHexString(block.draftId);
+
+  // add userId to block
+  block.userId = ObjectId.createFromHexString(user.userId);
 
   const blocksCollection = await getCollection("blocks");
   const result = await blocksCollection.insertOne(block);

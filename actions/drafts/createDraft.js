@@ -1,13 +1,14 @@
 "use server";
 
 import { redirect } from "next/navigation";
+import { ObjectId } from "mongodb";
 
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 import { isShorterThan, isLongerThan } from "@/lib/validators";
 
 export const createDraft = async (prevState, formData) => {
-  const user = await getUserFromCookies();
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }
@@ -15,7 +16,7 @@ export const createDraft = async (prevState, formData) => {
 
   const draft = {
     name: formData.get("draftName"),
-    userId: user.userId,
+    userId: ObjectId.createFromHexString(user.userId),
     createdAt: new Date(),
   };
 

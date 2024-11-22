@@ -1,5 +1,5 @@
 import { notFound, redirect } from "next/navigation";
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth } from "@/auth";
 import { getDraft, getBlocksForDraft } from "@/lib/db";
 import GeneratedArticle from "@/components/GeneratedArticle";
 import sharp from "sharp";
@@ -33,7 +33,7 @@ async function processImageToBase64(url) {
 }
 
 export default async function DraftPage({ params }) {
-  const user = await getUserFromCookies();
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

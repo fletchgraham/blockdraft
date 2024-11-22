@@ -3,11 +3,11 @@
 import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
 export const moveBlockToDraft = async (formData) => {
-  const user = await getUserFromCookies();
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

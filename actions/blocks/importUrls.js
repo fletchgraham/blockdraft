@@ -4,7 +4,7 @@ import { ObjectId } from "mongodb";
 import { redirect } from "next/navigation";
 import * as cheerio from "cheerio";
 
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
 const createBlockFromUrl = async (url) => {
@@ -58,7 +58,7 @@ const getCleanUrlsFromFormData = (formData) => {
 };
 
 export const importUrls = async (prevState, formData) => {
-  const user = await getUserFromCookies();
+  const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
   }

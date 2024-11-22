@@ -1,9 +1,9 @@
-import { getUserFromCookies } from "@/lib/getUser";
+import { auth, signOut } from "@/auth";
 import { logout } from "@/actions/user";
 import Link from "next/link";
 
 export default async function Sidebar({ children }) {
-  const user = await getUserFromCookies();
+  const session = await auth();
   return (
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
@@ -30,7 +30,7 @@ export default async function Sidebar({ children }) {
               blockdraft.ai
             </Link>
           </li>
-          {user && (
+          {session && (
             <>
               <li>
                 <Link className="btn btn-ghost" href="/import-urls">
@@ -49,7 +49,7 @@ export default async function Sidebar({ children }) {
               </li>
             </>
           )}
-          {!user && (
+          {!session && (
             <li>
               <Link href="/login" className="btn btn-ghost">
                 Login
