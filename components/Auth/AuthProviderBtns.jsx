@@ -16,7 +16,7 @@ export default function AuthProviderBtns() {
           Continue with Github
         </button>
       </form>
-      <form
+      {/* <form
         action={async () => {
           "use server";
           await signIn("github");
@@ -27,7 +27,7 @@ export default function AuthProviderBtns() {
           <GitHubLogo />
           Continue with Google
         </button>
-      </form>
+      </form> */}
     </>
   );
 }

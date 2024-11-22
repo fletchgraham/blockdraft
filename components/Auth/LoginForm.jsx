@@ -8,8 +8,8 @@ export default function LoginForm() {
         Welcome Back!
       </h2>
       <AuthProviderBtns />
-      <p className="mb-4">or</p>
-      <LoginWithEmail />
+      {/* <p className="mb-4">or</p>
+      <LoginWithEmail /> */}
     </div>
   );
 }

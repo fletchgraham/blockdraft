@@ -8,8 +8,8 @@ export default function RegisterForm() {
         Create an account
       </h2>
       <AuthProviderBtns />
-      <p className="mb-4">or</p>
-      <RegisterWithEmail />
+      {/* <p className="mb-4">or</p>
+      <RegisterWithEmail /> */}
     </div>
   );
 }
