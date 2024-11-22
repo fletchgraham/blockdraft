@@ -7,7 +7,7 @@ export default function RegisterWithEmail() {
   const [state, formAction] = useActionState(register, {});
 
   return (
-    <form action={formAction} className="w-full p-4">
+    <form action={formAction} className="w-full">
       <label className="input input-bordered flex items-center gap-2 mb-3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -61,7 +61,7 @@ export default function RegisterWithEmail() {
           autoComplete="off"
           type="password"
           className="grow"
-          placeholder=""
+          placeholder="Password"
         />
       </label>
       {state.errors?.password && (

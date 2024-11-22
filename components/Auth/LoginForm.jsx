@@ -1,5 +1,5 @@
 import { GitHubLogo } from "@/components/Icons";
-import SignIn from "./SignIn";
+import AuthProviderBtns from "./AuthProviderBtns";
 import LoginWithEmail from "./LoginWithEmail";
 
 export default function LoginForm() {
@@ -8,10 +8,8 @@ export default function LoginForm() {
       <h2 className="text-center text-2xl font-bold mb-5 mt-10">
         Welcome Back!
       </h2>
-      <SignIn provider="github">
-        <GitHubLogo />
-        Sign in with GitHub
-      </SignIn>
+      <AuthProviderBtns />
+      <p className="mb-4">or</p>
       <LoginWithEmail />
     </div>
   );
