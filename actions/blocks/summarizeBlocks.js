@@ -20,12 +20,13 @@ export async function summarizeBlocks(draftId) {
         }
 
         const pageText = await fetchPageText(block.url);
-        if (!pageText) {
-          console.error(`Failed to fetch page text for URL: ${block.url}`);
-          return;
-        }
 
-        const summary = await summarizeText(pageText);
+        let summary;
+        if (!pageText) {
+          summary = "Could not get page text";
+        } else {
+          summary = await summarizeText(pageText);
+        }
         await blocksCollection.updateOne(
           { _id: block._id },
           { $set: { summary } }
