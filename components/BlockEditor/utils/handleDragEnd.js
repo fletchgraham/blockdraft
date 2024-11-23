@@ -50,7 +50,11 @@ export const handleDragEnd = (
 
       // Remove the item from inbox and add it to draft at the specified index
       const [movedBlock] = newInboxBlocks.splice(source.index, 1);
-      newDraftBlocks.splice(destination.index, 0, movedBlock);
+
+      // Update the block to include the draftId
+      const updatedBlock = { ...movedBlock, draftId: draft._id };
+
+      newDraftBlocks.splice(destination.index, 0, updatedBlock);
 
       // Update both inboxBlocks and draft.blocks states to reflect the new positions
       setInboxBlocks(newInboxBlocks);
@@ -67,7 +71,11 @@ export const handleDragEnd = (
 
       // Remove the item from draft and add it to inbox at the specified index
       const [movedBlock] = newDraftBlocks.splice(source.index, 1);
-      newInboxBlocks.splice(destination.index, 0, movedBlock);
+
+      // Update the block to remove the draftId
+      const updatedBlock = { ...movedBlock, draftId: null };
+
+      newInboxBlocks.splice(destination.index, 0, updatedBlock);
 
       // Update both draft.blocks and inboxBlocks states to reflect the new positions
       setDraft({ ...draft, blocks: newDraftBlocks });
