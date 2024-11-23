@@ -52,6 +52,7 @@ export default function BlockEditor() {
 
   const handleOpenDraft = (draftId) => {
     setDraft(drafts.find((draft) => draft._id === draftId));
+    setActiveTab("draft");
   };
 
   const addBlockToDraft = async (contents) => {
