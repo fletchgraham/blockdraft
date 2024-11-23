@@ -39,16 +39,8 @@ export default function DraftsGrid() {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-3xl font-bold mb-6">Drafts</h1>
+    <div className="p-4 mt-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
-        <div className="card card-compact bg-base-100 w-60 shadow-md">
-          <div className="card-body flex items-center justify-center">
-            <Link href="/drafts/create" className="btn btn-ghost">
-              + New Draft
-            </Link>
-          </div>
-        </div>
         {drafts.map((draft) => (
           <DraftCard key={draft._id} draft={draft} onDelete={handleDelete} />
         ))}

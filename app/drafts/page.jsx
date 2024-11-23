@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 
 import { auth } from "@/auth";
 import DraftsGrid from "@/components/DraftGrid/DraftsGrid";
@@ -12,7 +13,11 @@ export default async function DraftsPage() {
 
   return (
     <>
-      <Header title="Drafts" />
+      <Header title="Drafts">
+        <Link href="/drafts/create" className="btn btn-primary">
+          + New Draft
+        </Link>
+      </Header>
       <DraftsGrid />
     </>
   );
