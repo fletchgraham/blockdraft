@@ -13,7 +13,7 @@ import { useWarnOnUnsavedChanges } from "@/hooks";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
-  const [draft, setDraft] = useState({ blocks: [] });
+  const [draft, setDraft] = useState();
   const [drafts, setDrafts] = useState([]);
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
@@ -145,7 +145,7 @@ export default function BlockEditor() {
           className={`tab flex-1 ${activeTab === "draft" ? "tab-active" : ""}`}
           onClick={() => setActiveTab("draft")}
         >
-          {`Draft: ${draft.name}`}
+          {draft === undefined ? "Draft" : `Draft: ${draft.name}`}
         </button>
       </div>
 
