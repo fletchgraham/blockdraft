@@ -57,7 +57,7 @@ export default function CopyToClipboard({ blocks }) {
   };
 
   return (
-    <button className="btn btn-primary mt-4" onClick={copyToClipboard}>
+    <button className="btn btn-primary" onClick={copyToClipboard}>
       Copy to Clipboard
     </button>
   );
