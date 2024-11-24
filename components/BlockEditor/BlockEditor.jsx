@@ -133,7 +133,7 @@ export default function BlockEditor() {
       </Header>
 
       {/* Tab Navigation for Small Screens */}
-      <div className="flex sm:hidden justify-center border-b mb-4 tabs tabs-boxed">
+      <div className="flex sm:hidden justify-center border-b tabs tabs-boxed">
         <button
           role="tab"
           className={`tab flex-1 ${activeTab === "inbox" ? "tab-active" : ""}`}
@@ -167,7 +167,15 @@ export default function BlockEditor() {
         )}
         {activeTab === "draft" && draft && (
           <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full p-4">
+              <button
+                className="btn btn-ghost rounded-lg shadow w-full mb-2"
+                onClick={() =>
+                  document.getElementById("add-block-modal-id").showModal()
+                }
+              >
+                + New Custom Block
+              </button>
               <BlockList
                 blocks={draft.blocks}
                 title={draft.name}
@@ -197,6 +205,14 @@ export default function BlockEditor() {
           {draft ? (
             <div className="w-1/2 flex flex-col h-full relative">
               <h2 className="text-center font-bold mb-2">{draft.name}</h2>
+              <button
+                className="btn btn-ghost rounded-lg shadow w-full mb-2"
+                onClick={() =>
+                  document.getElementById("add-block-modal-id").showModal()
+                }
+              >
+                + New Custom Block
+              </button>
               <BlockList
                 blocks={draft.blocks}
                 title={draft.name}

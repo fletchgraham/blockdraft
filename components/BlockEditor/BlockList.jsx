@@ -28,16 +28,6 @@ export default function BlockList({
               />
             ))}
             {provided.placeholder}
-            <li>
-              <button
-                className="btn btn-ghost shadow w-full"
-                onClick={() =>
-                  document.getElementById("add-block-modal-id").showModal()
-                }
-              >
-                + New Custom Block
-              </button>
-            </li>
           </ul>
         </div>
       )}
