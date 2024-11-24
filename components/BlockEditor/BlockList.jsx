@@ -7,6 +7,7 @@ export default function BlockList({
   blocks,
   droppableId,
   onDeleteBlock,
+  onEditBlock,
   onBlockMove,
 }) {
   return (
@@ -24,6 +25,7 @@ export default function BlockList({
                 block={block}
                 index={index}
                 onDeleteBlock={onDeleteBlock}
+                onEditBlock={onEditBlock}
                 onBlockMove={onBlockMove}
               />
             ))}

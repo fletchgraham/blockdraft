@@ -7,6 +7,7 @@ export default function BlockItem({
   block,
   index,
   onDeleteBlock,
+  onEditBlock,
   onBlockMove,
 }) {
   // make a uuid
@@ -70,6 +71,9 @@ export default function BlockItem({
                   >
                     Move to {block.draftId ? "Inbox" : "Draft"}
                   </button>
+                </li>
+                <li>
+                  <button onClick={() => onEditBlock(block)}>Edit</button>
                 </li>
                 <li>
                   <button

@@ -1,17 +1,28 @@
 "use client";
 
+// framework
 import { useState, useEffect } from "react";
 import Link from "next/link";
+
+// third party
 import { DragDropContext } from "@hello-pangea/dnd";
-import BlockList from "./BlockList";
+
+// actions
 import { addBlock } from "@/actions/blocks";
 import { deleteBlock } from "@/actions/blocks";
+import { updateBlock } from "@/actions/blocks";
+
+// utils
 import { handleDragEnd, syncData } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
-import Header from "../Header";
-import OpenDraftMenu from "./OpenDraftMenu";
 import { useWarnOnUnsavedChanges } from "@/hooks";
+
+// components
+import Header from "../Header";
+import BlockList from "./BlockList";
+import OpenDraftMenu from "./OpenDraftMenu";
 import AddBlockModal from "./AddBlockModal";
+import EditBlockModal from "./EditBlockModal";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -20,6 +31,7 @@ export default function BlockEditor() {
   const [syncStatus, setSyncStatus] = useState("Synced");
   const [isChanged, setIsChanged] = useState(false);
   const [activeTab, setActiveTab] = useState("inbox"); // State for active tab
+  const [blockToEdit, setBlockToEdit] = useState(null);
 
   useWarnOnUnsavedChanges(isChanged);
 
@@ -115,6 +127,45 @@ export default function BlockEditor() {
     setIsChanged(true);
   };
 
+  const handleEditBlock = (block) => {
+    setBlockToEdit(block);
+    document.getElementById("edit-block-modal-id").showModal();
+  };
+
+  const closeEditBlockModal = () => {
+    setBlockToEdit(null);
+    document.getElementById("edit-block-modal-id").close();
+  };
+
+  const onUpdateBlock = async (updatedBlock) => {
+    try {
+      // Update the block in the backend
+      const resultBlock = await updateBlock(updatedBlock);
+      if (resultBlock) {
+        // Update the state
+        if (resultBlock.draftId) {
+          setDraft((prevDraft) => ({
+            ...prevDraft,
+            blocks: prevDraft.blocks.map((block) =>
+              block._id === resultBlock._id ? resultBlock : block
+            ),
+          }));
+        } else {
+          setInboxBlocks((prevBlocks) =>
+            prevBlocks.map((block) =>
+              block._id === resultBlock._id ? resultBlock : block
+            )
+          );
+        }
+      } else {
+        alert("An error occurred while updating the block.");
+      }
+    } catch (error) {
+      console.error("Failed to update block:", error);
+      alert("An error occurred while updating the block.");
+    }
+  };
+
   const onDragEnd = (result) => {
     handleDragEnd(
       result,
@@ -167,6 +218,7 @@ export default function BlockEditor() {
                 title="Inbox"
                 droppableId="inbox"
                 onDeleteBlock={handleDeleteBlock}
+                onEditBlock={handleEditBlock}
                 onBlockMove={handleBlockMove}
               />
             </div>
@@ -188,6 +240,7 @@ export default function BlockEditor() {
                 title={draft.name}
                 droppableId="draft"
                 onDeleteBlock={handleDeleteBlock}
+                onEditBlock={handleEditBlock}
                 onBlockMove={handleBlockMove}
               />
             </div>
@@ -211,6 +264,7 @@ export default function BlockEditor() {
               title="Inbox"
               droppableId="inbox"
               onDeleteBlock={handleDeleteBlock}
+              onEditBlock={handleEditBlock}
               onBlockMove={handleBlockMove}
             />
           </div>
@@ -231,6 +285,7 @@ export default function BlockEditor() {
                 title={draft.name}
                 droppableId="draft"
                 onDeleteBlock={handleDeleteBlock}
+                onEditBlock={handleEditBlock}
                 onBlockMove={handleBlockMove}
               />
             </div>
@@ -241,6 +296,11 @@ export default function BlockEditor() {
       </div>
 
       <AddBlockModal onAddBlock={addBlockToDraft} />
+      <EditBlockModal
+        block={blockToEdit}
+        onEditBlock={onUpdateBlock}
+        onClose={closeEditBlockModal}
+      />
     </div>
   );
 }
