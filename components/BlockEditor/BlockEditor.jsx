@@ -158,7 +158,7 @@ export default function BlockEditor() {
             <div className="flex flex-col h-full p-4">
               <Link
                 href="/import-urls"
-                className="btn btn-ghost rounded-lg shadow w-full mb-2"
+                className="btn btn-ghost rounded-box shadow w-full mb-2"
               >
                 + Import
               </Link>
@@ -176,7 +176,7 @@ export default function BlockEditor() {
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full p-4">
               <button
-                className="btn btn-ghost rounded-lg shadow w-full mb-2"
+                className="btn btn-ghost rounded-box shadow w-full mb-2"
                 onClick={() =>
                   document.getElementById("add-block-modal-id").showModal()
                 }
@@ -202,7 +202,7 @@ export default function BlockEditor() {
             <h2 className="text-center font-bold mb-2">Inbox</h2>
             <Link
               href="/import-urls"
-              className="btn btn-ghost rounded-lg shadow w-full mb-2"
+              className="btn btn-ghost rounded-box shadow w-full mb-2"
             >
               + Import
             </Link>
@@ -219,7 +219,7 @@ export default function BlockEditor() {
             <div className="w-1/2 flex flex-col h-full relative">
               <h2 className="text-center font-bold mb-2">{draft.name}</h2>
               <button
-                className="btn btn-ghost rounded-lg shadow w-full mb-2"
+                className="btn btn-ghost rounded-box shadow w-full mb-2"
                 onClick={() =>
                   document.getElementById("add-block-modal-id").showModal()
                 }

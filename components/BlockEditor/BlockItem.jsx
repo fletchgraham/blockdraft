@@ -18,7 +18,7 @@ export default function BlockItem({
           <li
             ref={provided.innerRef}
             {...provided.draggableProps} // Apply draggableProps to the entire list item
-            className="flex items-center shadow bg-base-100 rounded-lg mb-2 group"
+            className="flex items-center shadow bg-base-100 rounded-box mb-2 group"
           >
             <div
               {...provided.dragHandleProps}
@@ -31,7 +31,7 @@ export default function BlockItem({
                 <img
                   src={block.thumbnailUrl}
                   alt="Thumbnail"
-                  className="w-16 h-16 object-cover rounded-md mr-4"
+                  className="w-16 h-16 object-cover rounded-box mr-4"
                 />
               )}
               <div className="flex-1">
