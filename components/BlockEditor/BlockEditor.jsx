@@ -10,6 +10,7 @@ import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 import Header from "../Header";
 import OpenDraftMenu from "./OpenDraftMenu";
 import { useWarnOnUnsavedChanges } from "@/hooks";
+import AddBlockModal from "./AddBlockModal";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -158,7 +159,6 @@ export default function BlockEditor() {
                 blocks={inboxBlocks}
                 title="Inbox"
                 droppableId="inbox"
-                addBlock={addBlockToDraft}
                 onDeleteBlock={handleDeleteBlock}
                 onBlockMove={handleBlockMove}
               />
@@ -172,7 +172,6 @@ export default function BlockEditor() {
                 blocks={draft.blocks}
                 title={draft.name}
                 droppableId="draft"
-                addBlock={addBlockToDraft}
                 onDeleteBlock={handleDeleteBlock}
                 onBlockMove={handleBlockMove}
               />
@@ -190,7 +189,6 @@ export default function BlockEditor() {
               blocks={inboxBlocks}
               title="Inbox"
               droppableId="inbox"
-              addBlock={addBlockToDraft}
               onDeleteBlock={handleDeleteBlock}
               onBlockMove={handleBlockMove}
             />
@@ -203,7 +201,6 @@ export default function BlockEditor() {
                 blocks={draft.blocks}
                 title={draft.name}
                 droppableId="draft"
-                addBlock={addBlockToDraft}
                 onDeleteBlock={handleDeleteBlock}
                 onBlockMove={handleBlockMove}
               />
@@ -213,6 +210,8 @@ export default function BlockEditor() {
           )}
         </DragDropContext>
       </div>
+
+      <AddBlockModal onAddBlock={addBlockToDraft} />
     </div>
   );
 }
