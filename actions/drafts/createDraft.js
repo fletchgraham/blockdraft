@@ -25,7 +25,7 @@ export const createDraft = async (prevState, formData) => {
   }
 
   if (isLongerThan(draft.name, 40)) {
-    errors.draftName = "Draft name must be at most 20 characters";
+    errors.draftName = "Draft name must be at most 40 characters";
   }
 
   if (errors.draftName) {
