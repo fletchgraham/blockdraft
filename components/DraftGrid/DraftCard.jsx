@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaTrash, FaCopy } from "react-icons/fa";
+import { FiTrash2, FiCopy } from "react-icons/fi";
 import DeleteDraftModal from "./DeleteDraftModal";
 import DuplicateDraftModal from "./DuplicateDraftModal";
 
@@ -18,7 +18,7 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
   }
 
   return (
-    <div className="card card-compact bg-base-100 w-60 shadow-md">
+    <div className="card card-compact bg-base-100 w-full sm:w-60 shadow-md">
       <figure className="h-40 overflow-hidden">
         <img
           src={thumbnailUrl}
@@ -37,7 +37,7 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
         <div className="card-actions justify-end">
           {/* <button className="btn btn-ghost">Edit</button> */}
           <button
-            className="btn btn-ghost"
+            className="btn btn-ghost text-xl"
             tooltip="Duplicate"
             onClick={() =>
               document
@@ -45,15 +45,15 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
                 .showModal()
             }
           >
-            <FaCopy />
+            <FiCopy />
           </button>
           <button
-            className="btn btn-ghost"
+            className="btn btn-ghost text-xl text-red-500"
             onClick={() =>
               document.getElementById(`delete-modal-${draft._id}`).showModal()
             }
           >
-            <FaTrash />
+            <FiTrash2 />
           </button>
         </div>
         <DeleteDraftModal draft={draft} onDelete={onDelete} />
