@@ -1,5 +1,4 @@
 import "./global.css";
-import Sidebar from "@/components/SideBar";
 
 export const metadata = {
   title: "BlockDraft.ai",
@@ -9,11 +8,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="lofi">
-      <body>
-        <Sidebar>
-          <main className="w-full">{children}</main>
-        </Sidebar>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

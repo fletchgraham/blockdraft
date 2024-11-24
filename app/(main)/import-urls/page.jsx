@@ -1,7 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import Header from "@/components/Header";
-import ImportUrlsForm from "../../components/ImportUrlsForm";
+import ImportUrlsForm from "../../../components/ImportUrlsForm";
 
 export default async function ImportUrlsPage() {
   const session = await auth();

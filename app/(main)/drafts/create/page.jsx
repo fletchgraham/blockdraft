@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import CreateDraftForm from "../../../components/CreateDraftForm";
+import CreateDraftForm from "@/components/CreateDraftForm";
 
 export default async function CreateDraftPage() {
   return (

@@ -23,7 +23,7 @@ export default function SideBarLinks({ sessionExists }) {
             {/* on click close the sidebar */}
             <Link
               className="btn btn-ghost"
-              href="/"
+              href="/edit"
               onClick={() =>
                 (document.getElementById("my-drawer-2").checked = false)
               }
