@@ -1,6 +1,6 @@
 import { auth, signOut } from "@/auth";
-import { logout } from "@/actions/user";
 import Link from "next/link";
+import SideBarLinks from "./SideBarLinks";
 
 export default async function Sidebar({ children }) {
   const session = await auth();
@@ -25,42 +25,7 @@ export default async function Sidebar({ children }) {
         ></label>
         <ul className="menu bg-white border-gray-800 border-r text-base-content min-h-full w-56 p-4">
           {/* Sidebar content here */}
-          <li className="mb-10">
-            <Link className="text-xl btn btn-ghost" href="/">
-              blockdraft.ai
-            </Link>
-          </li>
-          {session && (
-            <>
-              <li>
-                <Link className="btn btn-ghost" href="/">
-                  Editor
-                </Link>
-              </li>
-              <li>
-                <Link className="btn btn-ghost" href="/import-urls">
-                  Import urls
-                </Link>
-              </li>
-              <li>
-                <Link className="btn btn-ghost" href="/drafts">
-                  Drafts
-                </Link>
-              </li>
-              <li>
-                <form className="btn btn-ghost" action={logout}>
-                  <button>Log Out</button>
-                </form>
-              </li>
-            </>
-          )}
-          {!session && (
-            <li>
-              <Link href="/login" className="btn btn-ghost">
-                Login
-              </Link>
-            </li>
-          )}
+          <SideBarLinks sessionExists={session} />
         </ul>
       </div>
     </div>
