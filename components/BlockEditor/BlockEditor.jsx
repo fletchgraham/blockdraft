@@ -64,6 +64,14 @@ export default function BlockEditor() {
     return () => clearInterval(intervalId);
   }, [drafts, isChanged]);
 
+  // util to close all detail tags
+  const closeAllDropdowns = () => {
+    const details = document.querySelectorAll("details");
+    details.forEach((detail) => {
+      detail.removeAttribute("open");
+    });
+  };
+
   const handleOpenDraft = (draftId) => {
     setDraft(drafts.find((draft) => draft._id === draftId));
     setActiveTab("draft");
@@ -134,10 +142,12 @@ export default function BlockEditor() {
 
   const closeEditBlockModal = () => {
     setBlockToEdit(null);
+    closeAllDropdowns();
     document.getElementById("edit-block-modal-id").close();
   };
 
   const onUpdateBlock = async (updatedBlock) => {
+    closeAllDropdowns();
     try {
       // Update the block in the backend
       const resultBlock = await updateBlock(updatedBlock);
