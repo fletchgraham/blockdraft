@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import { DragDropContext } from "@hello-pangea/dnd";
 import BlockList from "./BlockList";
 import { addBlock } from "@/actions/blocks";
@@ -154,7 +155,13 @@ export default function BlockEditor() {
       <div className="sm:hidden">
         {activeTab === "inbox" && (
           <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex flex-col h-full">
+            <div className="flex flex-col h-full p-4">
+              <Link
+                href="/import-urls"
+                className="btn btn-ghost rounded-lg shadow w-full mb-2"
+              >
+                + Import
+              </Link>
               <BlockList
                 blocks={inboxBlocks}
                 title="Inbox"
@@ -193,6 +200,12 @@ export default function BlockEditor() {
         <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
             <h2 className="text-center font-bold mb-2">Inbox</h2>
+            <Link
+              href="/import-urls"
+              className="btn btn-ghost rounded-lg shadow w-full mb-2"
+            >
+              + Import
+            </Link>
             <BlockList
               blocks={inboxBlocks}
               title="Inbox"
