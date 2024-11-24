@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import DraftCard from "./DraftCard";
 import { getDraftsWithBlocks } from "@/lib/db";
 import { deleteDraft } from "@/actions/drafts";
+import { duplicateDraft } from "@/actions/drafts";
 
 export default function DraftsGrid() {
   const [drafts, setDrafts] = useState([]);
@@ -16,6 +17,21 @@ export default function DraftsGrid() {
     };
     fetchData();
   }, []);
+
+  const handleDuplicate = async (draftId, newName) => {
+    try {
+      console.log("Duplicating draft:", draftId, newName);
+      const result = await duplicateDraft(draftId, newName);
+      if (result.success) {
+        setDrafts((drafts) => [result.newDraft, ...drafts]);
+      } else {
+        alert("An error occurred while duplicating the draft.");
+      }
+    } catch (error) {
+      console.error("Error duplicating draft:", error);
+      alert("An error occurred while duplicating the draft.");
+    }
+  };
 
   const handleDelete = async (draftId, moveBlocksToInbox) => {
     try {
@@ -41,7 +57,12 @@ export default function DraftsGrid() {
     <div className="p-4 mt-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 place-items-center">
         {drafts.map((draft) => (
-          <DraftCard key={draft._id} draft={draft} onDelete={handleDelete} />
+          <DraftCard
+            key={draft._id}
+            draft={draft}
+            onDelete={handleDelete}
+            onDuplicate={handleDuplicate}
+          />
         ))}
       </div>
     </div>

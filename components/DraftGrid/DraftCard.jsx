@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import DeleteDraftModal from "./DeleteDraftModal";
+import DuplicateDraftModal from "./DuplicateDraftModal";
 
-export default function DraftCard({ draft, onDelete }) {
+export default function DraftCard({ draft, onDelete, onDuplicate }) {
   let thumbnailUrl = "https://via.placeholder.com/150";
 
   if (draft.blocks) {
@@ -34,7 +35,16 @@ export default function DraftCard({ draft, onDelete }) {
         <p>{draft.blocks?.length || 0} blocks</p>
         <div className="card-actions justify-end">
           <button className="btn btn-ghost">E</button>
-          <button className="btn btn-ghost">C</button>
+          <button
+            className="btn btn-ghost"
+            onClick={() =>
+              document
+                .getElementById(`duplicate-modal-${draft._id}`)
+                .showModal()
+            }
+          >
+            C
+          </button>
           <button
             className="btn btn-ghost"
             onClick={() =>
@@ -45,6 +55,7 @@ export default function DraftCard({ draft, onDelete }) {
           </button>
         </div>
         <DeleteDraftModal draft={draft} onDelete={onDelete} />
+        <DuplicateDraftModal draft={draft} onDuplicate={onDuplicate} />
       </div>
     </div>
   );
