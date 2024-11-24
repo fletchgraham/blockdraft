@@ -11,7 +11,6 @@ const createBlockFromUrl = async (url) => {
   const block = {
     url: url,
     title: "",
-    text: "",
     thumbnailUrl: "",
     contentDate: new Date(),
   };
@@ -28,7 +27,6 @@ const createBlockFromUrl = async (url) => {
     $("meta[name='twitter:image']").attr("content") ||
     "";
 
-  block.text = $("p").first().text().slice(0, 100) + "...";
   block.title = $("title").text() || "Untitled";
 
   return block;
