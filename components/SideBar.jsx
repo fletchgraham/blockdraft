@@ -1,5 +1,4 @@
-import { auth, signOut } from "@/auth";
-import Link from "next/link";
+import { auth } from "@/auth";
 import SideBarLinks from "./SideBarLinks";
 
 export default async function Sidebar({ children }) {
