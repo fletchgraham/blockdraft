@@ -33,6 +33,11 @@ export default async function Sidebar({ children }) {
           {session && (
             <>
               <li>
+                <Link className="btn btn-ghost" href="/">
+                  Editor
+                </Link>
+              </li>
+              <li>
                 <Link className="btn btn-ghost" href="/import-urls">
                   Import urls
                 </Link>
