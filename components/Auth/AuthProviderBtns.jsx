@@ -7,18 +7,6 @@ export default function AuthProviderBtns() {
       <form
         action={async () => {
           "use server";
-          await signIn("github");
-        }}
-        className="w-full mb-4"
-      >
-        <button className="btn w-full" type="submit">
-          <GitHubLogo />
-          Continue with Github
-        </button>
-      </form>
-      <form
-        action={async () => {
-          "use server";
           await signIn("google");
         }}
         className="w-full mb-4"
@@ -26,6 +14,18 @@ export default function AuthProviderBtns() {
         <button className="btn w-full" type="submit">
           <GoogleLogo />
           Continue with Google
+        </button>
+      </form>
+      <form
+        action={async () => {
+          "use server";
+          await signIn("github");
+        }}
+        className="w-full mb-4"
+      >
+        <button className="btn w-full" type="submit">
+          <GitHubLogo />
+          Continue with Github
         </button>
       </form>
     </>
