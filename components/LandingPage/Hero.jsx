@@ -1,20 +1,16 @@
 import Link from "next/link";
+import HeroDemo from "./HeroDemo";
 
 export default function Hero() {
   return (
     <div className="hero bg-base-200 min-h-screen p-12">
-      <div className="hero-content flex-col lg:flex-row-reverse">
-        <img
-          src="/images/block-editor-preview.png"
-          alt="Block editor preview"
-          className="max-w-md rounded-lg shadow-2xl"
-        />
-        <div>
+      <div className="hero-content flex-col lg:flex-row">
+        <div className="mb-10">
           <h1 className="text-5xl font-bold">
-            Streamline Your Newsletter Workflow
+            Streamline Your Content Workflow
           </h1>
           <p className="py-6">
-            Build and curate your newsletters effortlessly with drag-and-drop
+            Curate and build your newsletter effortlessly with drag-and-drop
             blocks, powerful integrations, and AI-assisted summaries. Stay
             organized, save time, and deliver high-quality content to your
             audience.
@@ -26,6 +22,7 @@ export default function Hero() {
             Or Sign In
           </Link>
         </div>
+        <HeroDemo />
       </div>
     </div>
   );
