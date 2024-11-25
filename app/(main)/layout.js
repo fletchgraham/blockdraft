@@ -7,12 +7,8 @@ export const metadata = {
 
 export default function Layout({ children }) {
   return (
-    <html lang="en" data-theme="lofi">
-      <body>
-        <Sidebar>
-          <main className="w-full">{children}</main>
-        </Sidebar>
-      </body>
-    </html>
+    <Sidebar>
+      <main className="w-full">{children}</main>
+    </Sidebar>
   );
 }
