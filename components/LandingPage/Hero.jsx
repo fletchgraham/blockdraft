@@ -11,7 +11,7 @@ export default function Hero() {
           </h1>
           <p className="py-6">
             Curate and build your newsletter effortlessly with drag-and-drop
-            blocks, powerful integrations, and AI-assisted summaries. Stay
+            blocks, AI summaries, and versatile rich-text output. Stay
             organized, save time, and deliver high-quality content to your
             audience.
           </p>
