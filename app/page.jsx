@@ -1,23 +1,9 @@
-import { RegisterForm } from "@/components/Auth";
-import { auth } from "@/auth";
-import BlockEditor from "@/components/BlockEditor/BlockEditor";
-import Header from "@/components/Header";
+import Hero from "@/components/LandingPage/Hero";
 
 export default async function Page() {
-  const session = await auth();
-
-  if (!session) {
-    return (
-      <>
-        <Header title="Register" />
-        <RegisterForm />
-      </>
-    );
-  }
-
   return (
     <>
-      <BlockEditor />
+      <Hero />
     </>
   );
 }
