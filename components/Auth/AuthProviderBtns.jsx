@@ -1,5 +1,5 @@
 import { signIn } from "@/auth";
-import { GitHubLogo } from "@/components/Logos";
+import { GitHubLogo, GoogleLogo } from "@/components/Logos";
 
 export default function AuthProviderBtns() {
   return (
@@ -16,18 +16,18 @@ export default function AuthProviderBtns() {
           Continue with Github
         </button>
       </form>
-      {/* <form
+      <form
         action={async () => {
           "use server";
-          await signIn("github");
+          await signIn("google");
         }}
         className="w-full mb-4"
       >
         <button className="btn w-full" type="submit">
-          <GitHubLogo />
+          <GoogleLogo />
           Continue with Google
         </button>
-      </form> */}
+      </form>
     </>
   );
 }
