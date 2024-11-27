@@ -6,7 +6,6 @@ import netflixImage from "@/assets/logo/netflix.svg";
 import spotifyImage from "@/assets/logo/spotify.svg";
 import paypalImage from "@/assets/logo/paypal.svg";
 import { Button } from "react-daisyui";
-import Card3d from "card3d";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
@@ -14,13 +13,30 @@ export const Hero = () => {
   const heroImageRef = useRef(null);
 
   useEffect(() => {
-    if (heroImageRef.current) {
-      new Card3d(heroImageRef.current, {
-        perspective: 1000,
-        fullPageListening: true,
-      });
-    }
-  }, [heroImageRef.current]);
+    let card3dInstance;
+
+    const loadCard3d = async () => {
+      try {
+        const Card3d = (await import("card3d")).default; // Lazy import
+        if (heroImageRef.current) {
+          card3dInstance = new Card3d(heroImageRef.current, {
+            perspective: 1000,
+            fullPageListening: true,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load Card3d:", error);
+      }
+    };
+
+    loadCard3d();
+
+    return () => {
+      if (card3dInstance) {
+        card3dInstance.destroy?.(); // Cleanup if needed
+      }
+    };
+  }, []);
 
   return (
     <section className="py-8 lg:py-20" id="home">
@@ -52,6 +68,7 @@ export const Hero = () => {
                 alt="SaaS"
                 id="hero-image"
                 className="rounded-lg"
+                priority
                 src={heroImage}
               />
             </div>
