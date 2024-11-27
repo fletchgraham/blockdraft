@@ -19,7 +19,7 @@ export const Topbar = () => {
     <>
       <div className="bg-neutral py-1.5 text-center text-xs text-neutral-content md:text-sm">
         <span>
-          Streamline Your Content Workflow: Code
+          We're still in alpha! Use code:
           <span className="mx-1 font-semibold text-warning">BLOCKDRAFT</span>
           for a 20% discount 🚀
         </span>
