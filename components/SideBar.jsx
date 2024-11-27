@@ -22,7 +22,7 @@ export default async function Sidebar({ children }) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu bg-white border-gray-800 border-r text-base-content min-h-full w-56 p-4">
+        <ul className="menu bg-base-100 border-r text-base-content min-h-full w-56 p-4">
           {/* Sidebar content here */}
           <SideBarLinks sessionExists={session} />
         </ul>
