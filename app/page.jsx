@@ -1,9 +1,5 @@
-import Hero from "@/components/LandingPage/Hero";
+import Landing from "@/components/Landing/Landing";
 
-export default async function Page() {
-  return (
-    <>
-      <Hero />
-    </>
-  );
+export default function Page() {
+  return <Landing />;
 }
