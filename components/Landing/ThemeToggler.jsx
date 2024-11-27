@@ -40,6 +40,12 @@ export const ThemeToggler = () => {
                 Dark
               </div>
             </Menu.Item>
+            <Menu.Item onClick={() => setTheme("lofi")}>
+              <div className="flex gap-3 text-sm">
+                <Moon className="h-5" />
+                Lofi
+              </div>
+            </Menu.Item>
           </Menu>
         </Dropdown.Menu>
       </Dropdown>

@@ -30,6 +30,7 @@ module.exports = {
   },
   daisyui: {
     themes: [
+      "lofi",
       {
         light: {
           ...theme.light,
