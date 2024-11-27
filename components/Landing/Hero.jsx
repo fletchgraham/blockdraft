@@ -44,14 +44,15 @@ export const Hero = () => {
         <div className="grid gap-12 lg:grid-cols-2">
           <div>
             <h1 className="text-4xl font-black tracking-tighter lg:text-6xl lg:leading-none">
-              Revolutionize your business with our
-              <span className="text-primary"> dynamic SaaS </span>
-              solutions.
+              Unlock the power of{" "}
+              <span className="text-primary">AI-driven </span>
+              content creation.
             </h1>
             <p className=" mt-8 text-lg">
-              Elevate your business to new heights with our cutting-edge SaaS
-              solutions. Seamlessly integrate powerful features, flexible
-              pricing, and dedicated support.
+              Curate and build your newsletter effortlessly with drag-and-drop
+              blocks, AI summaries, and versatile rich-text output. Stay
+              organized, save time, and deliver high-quality content to your
+              audience.
             </p>
             <div className="mt-16 inline-flex gap-3">
               <Button color="primary">Get Started</Button>
@@ -75,8 +76,8 @@ export const Hero = () => {
           </div>
         </div>
 
-        <h2 className="mt-12 text-center text-2xl font-semibold text-base-content/60 lg:mt-32">
-          Our Partners
+        {/* <h2 className="mt-12 text-center text-2xl font-semibold text-base-content/60 lg:mt-32">
+          Our Customers
         </h2>
 
         <div className="mt-12 grid grid-cols-2 justify-center gap-8 sm:grid-cols-3 md:grid-cols-5">
@@ -105,7 +106,7 @@ export const Hero = () => {
             src={paypalImage}
             alt="paypal logo"
           />
-        </div>
+        </div> */}
       </div>
     </section>
   );
