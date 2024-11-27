@@ -14,65 +14,66 @@ export const Feature = () => {
 
       <div className="container">
         <div className="flex flex-col items-center">
-          <h2 className="inline text-4xl font-semibold">Magical Things</h2>
-
+          <h2 className="inline text-4xl font-semibold">
+            Your Newsletter, Your Way
+          </h2>
           <p className="mt-4 text-lg sm:text-center">
-            Unlock the Full Potential of Your Business with Our SaaS Platform's
-            Key Features
+            Simplify content creation with blockdraft.ai's intuitive
+            drag-and-drop editor and AI-powered insights.
           </p>
         </div>
 
         <div className="relative z-[2] mt-8 grid gap-8 lg:mt-20 lg:grid-cols-2 lg:gap-12">
           <div className="overflow-hidden rounded-lg bg-base-200 shadow-md transition-all hover:shadow-xl">
             <Image
-              alt="saas img"
+              alt="Draft Editor Screenshot"
               className="overflow-hidden rounded-ss-lg"
               src={feature1Image}
             />
           </div>
 
           <div className="lg:mt-8">
-            <Badge color="primary">Dashboard</Badge>
+            <Badge color="primary">Drag-and-Drop Editor</Badge>
             <h3 className="mt-2 text-3xl font-semibold">
-              Fully Controlled Panel
+              Effortless Content Assembly
             </h3>
             <p className="mt-2 text-base font-medium">
-              Elevate control with our dynamic SaaS dashboard—real-time
-              insights, intuitive navigation, seamless customization.
+              A tactile, hands-on editor designed for newsletter creators.
+              Import articles, create summaries, and organize with ease.
             </p>
 
             <ul className="mt-4 list-inside list-disc text-base">
-              <li>Real-Time Data Insights</li>
-              <li>Customizable Widgets</li>
-              <li>Intuitive User Interface</li>
-              <li>Performance Metrics at a Glance</li>
+              <li>Import URLs and get AI-generated summaries</li>
+              <li>Organize content blocks effortlessly</li>
+              <li>Drag-and-drop interface inspired by notecards</li>
+              <li>Customizable block layouts and headlines</li>
             </ul>
           </div>
         </div>
 
         <div className="mt-8 grid gap-8 lg:mt-20 lg:grid-cols-2 lg:gap-12">
           <div>
-            <Badge color={"primary"}>Control</Badge>
-            <h3 className="mt-2 text-3xl font-semibold">Managing Entities</h3>
+            <Badge color={"primary"}>Efficiency</Badge>
+            <h3 className="mt-2 text-3xl font-semibold">
+              Lightning-Fast Workflow
+            </h3>
             <p className="mt-2 text-base">
-              Our SaaS platform offers seamless management, allowing you to
-              effortlessly oversee users, projects, and resources in one
-              centralized hub. Gain real-time insights, streamline workflows,
-              and optimize resource allocation for unparalleled efficiency.
+              Save hours on curation with AI summaries, quick organization, and
+              intuitive tools tailored for daily or weekly publishing.
             </p>
 
             <ul className="mt-4 list-inside list-disc text-base">
-              <li>User-Friendly Tools</li>
-              <li>Resource Management</li>
-              <li>Task Assignment</li>
-              <li>Robust Control</li>
+              <li>Automatic summaries of imported links</li>
+              <li>Built-in tools for faster content ordering</li>
+              <li>Streamlined export to Substack-ready format</li>
+              <li>Sync and archive content blocks effortlessly</li>
             </ul>
           </div>
 
           <div className="order-first lg:order-last">
             <div className="overflow-hidden rounded-lg bg-base-200 shadow-md transition-all hover:shadow-xl">
               <Image
-                alt="saas img"
+                alt="Workflow Screenshot"
                 className="overflow-hidden rounded-ss-lg"
                 src={feature2Image}
               />
@@ -83,29 +84,27 @@ export const Feature = () => {
         <div className="mt-8 grid gap-8 lg:mt-20 lg:grid-cols-2 lg:gap-12">
           <div className="overflow-hidden rounded-lg bg-base-200 shadow-md transition-all hover:shadow-xl">
             <Image
-              alt="saas img"
+              alt="Integrations Screenshot"
               className="overflow-hidden rounded-ss-lg"
               src={feature3Image}
             />
           </div>
 
           <div className="lg:mt-7">
-            <Badge color="primary">Workflows</Badge>
+            <Badge color="primary">Integration</Badge>
             <h3 className="mt-2 text-3xl font-semibold">
-              Seamless Integrations
+              AI-Powered Summaries and Insights
             </h3>
             <p className="mt-2 text-base">
-              Connect key tools seamlessly with our SaaS platform, streamlining
-              your processes and boosting productivity. Experience a cohesive
-              digital ecosystem that empowers your business for innovation and
-              growth.
+              Powered by ChatGPT, blockdraft.ai creates concise, engaging
+              summaries and lets you focus on crafting the perfect newsletter.
             </p>
 
             <ul className="mt-4 list-inside list-disc text-base">
-              <li>Real-time chat with Slack</li>
-              <li>Engage your customer with Email</li>
-              <li>Getting order from Amazon</li>
-              <li>Using Ai from OpenAI</li>
+              <li>Summarize articles with AI</li>
+              <li>Generate attention-grabbing headlines</li>
+              <li>Integrate seamlessly into your workflow</li>
+              <li>Plan and reuse content blocks with ease</li>
             </ul>
           </div>
         </div>
