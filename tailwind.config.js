@@ -9,6 +9,9 @@ module.exports = {
 
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+
+    "node_modules/daisyui/dist/**/*.js",
+    "node_modules/react-daisyui/dist/**/*.js",
   ],
   theme: {
     container: {
