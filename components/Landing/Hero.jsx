@@ -1,5 +1,5 @@
 "use client";
-import heroImage from "@/assets/landing/saas-hero.png";
+import heroImage from "@/assets/landing/blockdraft_editor.png";
 import googleImage from "@/assets/logo/google.svg";
 import microsoftImage from "@/assets/logo/microsoft.svg";
 import netflixImage from "@/assets/logo/netflix.svg";

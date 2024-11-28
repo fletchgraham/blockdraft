@@ -1,7 +1,7 @@
 "use client";
-import feature1Image from "@/assets/landing/feature-1.png";
-import feature2Image from "@/assets/landing/feature-2.png";
-import feature3Image from "@/assets/landing/feature-3.png";
+import draggingImage from "@/assets/landing/dragging.png";
+import phonesBeautyImage from "@/assets/landing/bd_phones_beauty_edit.png";
+import phoneScreens from "@/assets/landing/bd_mobile_screens.png";
 import Image from "next/image";
 import { Badge } from "react-daisyui";
 
@@ -28,7 +28,7 @@ export const Feature = () => {
             <Image
               alt="Draft Editor Screenshot"
               className="overflow-hidden rounded-ss-lg"
-              src={feature1Image}
+              src={draggingImage}
             />
           </div>
 
@@ -75,7 +75,7 @@ export const Feature = () => {
               <Image
                 alt="Workflow Screenshot"
                 className="overflow-hidden rounded-ss-lg"
-                src={feature2Image}
+                src={phonesBeautyImage}
               />
             </div>
           </div>
@@ -86,7 +86,7 @@ export const Feature = () => {
             <Image
               alt="Integrations Screenshot"
               className="overflow-hidden rounded-ss-lg"
-              src={feature3Image}
+              src={phoneScreens}
             />
           </div>
 
