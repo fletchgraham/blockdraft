@@ -9,6 +9,7 @@ import { FAQ } from "./FAQ.jsx";
 import { Footer } from "./Footer.jsx";
 import { ThemeToggler } from "./ThemeToggler.jsx";
 import { Theme, useTheme } from "react-daisyui";
+import SubscribeModal from "./SubscribeModal.jsx";
 
 export default function Landing() {
   const { theme } = useTheme();
@@ -23,6 +24,7 @@ export default function Landing() {
         <Pricing />
         <FAQ />
         <Footer />
+        <SubscribeModal />
         <ThemeToggler />
       </Theme>
     </>
