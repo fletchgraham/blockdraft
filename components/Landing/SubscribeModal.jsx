@@ -24,12 +24,6 @@ export default function SubscribeModal() {
 
   return (
     <>
-      <button
-        className="btn"
-        onClick={() => document.getElementById("subscribe_modal").showModal()}
-      >
-        Join Mailing List
-      </button>
       <dialog id="subscribe_modal" className="modal">
         <div className="modal-box">
           <h3 className="font-bold text-lg">Subscribe to BlockDraft</h3>

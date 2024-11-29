@@ -100,10 +100,22 @@ export const Topbar = () => {
             </Navbar.Center>
 
             <Navbar.End className="gap-3">
-              <Button size="sm" color="ghost">
+              <Button
+                size="sm"
+                color="ghost"
+                onClick={() => {
+                  document.getElementById("subscribe_modal").showModal();
+                }}
+              >
                 Register
               </Button>
-              <Button size="sm" color="primary">
+              <Button
+                size="sm"
+                color="primary"
+                onClick={() => {
+                  document.getElementById("subscribe_modal").showModal();
+                }}
+              >
                 Login
               </Button>
             </Navbar.End>

@@ -37,7 +37,14 @@ export const Integration = () => {
               </p>
 
               <div className="mt-8 flex justify-center lg:justify-start">
-                <Button color="primary">Quick Connect</Button>
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    document.getElementById("subscribe_modal").showModal();
+                  }}
+                >
+                  Quick Connect
+                </Button>
               </div>
             </div>
 

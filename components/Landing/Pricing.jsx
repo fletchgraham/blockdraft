@@ -77,6 +77,9 @@ export const Pricing = () => {
                   color="primary"
                   fullWidth
                   className="mt-auto"
+                  onClick={() => {
+                    document.getElementById("subscribe_modal").showModal();
+                  }}
                 >
                   Start for Free
                 </Button>
@@ -127,7 +130,14 @@ export const Pricing = () => {
                     </li>
                   </ul>
                 </div>
-                <Button color="primary" fullWidth className="mt-auto">
+                <Button
+                  color="primary"
+                  fullWidth
+                  className="mt-auto"
+                  onClick={() => {
+                    document.getElementById("subscribe_modal").showModal();
+                  }}
+                >
                   Upgrade to Premium
                 </Button>
               </Card.Body>
@@ -178,6 +188,9 @@ export const Pricing = () => {
                   color="primary"
                   fullWidth
                   className="mt-auto"
+                  onClick={() => {
+                    document.getElementById("subscribe_modal").showModal();
+                  }}
                 >
                   Get Ultimate Power
                 </Button>

@@ -55,8 +55,22 @@ export const Hero = () => {
               audience.
             </p>
             <div className="mt-16 inline-flex gap-3">
-              <Button color="primary">Get Started</Button>
-              <Button color="ghost">Learn More</Button>
+              <Button
+                color="primary"
+                onClick={() => {
+                  document.getElementById("subscribe_modal").showModal();
+                }}
+              >
+                Get Started
+              </Button>
+              <Button
+                color="ghost"
+                onClick={() => {
+                  document.getElementById("subscribe_modal").showModal();
+                }}
+              >
+                Learn More
+              </Button>
             </div>
           </div>
 
