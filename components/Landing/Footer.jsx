@@ -175,7 +175,14 @@ export const Footer = () => {
             </div>
 
             <div className="mt-6 flex items-center gap-3">
-              <Button color="primary">Book a Demo</Button>
+              <Button
+                color="primary"
+                onClick={() => {
+                  document.getElementById("subscribe_modal").showModal();
+                }}
+              >
+                Book a Demo
+              </Button>
               {/* <Button
                 color="ghost"
                 className=""
