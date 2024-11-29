@@ -1,3 +1,5 @@
+import theme from "daisyui/src/theming/themes";
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -7,12 +9,27 @@ module.exports = {
 
     // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
+
+    "node_modules/daisyui/dist/**/*.js",
+    "node_modules/react-daisyui/dist/**/*.js",
   ],
   theme: {
-    extend: {},
+    container: {
+      center: true,
+      padding: {
+        DEFAULT: "1rem",
+        sm: "2rem",
+        lg: "4rem",
+        xl: "6rem",
+        "2xl": "8rem",
+      },
+    },
+    fontFamily: {
+      body: ["'DM Sans'", "sans-serif"],
+    },
+  },
+  daisyui: {
+    themes: ["cmyk"],
   },
   plugins: [require("daisyui")],
-  daisyui: {
-    themes: ["lofi"],
-  },
 };
