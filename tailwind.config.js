@@ -29,7 +29,7 @@ module.exports = {
     },
   },
   daisyui: {
-    themes: ["lofi", "cupcake"],
+    themes: ["cmyk"],
   },
   plugins: [require("daisyui")],
 };
