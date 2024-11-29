@@ -110,8 +110,8 @@ export const Pricing = () => {
                       <span className="ml-1 text-xl font-semibold">/month</span>
                     </p>
                     <p className="mt-6 text-sm">
-                      Perfect for creators running a twice-weekly curated
-                      newsletter.
+                      Perfect for creators publishing a curated newsletter 2-3
+                      times per week.
                     </p>
                   </Card.Body>
                 </Card>
