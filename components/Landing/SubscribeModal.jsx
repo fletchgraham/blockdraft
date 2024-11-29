@@ -26,11 +26,13 @@ export default function SubscribeModal() {
     <>
       <dialog id="subscribe_modal" className="modal">
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Subscribe to BlockDraft</h3>
           {!success ? (
             <>
+              <h3 className="font-bold text-lg">
+                We're Still Under Development...
+              </h3>
               <p className="py-4">
-                Enter your email to stay updated on development.
+                Enter your email to stay updated on our progress.
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <input
@@ -43,7 +45,7 @@ export default function SubscribeModal() {
                 />
                 <button
                   type="submit"
-                  className={`btn ${isLoading ? "loading" : ""}`}
+                  className={`btn btn-primary${isLoading ? "loading" : ""}`}
                   disabled={isLoading}
                 >
                   Subscribe
@@ -52,7 +54,13 @@ export default function SubscribeModal() {
             </>
           ) : (
             <div className="py-4 text-center">
-              <p className="text-green-500">Thank you for subscribing!</p>
+              <h3 className="font-bold text-lg text-green-500">
+                Thank you for subscribing!
+              </h3>
+              <p>
+                We'll reach out to see if you'd like to try an alpha version of
+                BlockDraft AI
+              </p>
               <button
                 className="btn"
                 onClick={() => {
