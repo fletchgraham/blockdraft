@@ -9,7 +9,8 @@ export const FAQ = () => {
         <div className="text-center">
           <h2 className="text-4xl font-semibold text-base-content">FAQs</h2>
           <p className="mt-2 text-lg">
-            Find solutions, tips, and more to enhance your SaaS experience.
+            Got questions? We’ve got answers. Learn more about BlockDraft and
+            how it can enhance your newsletter workflow.
           </p>
         </div>
 
@@ -17,68 +18,92 @@ export const FAQ = () => {
           <div className="space-y-4 lg:w-1/2">
             <Collapse className="border border-base-content/10" icon="arrow">
               <Collapse.Title className="text-xl font-medium">
-                How does SaaS benefit my business?
+                What is BlockDraft?
               </Collapse.Title>
               <Collapse.Content>
                 <p className="text-base">
-                  SaaS offers several advantages, including cost-effectiveness,
-                  scalability, automatic updates, and accessibility. It allows
-                  businesses to focus on core operations while the software
-                  provider handles maintenance and updates.
+                  BlockDraft is a drag-and-drop editor that simplifies
+                  newsletter creation by providing AI-powered content summaries
+                  and an intuitive workflow for organizing your articles.
                 </p>
               </Collapse.Content>
             </Collapse>
 
             <Collapse className="border border-base-content/10" icon="arrow">
               <Collapse.Title className="text-xl font-medium">
-                What features are included in your SaaS platform?
+                Who is BlockDraft for?
               </Collapse.Title>
               <Collapse.Content>
                 <p className="text-base">
-                  Our SaaS platform offers a range of features, including
-                  collaborative tools, real-time analytics, integrations with
-                  popular applications, user-friendly interfaces, and
-                  customizable solutions tailored to your business needs.
+                  BlockDraft is designed for newsletter creators, especially
+                  those curating content from multiple sources. Whether you're a
+                  solo creator or managing multiple publications, BlockDraft
+                  streamlines your workflow.
                 </p>
               </Collapse.Content>
             </Collapse>
 
             <Collapse className="border border-base-content/10" icon="arrow">
               <Collapse.Title className="text-xl font-medium">
-                How can I upgrade my plan?
+                How does the free trial work?
               </Collapse.Title>
               <Collapse.Content>
                 <p className="text-base">
-                  Upgrading your plan is easy. Log in to your account, go to the
-                  billing section, and choose the plan that suits your business
-                  requirements. The upgrade will take effect immediately.
+                  The free trial gives you all the features of the Pro plan, but
+                  limits you to 100 AI summaries as a trial period. This should
+                  last you about a month if you're publishing twice a week.
                 </p>
               </Collapse.Content>
             </Collapse>
 
             <Collapse className="border border-base-content/10" icon="arrow">
               <Collapse.Title className="text-xl font-medium">
-                Is there a trial period for your SaaS platform?
+                Can I use BlockDraft with platforms like Substack or Beehiiv?
               </Collapse.Title>
               <Collapse.Content>
                 <p className="text-base">
-                  Yes, we offer a free trial period for you to explore and
-                  experience our platform's features. No credit card is required
-                  during the trial period.
+                  Absolutely! BlockDraft copies rich text to your clipboard,
+                  making it easy to paste directly into platforms like Substack,
+                  Beehiiv, and any editor that supports rich text.
                 </p>
               </Collapse.Content>
             </Collapse>
 
             <Collapse className="border border-base-content/10" icon="arrow">
               <Collapse.Title className="text-xl font-medium">
-                How is data security handled on your platform?
+                How are AI summaries generated?
               </Collapse.Title>
               <Collapse.Content>
                 <p className="text-base">
-                  We prioritize data security. Our platform employs encryption,
-                  access controls, and regular security audits to safeguard your
-                  data. We comply with industry standards to ensure your
-                  information is secure.
+                  BlockDraft uses advanced AI to analyze your imported URLs and
+                  generate concise, engaging summaries. You can edit these
+                  summaries to fit your voice and style.
+                </p>
+              </Collapse.Content>
+            </Collapse>
+
+            <Collapse className="border border-base-content/10" icon="arrow">
+              <Collapse.Title className="text-xl font-medium">
+                What happens if I exceed my plan’s AI summary limit?
+              </Collapse.Title>
+              <Collapse.Content>
+                <p className="text-base">
+                  You’ll have the option to upgrade your plan or purchase
+                  additional summaries as an add-on. We’ll notify you when
+                  you’re approaching your limit.
+                </p>
+              </Collapse.Content>
+            </Collapse>
+
+            <Collapse className="border border-base-content/10" icon="arrow">
+              <Collapse.Title className="text-xl font-medium">
+                Can I cancel or change my plan?
+              </Collapse.Title>
+              <Collapse.Content>
+                <p className="text-base">
+                  Yes, you can cancel or upgrade your plan anytime from your
+                  account settings. Changes take effect immediately, and you’ll
+                  only be billed for the time used.
                 </p>
               </Collapse.Content>
             </Collapse>
