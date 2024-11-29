@@ -9,15 +9,15 @@ export const Footer = () => {
         <div>
           <div className="md-12 border-y border-e border-white/20 p-8 sm:p-10 md:px-16 xl:px-40 xl:py-16">
             <div className="grid grid-cols-2">
-              <p className="text-xl font-semibold">SaaS Landing</p>
+              <p className="text-xl font-semibold">BlockDraft AI</p>
               <p className="text-base">
-                Enhance Your IT Infrastructure with Our Innovative Solutions.
+                Create curated content with an ai-enabled block editor.
               </p>
             </div>
           </div>
 
           <div className="md-12 border-e border-white/20 p-8 sm:p-10 md:px-16 xl:px-40 xl:py-16">
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-2">
               <div className="flex flex-col gap-5">
                 <h2 className="text-xl font-medium">Company</h2>
                 <div className="space-y-2">
@@ -29,26 +29,26 @@ export const Footer = () => {
                       Landing
                     </a>
                   </div>
-                  <div>
+                  {/* <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
                       href="#"
                     >
                       Our Team
                     </a>
-                  </div>
-                  <div>
+                  </div> */}
+                  {/* <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
                       href="#"
                     >
                       Blogs
                     </a>
-                  </div>
+                  </div> */}
                   <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href="#"
+                      href="#faq"
                     >
                       FAQs
                     </a>
@@ -56,7 +56,9 @@ export const Footer = () => {
                   <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href="#"
+                      onClick={() => {
+                        document.getElementById("subscribe_modal").showModal();
+                      }}
                     >
                       Contact
                     </a>
@@ -69,7 +71,7 @@ export const Footer = () => {
                   <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href="#"
+                      href="#features"
                     >
                       Features
                     </a>
@@ -77,22 +79,22 @@ export const Footer = () => {
                   <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
-                      href="#"
+                      href="#pricing"
                     >
                       Pricing
                     </a>
                   </div>
-                  <div>
+                  {/* <div>
                     <a
                       className="text-base transition-all duration-500 hover:text-primary"
                       href="#"
                     >
                       Products
                     </a>
-                  </div>
+                  </div> */}
                 </div>
               </div>
-              <div className="flex flex-col gap-5">
+              {/* <div className="flex flex-col gap-5">
                 <h2 className="text-xl font-medium">Connecting</h2>
                 <div className="space-y-2">
                   <div>
@@ -128,7 +130,7 @@ export const Footer = () => {
                     </a>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -174,28 +176,16 @@ export const Footer = () => {
 
             <div className="mt-6 flex items-center gap-3">
               <Button color="primary">Book a Demo</Button>
-              <Button
+              {/* <Button
                 color="ghost"
                 className=""
                 startIcon={<Play className={"text-xl"} />}
               >
                 <span>Video Tour</span>
-              </Button>
+              </Button> */}
             </div>
           </form>
         </div>
-      </div>
-
-      <div className="border-t border-white/20 px-8 py-4 text-center lg:px-40 text-sm">
-        🌼 Made with
-        <a
-          className="link-hover link"
-          href="https://daisyui.com"
-          target="_blank"
-        >
-          {" "}
-          daisyUI{" "}
-        </a>
       </div>
     </footer>
   );
