@@ -3,6 +3,7 @@
 import mailChimpImage from "@/assets/logo/mailchimp.png";
 import substackImage from "@/assets/logo/substack.png";
 import beehiivImage from "@/assets/logo/beehiiv.png";
+import kitImage from "@/assets/logo/kit.svg";
 import linkedinImage from "@/assets/logo/linkedin.png";
 
 import Image from "next/image";
@@ -73,7 +74,7 @@ export const Integration = () => {
 
               <div className="flex justify-center lg:justify-end">
                 <div className="inline-flex h-16 w-64 mb-4 items-center justify-center rounded-full bg-white shadow">
-                  <Image alt="meta" className="w-36" src={linkedinImage} />
+                  <Image alt="meta" className="w-16" src={kitImage} />
                 </div>
               </div>
             </div>
