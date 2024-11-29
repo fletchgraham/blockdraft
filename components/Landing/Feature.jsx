@@ -39,14 +39,15 @@ export const Feature = () => {
             </h3>
             <p className="mt-2 text-base font-medium">
               A tactile, hands-on editor designed for newsletter creators.
-              Import articles, create summaries, and organize with ease.
             </p>
 
             <ul className="mt-4 list-inside list-disc text-base">
-              <li>Import URLs and get AI-generated summaries</li>
+              <li>Import URLs to generate blocks with AI summaries</li>
               <li>Organize content blocks effortlessly</li>
-              <li>Drag-and-drop interface inspired by notecards</li>
-              <li>Customizable block layouts and headlines</li>
+              <li>Drag-and-drop interface for an intuitive curation process</li>
+              <li>
+                Add custom blocks for section headings or original commentary
+              </li>
             </ul>
           </div>
         </div>
@@ -66,7 +67,7 @@ export const Feature = () => {
               <li>Automatic summaries of imported links</li>
               <li>Built-in tools for faster content ordering</li>
               <li>Streamlined export to Substack-ready format</li>
-              <li>Sync and archive content blocks effortlessly</li>
+              <li>Mobile friendly so you can curate in your spare moments</li>
             </ul>
           </div>
 
@@ -102,9 +103,11 @@ export const Feature = () => {
 
             <ul className="mt-4 list-inside list-disc text-base">
               <li>Summarize articles with AI</li>
-              <li>Generate attention-grabbing headlines</li>
               <li>Integrate seamlessly into your workflow</li>
-              <li>Plan and reuse content blocks with ease</li>
+              <li>Customize your prompt to use for summarizing</li>
+              <li>
+                Specify if you want bulleted summaries, or a takeaway section
+              </li>
             </ul>
           </div>
         </div>
