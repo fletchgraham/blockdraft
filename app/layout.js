@@ -1,7 +1,7 @@
 import "./global.css";
 
 export const metadata = {
-  title: "BlockDraft.ai",
+  title: "BlockDraft AI",
   description: "Create curated content with an AI-enabled block editor.",
 };
 
@@ -13,6 +13,22 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{metadata.title}</title>
+
+        {/* Google Analytics Tag */}
+        <script
+          async
+          src="https://www.googletagmanager.com/gtag/js?id=G-YWDLGM8K5T"
+        ></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-YWDLGM8K5T');
+            `,
+          }}
+        />
       </head>
       <body className="font-body">{children}</body>
     </html>
