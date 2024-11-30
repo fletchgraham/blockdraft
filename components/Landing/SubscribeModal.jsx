@@ -17,6 +17,8 @@ export default function SubscribeModal() {
     if (result.success) {
       setSuccess(true);
       setEmail(""); // Clear the input
+      // Trigger the Google Ads conversion tracking
+      gtag_report_conversion(); // Call the conversion tracking function
     } else {
       alert(result.message || "Something went wrong.");
     }
@@ -45,7 +47,7 @@ export default function SubscribeModal() {
                 />
                 <button
                   type="submit"
-                  className={`btn btn-primary${isLoading ? "loading" : ""}`}
+                  className={`btn btn-primary${isLoading ? " loading" : ""}`}
                   disabled={isLoading}
                 >
                   Subscribe
