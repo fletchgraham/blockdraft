@@ -1,4 +1,4 @@
 export { login } from "./login";
 export { logout } from "./logout";
 export { register } from "./register";
-export { subscribeToMailingList } from "./subscribe";
+export { subscribeToMailingList } from "./email";
