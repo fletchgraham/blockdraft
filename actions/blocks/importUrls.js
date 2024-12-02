@@ -79,5 +79,5 @@ export const importUrls = async (prevState, formData) => {
 
   const blocksCollection = await getCollection("blocks");
   await blocksCollection.insertMany(blocks);
-  return redirect("/");
+  return redirect("/edit");
 };
