@@ -16,6 +16,7 @@
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",
     "@hello-pangea/dnd": "^17.0.0",
+    "@heroicons/react": "^2.2.0",
     "@stripe/stripe-js": "^5.2.0",
     "bcrypt": "^5.1.1",
     "card3d": "^2.6.5",
