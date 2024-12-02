@@ -1,4 +1,4 @@
-import FeedbackBtn from "@/components/FeedbackBtn";
+import FeedbackModal from "@/components/FeedbackModal";
 import Sidebar from "@/components/SideBar";
 
 export const metadata = {
@@ -10,7 +10,7 @@ export default function Layout({ children }) {
   return (
     <Sidebar>
       <main className="w-full">{children}</main>
-      <FeedbackBtn />
+      <FeedbackModal />
     </Sidebar>
   );
 }
