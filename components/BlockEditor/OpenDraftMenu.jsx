@@ -29,7 +29,7 @@ export default function OpenDraftMenu({ drafts, onOpenDraft }) {
               if (details) details.removeAttribute("open"); // Close dropdown
             }}
           >
-            <DocumentPlusIcon className="size-4" />
+            <DocumentPlusIcon className="size-5" />
             New Draft
           </Link>
         </li>
