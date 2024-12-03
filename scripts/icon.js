@@ -65,7 +65,7 @@ export default function ${iconName}(props) {
     ? fs.readFileSync(indexFilePath, "utf8")
     : "";
 
-  const exportLine = `import ${iconName} from "./${iconName}";`;
+  const exportLine = `\n\n// ${iconName}\nimport ${iconName} from "./${iconName}";`;
   const exportStatement = `export { ${iconName} };`;
 
   const newIndexContent = `${indexContent.trim()}\n${exportLine}\n${exportStatement}\n`;
