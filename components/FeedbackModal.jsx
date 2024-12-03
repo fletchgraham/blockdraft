@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { getSession } from "next-auth/react"; // Import auth.js session management
 import { sendFeedback } from "@/actions/user"; // Adjust the path if necessary
+import { ChatBubbleLeftEllipsisIcon } from "@/components/icons";
 
 export default function FeedbackModal() {
   const [feedbackText, setFeedbackText] = useState("");
@@ -35,10 +36,11 @@ export default function FeedbackModal() {
   return (
     <>
       <button
-        className="btn btn-secondary fixed bottom-0 right-0 p-4 m-6 z-10 shadow-lg"
+        className="btn btn-secondary fixed bottom-0 right-0 m-6 z-10 shadow-lg"
         onClick={() => document.getElementById("feedback-modal").showModal()}
       >
-        Give Feedback
+        <ChatBubbleLeftEllipsisIcon />
+        Feedback
       </button>
       <dialog id="feedback-modal" className="modal">
         <form

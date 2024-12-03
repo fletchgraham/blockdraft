@@ -17,3 +17,7 @@ export { PencilSquareIcon };
 // ArrowRightCircleIcon
 import ArrowRightCircleIcon from "./ArrowRightCircleIcon";
 export { ArrowRightCircleIcon };
+
+// ChatBubbleLeftEllipsisIcon
+import ChatBubbleLeftEllipsisIcon from "./ChatBubbleLeftEllipsisIcon";
+export { ChatBubbleLeftEllipsisIcon };
