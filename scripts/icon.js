@@ -34,17 +34,11 @@ function prompt(question) {
     }
 
     // Replace any existing `class` or `className` attributes with `{props.className}`
-    svgJSX = svgJSX.replace(
-      /class(Name)?="[^"]*"/,
-      "className={props.className}"
-    );
+    svgJSX = svgJSX.replace(/class(Name)?="[^"]*"/, "className={className}");
 
-    if (!svgJSX.includes("className={props.className}")) {
+    if (!svgJSX.includes("className={className}")) {
       // Ensure the className is added if not already present
-      svgJSX = svgJSX.replace(
-        /<svg([^>]*)>/,
-        "<svg$1 className={props.className}>"
-      );
+      svgJSX = svgJSX.replace(/<svg([^>]*)>/, "<svg$1 className={className}>");
     }
   } catch (error) {
     console.error(
@@ -66,7 +60,7 @@ function prompt(question) {
 
   // Write the component file
   const componentCode = `
-export default function ${iconName}(props) {
+export default function ${iconName}({className="size-5"}) {
   return (
     ${svgJSX.trim()}
   );
