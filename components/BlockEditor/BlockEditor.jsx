@@ -187,6 +187,9 @@ export default function BlockEditor() {
     );
   };
 
+  const blockListButtonClasses =
+    "btn btn-ghost rounded-box shadow w-full mb-2 bg-base-100";
+
   return (
     <div className="flex flex-col">
       <Header title="Draft Editor">
@@ -217,10 +220,7 @@ export default function BlockEditor() {
         {activeTab === "inbox" && (
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full p-4">
-              <Link
-                href="/import-urls"
-                className="btn btn-ghost rounded-box shadow w-full mb-2"
-              >
+              <Link href="/import-urls" className={blockListButtonClasses}>
                 + Import
               </Link>
               <BlockList
@@ -238,7 +238,7 @@ export default function BlockEditor() {
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full p-4">
               <button
-                className="btn btn-ghost rounded-box shadow w-full mb-2"
+                className={blockListButtonClasses}
                 onClick={() =>
                   document.getElementById("add-block-modal-id").showModal()
                 }
@@ -263,10 +263,7 @@ export default function BlockEditor() {
         <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
             <h2 className="text-center font-bold mb-2">Inbox</h2>
-            <Link
-              href="/import-urls"
-              className="btn btn-ghost rounded-box shadow w-full mb-2"
-            >
+            <Link href="/import-urls" className={blockListButtonClasses}>
               + Import
             </Link>
             <BlockList
@@ -283,7 +280,7 @@ export default function BlockEditor() {
             <div className="w-1/2 flex flex-col h-full relative">
               <h2 className="text-center font-bold mb-2">{draft.name}</h2>
               <button
-                className="btn btn-ghost rounded-box shadow w-full mb-2"
+                className={blockListButtonClasses}
                 onClick={() =>
                   document.getElementById("add-block-modal-id").showModal()
                 }

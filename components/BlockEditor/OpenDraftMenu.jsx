@@ -5,7 +5,7 @@ export default function OpenDraftMenu({ drafts, onOpenDraft }) {
   return (
     <details className="dropdown dropdown-end">
       <summary className="btn">Open Draft</summary>
-      <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow border">
+      <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow-lg">
         {drafts.map((draft) => (
           <li key={draft._id}>
             <a

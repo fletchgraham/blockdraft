@@ -18,7 +18,7 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
   }
 
   return (
-    <div className="card card-compact bg-base-100 w-full sm:w-60 shadow-md border">
+    <div className="card card-compact bg-base-100 w-full sm:w-60 shadow-md">
       <figure className="h-40 overflow-hidden">
         <img
           src={thumbnailUrl}

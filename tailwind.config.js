@@ -1,5 +1,3 @@
-import theme from "daisyui/src/theming/themes";
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -29,7 +27,7 @@ module.exports = {
     },
   },
   daisyui: {
-    themes: ["cmyk"],
+    themes: ["dark", "light"],
   },
   plugins: [require("daisyui")],
 };
