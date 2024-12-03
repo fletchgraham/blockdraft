@@ -28,8 +28,23 @@ function prompt(question) {
   let svgJSX;
   try {
     svgJSX = clipboardy.default.readSync();
+
     if (!svgJSX || !svgJSX.trim().startsWith("<svg")) {
       throw new Error("Clipboard does not contain valid SVG JSX.");
+    }
+
+    // Replace any existing `class` or `className` attributes with `{props.className}`
+    svgJSX = svgJSX.replace(
+      /class(Name)?="[^"]*"/,
+      "className={props.className}"
+    );
+
+    if (!svgJSX.includes("className={props.className}")) {
+      // Ensure the className is added if not already present
+      svgJSX = svgJSX.replace(
+        /<svg([^>]*)>/,
+        "<svg$1 className={props.className}>"
+      );
     }
   } catch (error) {
     console.error(
@@ -65,7 +80,7 @@ export default function ${iconName}(props) {
     ? fs.readFileSync(indexFilePath, "utf8")
     : "";
 
-  const exportLine = `\n\n// ${iconName}\nimport ${iconName} from "./${iconName}";`;
+  const exportLine = `\n// ${iconName}\nimport ${iconName} from "./${iconName}";`;
   const exportStatement = `export { ${iconName} };`;
 
   const newIndexContent = `${indexContent.trim()}\n${exportLine}\n${exportStatement}\n`;
