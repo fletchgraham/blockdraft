@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "icon": "node scripts/icon.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "bcrypt": "^5.1.1",
     "card3d": "^2.6.5",
     "cheerio": "^1.0.0",
+    "clipboardy": "^4.0.0",
     "daisyui": "^4.4.19",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.294.0",
