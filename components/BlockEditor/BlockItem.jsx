@@ -2,6 +2,12 @@
 
 import { Draggable } from "@hello-pangea/dnd";
 import AreYouSureModal from "@/components/AreYouSureModal";
+import {
+  TrashIcon,
+  ArrowLeftCircleIcon,
+  ArrowRightCircleIcon,
+} from "@/components/icons";
+import { PencilSquareIcon } from "@/components/icons";
 
 export default function BlockItem({
   block,
@@ -19,7 +25,7 @@ export default function BlockItem({
           <li
             ref={provided.innerRef}
             {...provided.draggableProps} // Apply draggableProps to the entire list item
-            className="flex items-center shadow bg-base-100 rounded-box mb-2 group"
+            className="flex items-center shadow bg-base-100 border rounded-box mb-2 group"
           >
             <div
               {...provided.dragHandleProps}
@@ -61,7 +67,7 @@ export default function BlockItem({
               </summary>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow border"
               >
                 <li>
                   <button
@@ -69,11 +75,20 @@ export default function BlockItem({
                       onBlockMove(block, block.draftId ? "inbox" : "draft")
                     }
                   >
+                    {/* arrow left or right depending */}
+                    {block.draftId ? (
+                      <ArrowLeftCircleIcon />
+                    ) : (
+                      <ArrowRightCircleIcon />
+                    )}
                     Move to {block.draftId ? "Inbox" : "Draft"}
                   </button>
                 </li>
                 <li>
-                  <button onClick={() => onEditBlock(block)}>Edit</button>
+                  <button onClick={() => onEditBlock(block)}>
+                    <PencilSquareIcon />
+                    Edit
+                  </button>
                 </li>
                 <li>
                   <button
@@ -81,6 +96,7 @@ export default function BlockItem({
                       document.getElementById(deleteModalId).showModal()
                     }
                   >
+                    <TrashIcon />
                     Delete
                   </button>
                 </li>
