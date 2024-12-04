@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { FiTrash2, FiCopy } from "react-icons/fi";
 import DeleteDraftModal from "./DeleteDraftModal";
 import DuplicateDraftModal from "./DuplicateDraftModal";
+import { TrashIcon, DocumentDuplicateIcon } from "@/components/icons";
 
 export default function DraftCard({ draft, onDelete, onDuplicate }) {
   let thumbnailUrl = "https://via.placeholder.com/150";
@@ -45,7 +45,7 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
                 .showModal()
             }
           >
-            <FiCopy />
+            <DocumentDuplicateIcon className="size-6" />
           </button>
           <button
             className="btn btn-ghost text-xl text-red-500"
@@ -53,7 +53,7 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
               document.getElementById(`delete-modal-${draft._id}`).showModal()
             }
           >
-            <FiTrash2 />
+            <TrashIcon className="size-6" />
           </button>
         </div>
         <DeleteDraftModal draft={draft} onDelete={onDelete} />

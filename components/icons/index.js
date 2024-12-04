@@ -21,3 +21,7 @@ export { ArrowRightCircleIcon };
 // ChatBubbleLeftEllipsisIcon
 import ChatBubbleLeftEllipsisIcon from "./ChatBubbleLeftEllipsisIcon";
 export { ChatBubbleLeftEllipsisIcon };
+
+// DocumentDuplicateIcon
+import DocumentDuplicateIcon from "./DocumentDuplicateIcon";
+export { DocumentDuplicateIcon };
