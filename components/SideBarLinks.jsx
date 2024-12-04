@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { logout } from "@/actions/user";
+// import ManageSubscriptionButton from "./ManageSubscriptionButton";
 
 export default function SideBarLinks({ sessionExists }) {
   return (
@@ -95,6 +96,9 @@ export default function SideBarLinks({ sessionExists }) {
               Drafts
             </Link>
           </li>
+          {/* <li>
+            <ManageSubscriptionButton />
+          </li> */}
           <li className="mt-10">
             <a href="#" onClick={logout} className="font-semibold">
               <svg
