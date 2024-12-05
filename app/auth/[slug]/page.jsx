@@ -7,12 +7,16 @@ import { GitHubLogo, GoogleLogo } from "@/components/Logos";
 import { redirect } from "next/navigation";
 import React from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export default function AuthPage({ params }) {
   const { slug } = React.use(params);
   const isRegistering = slug === "register"; // Check if registering
+
+  const searchParams = useSearchParams(); // Extract query parameters
+  const registered = searchParams.get("registered") === "true";
+
   const [error, setError] = useState(""); // Generic error state
-  const [successMessage, setSuccessMessage] = useState(""); // Registration success state
 
   const handleSignIn = async (provider) => {
     await signIn(provider, { redirectTo: "/edit" });
@@ -38,7 +42,6 @@ export default function AuthPage({ params }) {
 
   const handleRegister = async (formData) => {
     setError(""); // Clear previous errors
-    setSuccessMessage(""); // Clear success messages
 
     const response = await register(null, formData);
     if (response.errors) {
@@ -46,8 +49,7 @@ export default function AuthPage({ params }) {
         Object.values(response.errors).join(", ") || "Registration failed."
       );
     } else if (response.success) {
-      setSuccessMessage("Registration successful! Please log in.");
-      setIsRegistering(false); // Switch to login view
+      redirect("/auth/login?registered=true"); // Redirect to login
     } else {
       setError("Registration failed. Please try again.");
     }
@@ -65,6 +67,15 @@ export default function AuthPage({ params }) {
               ? "Sign up to access your account."
               : "Log in to your account."}
           </p>
+
+          {registered && !isRegistering && (
+            <div
+              role="alert"
+              className="alert mb-3 alert-success text-sm text-center"
+            >
+              Registration successful! Please log in.
+            </div>
+          )}
 
           {/* Provider Buttons */}
           <div className="w-full">
@@ -140,11 +151,6 @@ export default function AuthPage({ params }) {
             {error && (
               <div role="alert" className="alert mb-3 alert-warning text-sm">
                 {error}
-              </div>
-            )}
-            {successMessage && (
-              <div role="alert" className="alert mb-3 alert-success text-sm">
-                {successMessage}
               </div>
             )}
             <button className="btn btn-primary w-full">
