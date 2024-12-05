@@ -6,6 +6,9 @@ import { getCollection } from "./lib/db";
 import bcrypt from "bcryptjs";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+// note the other providers live in auth.config.ts
+// see https://authjs.dev/guides/edge-compatibility
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(client),
   callbacks: {
