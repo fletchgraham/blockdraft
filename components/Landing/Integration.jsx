@@ -7,6 +7,7 @@ import kitImage from "@/assets/logo/kit.svg";
 import linkedinImage from "@/assets/logo/linkedin.png";
 
 import Image from "next/image";
+import Link from "next/link";
 
 import { Button } from "react-daisyui";
 
@@ -38,14 +39,9 @@ export const Integration = () => {
               </p>
 
               <div className="mt-8 flex justify-center lg:justify-start">
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    document.getElementById("subscribe_modal").showModal();
-                  }}
-                >
+                <Link href="/auth/register" className="btn btn-primary">
                   Quick Connect
-                </Button>
+                </Link>
               </div>
             </div>
 

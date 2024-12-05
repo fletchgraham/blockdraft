@@ -1,6 +1,7 @@
 "use client";
 import { Badge, Button, Card, Indicator, Tabs } from "react-daisyui";
 import { useState } from "react";
+import Link from "next/link";
 
 export const Pricing = () => {
   const [pricingDuration, setPricingDuration] = useState("yearly");
@@ -76,17 +77,12 @@ export const Pricing = () => {
                     </li>
                   </ul>
                 </div>
-                <Button
-                  variant="outline"
-                  color="primary"
-                  fullWidth
-                  className="mt-auto"
-                  onClick={() => {
-                    document.getElementById("subscribe_modal").showModal();
-                  }}
+                <Link
+                  href="/auth/register"
+                  className="btn btn-primary btn-outline btn-block mt-auto"
                 >
                   Start for Free
-                </Button>
+                </Link>
               </Card.Body>
             </Card>
 
@@ -131,16 +127,12 @@ export const Pricing = () => {
                     </li>
                   </ul>
                 </div>
-                <Button
-                  color="primary"
-                  fullWidth
-                  className="mt-auto"
-                  onClick={() => {
-                    document.getElementById("subscribe_modal").showModal();
-                  }}
+                <Link
+                  href="/auth/register"
+                  className="btn btn-primary btn-block mt-auto"
                 >
-                  Upgrade to Pro
-                </Button>
+                  Get Pro Access
+                </Link>
               </Card.Body>
             </Card>
 
@@ -182,17 +174,12 @@ export const Pricing = () => {
                     </li>
                   </ul>
                 </div>
-                <Button
-                  variant="outline"
-                  color="primary"
-                  fullWidth
-                  className="mt-auto"
-                  onClick={() => {
-                    document.getElementById("subscribe_modal").showModal();
-                  }}
+                <Link
+                  href="/auth/register"
+                  className="btn btn-primary btn-outline btn-block mt-auto"
                 >
                   Get Ultimate Access
-                </Button>
+                </Link>
               </Card.Body>
             </Card>
           </div>
