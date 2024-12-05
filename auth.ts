@@ -33,20 +33,23 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "Username" },
+        username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const { username, password } = credentials;
-
         const userCollection = await getCollection("users");
-        const user = await userCollection.findOne({ username });
+        const user = await userCollection.findOne({
+          username: credentials.username,
+        });
 
         if (!user) {
-          throw new Error("Invalid username or password");
+          throw new Error("User not found");
         }
 
-        const isPasswordValid = bcrypt.compareSync(password, user.password);
+        const isPasswordValid = bcrypt.compareSync(
+          credentials.password,
+          user.password
+        );
         if (!isPasswordValid) {
           throw new Error("Invalid username or password");
         }

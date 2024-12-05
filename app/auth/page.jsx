@@ -2,19 +2,51 @@
 
 import { signIn } from "next-auth/react";
 import { useState } from "react";
-import { useActionState } from "react";
+import { register } from "@/actions/user";
 import { GitHubLogo, GoogleLogo } from "@/components/Logos";
-import { register, login } from "@/actions/user";
 
 export default function AuthPage() {
   const [isRegistering, setIsRegistering] = useState(false);
-
-  // Use Action States for login and registration
-  const [registerState, registerFormAction] = useActionState(register, {});
-  const [loginState, loginFormAction] = useActionState(login, {});
+  const [error, setError] = useState(""); // Generic error state
+  const [successMessage, setSuccessMessage] = useState(""); // Registration success state
 
   const handleSignIn = async (provider) => {
     await signIn(provider);
+  };
+
+  const handleLogin = async (formData) => {
+    setError(""); // Clear previous errors
+    const username = formData.get("username");
+    const password = formData.get("password");
+
+    const result = await signIn("credentials", {
+      redirect: false, // Prevent automatic redirect
+      username,
+      password,
+    });
+
+    if (!result.ok) {
+      setError("Invalid username or password.");
+    } else {
+      window.location.href = "/"; // Redirect on successful login
+    }
+  };
+
+  const handleRegister = async (formData) => {
+    setError(""); // Clear previous errors
+    setSuccessMessage(""); // Clear success messages
+
+    const response = await register(null, formData);
+    if (response.errors) {
+      setError(
+        Object.values(response.errors).join(", ") || "Registration failed."
+      );
+    } else if (response.success) {
+      setSuccessMessage("Registration successful! Please log in.");
+      setIsRegistering(false); // Switch to login view
+    } else {
+      setError("Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -50,9 +82,17 @@ export default function AuthPage() {
 
           <p className="text-center mb-4">or</p>
 
-          {/* Form for Login or Registration */}
+          {/* Dynamic Form */}
           <form
-            action={isRegistering ? registerFormAction : loginFormAction}
+            onSubmit={(e) => {
+              e.preventDefault();
+              const formData = new FormData(e.target);
+              if (isRegistering) {
+                handleRegister(formData); // Handle registration
+              } else {
+                handleLogin(formData); // Handle login
+              }
+            }}
             className="w-full"
           >
             <label className="input input-bordered flex items-center gap-2 mb-3">
@@ -72,30 +112,6 @@ export default function AuthPage() {
                 placeholder="Username"
               />
             </label>
-            {(isRegistering
-              ? registerState.errors?.username
-              : loginState.errors?.username) && (
-              <div role="alert" className="alert mb-3 alert-warning">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  />
-                </svg>
-                <span>
-                  {isRegistering
-                    ? registerState.errors.username
-                    : loginState.errors.username}
-                </span>
-              </div>
-            )}
             <label className="input input-bordered flex items-center gap-2 mb-3">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -117,28 +133,14 @@ export default function AuthPage() {
                 placeholder="Password"
               />
             </label>
-            {(isRegistering
-              ? registerState.errors?.password
-              : loginState.errors?.password) && (
-              <div role="alert" className="alert mb-3 alert-warning">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 shrink-0 stroke-current"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                  />
-                </svg>
-                <span>
-                  {isRegistering
-                    ? registerState.errors.password
-                    : loginState.errors.password}
-                </span>
+            {error && (
+              <div role="alert" className="alert mb-3 alert-warning text-sm">
+                {error}
+              </div>
+            )}
+            {successMessage && (
+              <div role="alert" className="alert mb-3 alert-success text-sm">
+                {successMessage}
               </div>
             )}
             <button className="btn btn-primary w-full">
