@@ -123,7 +123,7 @@ export default function SideBarLinks({ sessionExists }) {
       {!sessionExists && (
         <li>
           <Link
-            href="/login"
+            href="/auth"
             onClick={() =>
               (document.getElementById("my-drawer-2").checked = false)
             }
