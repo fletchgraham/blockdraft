@@ -12,7 +12,8 @@ export const createDraft = async (prevState, formData) => {
   if (!user) {
     return redirect("/");
   }
-  const errors = {};
+
+  let error;
 
   const draft = {
     name: formData.get("draftName"),
@@ -20,17 +21,18 @@ export const createDraft = async (prevState, formData) => {
     createdAt: new Date(),
   };
 
-  if (isShorterThan(draft.name, 3)) {
-    errors.draftName = "Draft name must be at least 3 characters";
-  }
-
-  if (isLongerThan(draft.name, 40)) {
-    errors.draftName = "Draft name must be at most 40 characters";
-  }
-
-  if (errors.draftName) {
+  if (await isShorterThan(draft.name, 3)) {
+    error = "Draft name must be at least 3 characters";
     return {
-      errors: errors,
+      error,
+      success: false,
+    };
+  }
+
+  if (await isLongerThan(draft.name, 40)) {
+    error = "Draft name must be at most 40 characters";
+    return {
+      error,
       success: false,
     };
   }

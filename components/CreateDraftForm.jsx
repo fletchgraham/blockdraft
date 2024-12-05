@@ -14,7 +14,7 @@ export default function CreateDraftForm() {
         className="input input-bordered w-full"
       />
 
-      <p className="text-red-500">{state}</p>
+      <p className="text-red-500">{state.error}</p>
 
       <div className="text-center">
         <button className="btn btn-primary mt-5">Create Draft</button>
