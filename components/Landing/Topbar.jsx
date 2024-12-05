@@ -2,6 +2,7 @@
 import { Button, Drawer, Menu, Navbar } from "react-daisyui";
 import { Menu as MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export const Topbar = () => {
   const [drawerOpened, setDrawerOpened] = useState(false);
@@ -100,24 +101,12 @@ export const Topbar = () => {
             </Navbar.Center>
 
             <Navbar.End className="gap-3">
-              <Button
-                size="sm"
-                color="ghost"
-                onClick={() => {
-                  document.getElementById("subscribe_modal").showModal();
-                }}
-              >
+              <Link href="/auth" className="btn btn-ghost btn-sm">
                 Register
-              </Button>
-              <Button
-                size="sm"
-                color="primary"
-                onClick={() => {
-                  document.getElementById("subscribe_modal").showModal();
-                }}
-              >
+              </Link>
+              <Link href="/auth" className="btn btn-primary btn-sm">
                 Login
-              </Button>
+              </Link>
             </Navbar.End>
           </Navbar>
         </div>

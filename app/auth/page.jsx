@@ -4,6 +4,7 @@ import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { register } from "@/actions/user";
 import { GitHubLogo, GoogleLogo } from "@/components/Logos";
+import { redirect } from "next/navigation";
 
 export default function AuthPage() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -11,7 +12,7 @@ export default function AuthPage() {
   const [successMessage, setSuccessMessage] = useState(""); // Registration success state
 
   const handleSignIn = async (provider) => {
-    await signIn(provider);
+    await signIn(provider, { redirectTo: "/edit" });
   };
 
   const handleLogin = async (formData) => {
@@ -28,7 +29,7 @@ export default function AuthPage() {
     if (!result.ok) {
       setError("Invalid username or password.");
     } else {
-      window.location.href = "/"; // Redirect on successful login
+      redirect("/edit");
     }
   };
 
