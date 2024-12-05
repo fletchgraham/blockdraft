@@ -6,25 +6,20 @@ import bcrypt from "bcryptjs";
 export const register = async (prevState, formData) => {
   const errors = {};
 
-  const username = formData.get("username");
+  const email = formData.get("email");
   const password = formData.get("password");
 
-  // Validate username
-  if (!/^[a-zA-Z0-9]+$/.test(username)) {
-    errors.username = "Username must be alphanumeric";
-  }
-  if (username.length < 3) {
-    errors.username = "Username must be at least 3 characters";
-  }
-  if (username.length > 20) {
-    errors.username = "Username must be at most 20 characters";
+  // Validate email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    errors.email = "Invalid email format";
   }
 
-  // Check if the username is already taken
+  // Check if the email is already taken
   const userCollection = await getCollection("users");
-  const existingUser = await userCollection.findOne({ username });
+  const existingUser = await userCollection.findOne({ email });
   if (existingUser) {
-    errors.username = "Username is already taken";
+    errors.email = "Email is already taken";
   }
 
   // Validate password
@@ -41,7 +36,7 @@ export const register = async (prevState, formData) => {
 
   // Hash password and save user to database
   const hashedPassword = bcrypt.hashSync(password, 10);
-  await userCollection.insertOne({ username, password: hashedPassword });
+  await userCollection.insertOne({ email, password: hashedPassword });
 
   return { success: true };
 };

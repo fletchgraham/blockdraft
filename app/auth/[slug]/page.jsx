@@ -20,17 +20,17 @@ export default function AuthPage({ params }) {
 
   const handleLogin = async (formData) => {
     setError(""); // Clear previous errors
-    const username = formData.get("username");
+    const email = formData.get("email");
     const password = formData.get("password");
 
     const result = await signIn("credentials", {
       redirect: false, // Prevent automatic redirect
-      username,
+      email,
       password,
     });
 
     if (!result.ok) {
-      setError("Invalid username or password.");
+      setError("Invalid email or password.");
     } else {
       redirect("/edit");
     }
@@ -110,10 +110,10 @@ export default function AuthPage({ params }) {
               </svg>
               <input
                 autoComplete="off"
-                name="username"
-                type="text"
+                name="email"
+                type="email"
                 className="grow"
-                placeholder="Username"
+                placeholder="Email"
               />
             </label>
             <label className="input input-bordered flex items-center gap-2 mb-3">

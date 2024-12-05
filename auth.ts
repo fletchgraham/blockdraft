@@ -31,19 +31,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     ...authConfig.providers,
     CredentialsProvider({
-      name: "Credentials",
+      name: "Email",
       credentials: {
-        username: { label: "Username", type: "text" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const userCollection = await getCollection("users");
         const user = await userCollection.findOne({
-          username: credentials.username,
+          email: credentials.email,
         });
 
         if (!user) {
-          throw new Error("User not found");
+          throw new Error("Email not found");
         }
 
         const isPasswordValid = bcrypt.compareSync(
@@ -51,10 +51,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           user.password
         );
         if (!isPasswordValid) {
-          throw new Error("Invalid username or password");
+          throw new Error("Invalid email or password");
         }
 
-        return { id: user._id.toString(), username: user.username };
+        return { id: user._id.toString(), email: user.email };
       },
     }),
   ],
