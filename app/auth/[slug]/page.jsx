@@ -5,9 +5,12 @@ import { useState } from "react";
 import { register } from "@/actions/user";
 import { GitHubLogo, GoogleLogo } from "@/components/Logos";
 import { redirect } from "next/navigation";
+import React from "react";
+import Link from "next/link";
 
-export default function AuthPage() {
-  const [isRegistering, setIsRegistering] = useState(false);
+export default function AuthPage({ params }) {
+  const { slug } = React.use(params);
+  const isRegistering = slug === "register"; // Check if registering
   const [error, setError] = useState(""); // Generic error state
   const [successMessage, setSuccessMessage] = useState(""); // Registration success state
 
@@ -151,14 +154,15 @@ export default function AuthPage() {
 
           {/* Toggle Button */}
           <div className="card-actions justify-center mt-4">
-            <button
-              onClick={() => setIsRegistering(!isRegistering)}
-              className="btn btn-link"
-            >
-              {isRegistering
-                ? "Already have an account? Sign In"
-                : "Need an account? Register"}
-            </button>
+            {isRegistering ? (
+              <Link className="btn btn-link" href="/auth/login">
+                Already have an account? Sign In
+              </Link>
+            ) : (
+              <Link className="btn btn-link" href="/auth/register">
+                Need an Account? Sign Up
+              </Link>
+            )}
           </div>
         </div>
       </div>

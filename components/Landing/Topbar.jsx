@@ -10,7 +10,7 @@ export const Topbar = () => {
 
   useEffect(() => {
     const onWindowScroll = () => {
-      setAtTop(window.pageYOffset < 30);
+      setAtTop(window.scrollY < 30);
     };
     window.addEventListener("scroll", onWindowScroll);
     onWindowScroll();
@@ -101,10 +101,10 @@ export const Topbar = () => {
             </Navbar.Center>
 
             <Navbar.End className="gap-3">
-              <Link href="/auth" className="btn btn-ghost btn-sm">
+              <Link href="/auth/register" className="btn btn-ghost btn-sm">
                 Register
               </Link>
-              <Link href="/auth" className="btn btn-primary btn-sm">
+              <Link href="/auth/login" className="btn btn-primary btn-sm">
                 Login
               </Link>
             </Navbar.End>
