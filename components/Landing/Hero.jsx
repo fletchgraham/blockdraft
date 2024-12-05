@@ -8,6 +8,7 @@ import paypalImage from "@/assets/logo/paypal.svg";
 import { Button } from "react-daisyui";
 import { useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export const Hero = () => {
   const heroImageRef = useRef(null);
@@ -55,22 +56,9 @@ export const Hero = () => {
               audience.
             </p>
             <div className="mt-16 inline-flex gap-3">
-              <Button
-                color="primary"
-                onClick={() => {
-                  document.getElementById("subscribe_modal").showModal();
-                }}
-              >
-                Get Started
-              </Button>
-              <Button
-                color="ghost"
-                onClick={() => {
-                  document.getElementById("subscribe_modal").showModal();
-                }}
-              >
-                Learn More
-              </Button>
+              <Link href="/auth/register" className="btn btn-secondary btn-lg">
+                Get Started for Free
+              </Link>
             </div>
           </div>
 
