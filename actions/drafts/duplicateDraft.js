@@ -25,11 +25,11 @@ export async function duplicateDraft(draftId, newDraftName) {
     throw new Error("Invalid draft name provided.");
   }
 
-  if (isShorterThan(newDraftName, 3)) {
+  if (await isShorterThan(newDraftName, 3)) {
     throw new Error("Draft name must be at least 3 characters");
   }
 
-  if (isLongerThan(newDraftName, 40)) {
+  if (await isLongerThan(newDraftName, 40)) {
     throw new Error("Draft name must be at most 40 characters");
   }
 
