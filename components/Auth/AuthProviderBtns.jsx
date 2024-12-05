@@ -1,33 +1,29 @@
-import { signIn } from "@/auth";
+"use client";
+
+import { signIn } from "next-auth/react";
 import { GitHubLogo, GoogleLogo } from "@/components/Logos";
 
 export default function AuthProviderBtns() {
+  const handleSignIn = async (provider) => {
+    await signIn(provider);
+  };
+
   return (
     <>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("google");
-        }}
-        className="w-full mb-4"
+      <button
+        onClick={() => handleSignIn("google")}
+        className="btn w-full mb-4"
       >
-        <button className="btn w-full" type="submit">
-          <GoogleLogo />
-          Continue with Google
-        </button>
-      </form>
-      <form
-        action={async () => {
-          "use server";
-          await signIn("github");
-        }}
-        className="w-full mb-4"
+        <GoogleLogo />
+        Continue with Google
+      </button>
+      <button
+        onClick={() => handleSignIn("github")}
+        className="btn w-full mb-4"
       >
-        <button className="btn w-full" type="submit">
-          <GitHubLogo />
-          Continue with Github
-        </button>
-      </form>
+        <GitHubLogo />
+        Continue with GitHub
+      </button>
     </>
   );
 }

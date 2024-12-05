@@ -15,15 +15,15 @@ export const register = async (prevState, formData) => {
   };
 
   // check the username and update the errors object
-  if (!isAlphaNumeric(ourUser.username)) {
+  if (!(await isAlphaNumeric(ourUser.username))) {
     errors.username = "Username must be alphanumeric";
   }
 
-  if (isShorterThan(ourUser.username, 3)) {
+  if (await isShorterThan(ourUser.username, 3)) {
     errors.username = "Username must be at least 3 characters";
   }
 
-  if (isLongerThan(ourUser.username, 20)) {
+  if (await isLongerThan(ourUser.username, 20)) {
     errors.username = "Username must be at most 20 characters";
   }
 
@@ -37,7 +37,7 @@ export const register = async (prevState, formData) => {
   }
 
   // check the password and update the errors object
-  if (isShorterThan(ourUser.password, 8)) {
+  if (await isShorterThan(ourUser.password, 8)) {
     errors.password = "Password must be at least 8 characters";
   }
 
