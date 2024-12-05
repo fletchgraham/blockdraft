@@ -1,7 +1,7 @@
 "use server";
 
 import { getCollection } from "@/lib/db";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import jwt from "jsonwebtoken";
 import { isAlphaNumeric, isLongerThan, isShorterThan } from "@/lib/validators";
@@ -48,7 +48,7 @@ export const register = async (prevState, formData) => {
     };
   }
 
-  // hash the password
+  // salt generation and password hashing
   const salt = bcrypt.genSaltSync(10);
   ourUser.password = bcrypt.hashSync(ourUser.password, salt);
 

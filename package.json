@@ -17,7 +17,7 @@
   "dependencies": {
     "@auth/mongodb-adapter": "^3.7.4",
     "@hello-pangea/dnd": "^17.0.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "card3d": "^2.6.5",
     "cheerio": "^1.0.0",
     "daisyui": "^4.4.19",
