@@ -27,7 +27,7 @@ export default function UsageIndicator() {
   const percentage = Math.min((currentUsage / limit) * 100, 100);
 
   return (
-    <div className="p-4 bg-base-100 border rounded-lg shadow-sm">
+    <div className="m-4">
       <h3 className="text-sm font-bold text-gray-700 mb-2">Usage</h3>
       {loading ? (
         <div className="text-sm text-gray-600 mb-2">Loading...</div>
@@ -37,7 +37,7 @@ export default function UsageIndicator() {
             {currentUsage} of {limit} blocks summarized
           </div>
           <progress
-            className="progress progress-primary w-56"
+            className="progress progress-primary"
             value={percentage}
             max="100"
           ></progress>
