@@ -28,13 +28,12 @@ export default function UsageIndicator() {
 
   return (
     <div className="m-4">
-      <h3 className="text-sm font-bold text-gray-700 mb-2">Usage</h3>
       {loading ? (
         <div className="text-sm text-gray-600 mb-2">Loading...</div>
       ) : (
         <>
           <div className="text-sm text-gray-600 mb-1">
-            {currentUsage} of {limit} blocks summarized
+            {currentUsage}/{limit} summaries used
           </div>
           <progress
             className="progress progress-primary"
