@@ -6,7 +6,7 @@ import { auth } from "@/auth";
 import AuthForm from "./AuthForm";
 import ProviderSignInButtons from "./ProviderSignInButtons";
 
-export default async function AuthPage({ params }) {
+export default async function AuthPage({ params, searchParams }) {
   const session = await auth();
 
   // Redirect if user is already authenticated
@@ -16,6 +16,7 @@ export default async function AuthPage({ params }) {
 
   const { slug } = params; // Extract slug from params
   const isRegistering = slug === "register"; // Check if registering
+  const { registered } = searchParams; // Check if registered
 
   return (
     <div className="flex justify-center items-center h-screen bg-base-200">
@@ -30,12 +31,21 @@ export default async function AuthPage({ params }) {
               : "Log in to your account."}
           </p>
 
-          {/* Provider Buttons */}
-          <div className="w-full">
-            <ProviderSignInButtons />
-          </div>
+          {/* Registration Success Message */}
+          {registered && (
+            <div className="alert alert-success mb-4">
+              Registration successful! Please log in.
+            </div>
+          )}
 
-          <p className="text-center mb-4">or</p>
+          {/* if registered, don't show provider buttons and "or"*/}
+          {!registered && (
+            <>
+              {/* Provider Sign In Buttons */}
+              <ProviderSignInButtons />
+              <div className="divider text-center">or</div>
+            </>
+          )}
 
           {/* Dynamic Form */}
           <AuthForm isRegistering={isRegistering} />
