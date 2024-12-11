@@ -44,7 +44,7 @@ export default async function DraftPage({ params }) {
     notFound();
   }
 
-  await summarizeBlocks(draftId);
+  await summarizeBlocks(user.userId, draftId);
 
   const blocks = await getBlocksForDraft(draftId);
 

@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import SideBarLinks from "./SideBarLinks";
+import UsageIndicator from "./UsageIndicator";
 
 export default async function Sidebar({ children }) {
   const session = await auth();
@@ -25,6 +26,7 @@ export default async function Sidebar({ children }) {
         <ul className="menu bg-base-100 border-r text-base-content min-h-full w-56 p-4">
           {/* Sidebar content here */}
           <SideBarLinks sessionExists={session} />
+          <UsageIndicator />
         </ul>
       </div>
     </div>
