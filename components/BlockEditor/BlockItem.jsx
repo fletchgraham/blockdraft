@@ -42,14 +42,24 @@ export default function BlockItem({
                 />
               )}
               <div className="flex-1">
-                <a
-                  href={block.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-semibold hover:underline"
-                >
-                  {block.title}
-                </a>
+                <div>
+                  <a
+                    href={block.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold hover:underline"
+                  >
+                    {block.title}
+                  </a>
+                </div>
+                {block.contentDate && (
+                  <time
+                    dateTime={block.contentDate}
+                    className="text-xs text-gray-500"
+                  >
+                    {new Date(block.contentDate).toLocaleDateString()}
+                  </time>
+                )}
               </div>
             </div>
             <details className="dropdown dropdown-end">
