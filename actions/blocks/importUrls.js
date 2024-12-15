@@ -7,6 +7,29 @@ import * as cheerio from "cheerio";
 import { auth } from "@/auth";
 import { getCollection } from "@/lib/db";
 
+const extractContentDate = ($) => {
+  const dateSelectors = [
+    "meta[property='article:published_time']", // Open Graph property
+    "meta[name='article:published_time']", // Some alternative formats
+    "meta[name='publish-date']",
+    "meta[name='pubdate']",
+    "time[datetime]",
+  ];
+
+  for (const selector of dateSelectors) {
+    const dateValue =
+      $(selector).attr("content") || $(selector).attr("datetime");
+    if (dateValue) {
+      const parsedDate = new Date(dateValue);
+      if (!isNaN(parsedDate.getTime())) {
+        return parsedDate;
+      }
+    }
+  }
+
+  return null;
+};
+
 const createBlockFromUrl = async (url) => {
   const block = {
     url: url,
@@ -28,6 +51,12 @@ const createBlockFromUrl = async (url) => {
     "";
 
   block.title = $("title").text() || "Untitled";
+
+  // Attempt to extract content date from the page
+  const extractedDate = extractContentDate($);
+  if (extractedDate) {
+    block.contentDate = extractedDate;
+  }
 
   return block;
 };
