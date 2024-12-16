@@ -169,8 +169,6 @@ async function handleSubscriptionDeleted(subscription: Stripe.Subscription): Pro
         const usageCollection = await getCollection('userUsage');
         
 
-        // Downgrade user to the "Free Trial" plan (or Basic free plan) and retain current usage data
-        const freePlanPriceId = process.env.STRIPE_MONTHLY_PRO; // Assuming you are downgrading to the basic free plan
         const freePlanLimit = 100; // Free plan limit
 
         // Update the limit and keep existing blocksSummarized data
@@ -221,8 +219,7 @@ async function handlePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
         const usageCollection = await getCollection('userUsage');
 
 
-        // Downgrade user to the "Free Trial" plan (or Basic free plan) and retain current usage data
-        const freePlanPriceId = process.env.STRIPE_MONTHLY_PRO; // Assuming you are downgrading to the basic free plan
+       
         const freePlanLimit = 100; // Free plan limit
 
         // Update the limit and keep existing blocksSummarized data

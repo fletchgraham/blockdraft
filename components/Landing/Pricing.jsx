@@ -1,7 +1,7 @@
 "use client";
 import { Badge, Button, Card, Indicator, Tabs } from "react-daisyui";
 import { useState } from "react";
-
+import toast from 'react-hot-toast';
 const plans = [
   {
     id: 1,
@@ -83,7 +83,8 @@ export const Pricing = ({ session }) => {
 
       const { url , message} = await response.json();
       if(message){
-        window.alert(message);
+        toast.error(message);
+        // window.alert(message);
         return;
       }
       if (url) {
