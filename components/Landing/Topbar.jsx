@@ -4,9 +4,17 @@ import { Menu as MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export const Topbar = () => {
+export const Topbar = ({session}) => {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const [atTop, setAtTop] = useState(true);
+  const [user,setUser]=useState(null);
+  console.log("USER", user);
+
+  useEffect(()=>{
+    if(session){
+      setUser(session.user)
+    }
+  },[session?.user])
 
   useEffect(() => {
     const onWindowScroll = () => {
@@ -101,12 +109,23 @@ export const Topbar = () => {
             </Navbar.Center>
 
             <Navbar.End className="gap-3">
-              <Link href="/auth/register" className="btn btn-ghost btn-sm">
+                {
+                  user ?
+                  <>
+                    <Link href="/edit" className="btn btn-ghost btn-sm">
+                      Dashboard
+                    </Link>
+                  </>:
+                  <>
+                     <Link href="/auth/register" className="btn btn-ghost btn-sm">
                 Register
               </Link>
               <Link href="/auth/login" className="btn btn-primary btn-sm">
                 Login
               </Link>
+                  </>
+                }
+             
             </Navbar.End>
           </Navbar>
         </div>

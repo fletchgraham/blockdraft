@@ -12,6 +12,7 @@ export default function UsageIndicator() {
     async function fetchUsageData() {
       try {
         const data = await getUserUsage(); // Server action for usage data
+        console.log({usesData: data});
         setCurrentUsage(data.currentUsage || 0);
         setLimit(data.limit || 100);
         setLoading(false);

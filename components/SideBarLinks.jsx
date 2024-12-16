@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { logout } from "@/actions/user";
+import { Button } from "react-daisyui";
 // import ManageSubscriptionButton from "./ManageSubscriptionButton";
 
 export default function SideBarLinks({ sessionExists }) {
@@ -96,9 +97,16 @@ export default function SideBarLinks({ sessionExists }) {
               Drafts
             </Link>
           </li>
-          {/* <li>
-            <ManageSubscriptionButton />
-          </li> */}
+          <li>
+            <Button onClick={async () => {
+              await fetch('/api/stripe/billing')
+                .then(res => res.json())
+                .then((data) => {
+                  console.log(data);
+                  window.location.href = data.url;
+                });
+            }}>Manage Plan</Button>
+          </li>
           <li className="mt-10">
             <a href="#" onClick={logout} className="font-semibold">
               <svg
@@ -117,6 +125,16 @@ export default function SideBarLinks({ sessionExists }) {
               </svg>
               Log Out
             </a>
+          </li>
+
+          {/* redirect to plan page */}
+          <li className="mt-10 font-semibold">
+            
+            <Link href='/#pricing'>
+                Upgrade
+            </Link>
+            
+           
           </li>
         </>
       )}

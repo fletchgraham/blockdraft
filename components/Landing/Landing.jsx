@@ -1,5 +1,3 @@
-"use client";
-
 import { Hero } from "./Hero.jsx";
 import { Feature } from "./Feature.jsx";
 import { Integration } from "./Integration.jsx";
@@ -8,15 +6,19 @@ import { Topbar } from "./Topbar.jsx";
 import { FAQ } from "./FAQ.jsx";
 import { Footer } from "./Footer.jsx";
 import SubscribeModal from "./SubscribeModal.jsx";
+import { auth } from "@/auth";
 
-export default function Landing() {
+export default async function Landing() {
+  const session = await auth();
+  
+
   return (
     <>
-      <Topbar />
+      <Topbar session={session} />
       <Hero />
       <Feature />
       <Integration />
-      <Pricing />
+      <Pricing session={session} />
       <FAQ />
       <Footer />
       <SubscribeModal />
