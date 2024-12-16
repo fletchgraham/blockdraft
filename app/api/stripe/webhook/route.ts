@@ -218,6 +218,26 @@ async function handlePaymentFailed(invoice: Stripe.Invoice): Promise<void> {
             throw new Error(`User not found for Stripe Customer ID: ${invoice.customer}`);
         }
 
+        const usageCollection = await getCollection('userUsage');
+
+
+        // Downgrade user to the "Free Trial" plan (or Basic free plan) and retain current usage data
+        const freePlanPriceId = process.env.STRIPE_MONTHLY_PRO; // Assuming you are downgrading to the basic free plan
+        const freePlanLimit = 100; // Free plan limit
+
+        // Update the limit and keep existing blocksSummarized data
+        const currentUsage = await usageCollection.findOne({ userId: user._id, });
+        if (currentUsage) {
+            await usageCollection.updateOne(
+                { userId: user._id },
+                {
+                    $set: {
+                        limit: freePlanLimit, // Downgrade to Free Plan limit
+                    },
+                }
+            );
+        }
+
         // Take necessary actions for payment failure (e.g., notify user, pause subscription)
     } catch (error) {
         console.error(`[Payment Failed] Error: ${error.message}`);
