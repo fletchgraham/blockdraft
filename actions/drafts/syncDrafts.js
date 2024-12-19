@@ -29,11 +29,18 @@ export async function syncDrafts(updatedDrafts) {
       }
     }
 
-    // Unset draftId and order for blocks not in any drafts
-    await blocksCollection.updateMany(
-      { _id: { $nin: blocksInDrafts } },
-      { $unset: { draftId: "", order: "" } }
-    );
+    // safeguard against moving all blocks to inbox
+    if (blocksInDrafts.length > 0) {
+      // Unset draftId and order for blocks not in any drafts
+      await blocksCollection.updateMany(
+        { _id: { $nin: blocksInDrafts } },
+        { $unset: { draftId: "", order: "" } }
+      );
+    } else {
+      console.warn(
+        "No blocks in drafts. Skipping updateMany operation to unset draftId."
+      );
+    }
 
     return { success: true };
   } catch (error) {

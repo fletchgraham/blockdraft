@@ -1,6 +1,5 @@
 node_modules/
 .next/
-.env
-.env.local
 .DS_Store
 project_structure.txt
+config.bat

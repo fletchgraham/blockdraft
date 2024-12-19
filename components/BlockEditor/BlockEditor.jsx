@@ -224,7 +224,9 @@ export default function BlockEditor() {
                 + Import
               </Link>
               <BlockList
-                blocks={inboxBlocks}
+                blocks={inboxBlocks.sort(
+                  (a, b) => b.contentDate - a.contentDate
+                )}
                 title="Inbox"
                 droppableId="inbox"
                 onDeleteBlock={handleDeleteBlock}
@@ -266,8 +268,9 @@ export default function BlockEditor() {
             <Link href="/import-urls" className={blockListButtonClasses}>
               + Import
             </Link>
+            {/* sort blocks by contentDate newest first */}
             <BlockList
-              blocks={inboxBlocks}
+              blocks={inboxBlocks.sort((a, b) => b.contentDate - a.contentDate)}
               title="Inbox"
               droppableId="inbox"
               onDeleteBlock={handleDeleteBlock}
