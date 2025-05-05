@@ -20,6 +20,28 @@ export const BlockMenu = ({
   onBlockMove,
   deleteModalId,
 }: BlockMenuProps) => {
+  const actions = [
+    {
+      label: `Move to ${block.draftId ? "Inbox" : "Draft"}`,
+      icon: block.draftId ? <ArrowLeftCircleIcon /> : <ArrowRightCircleIcon />,
+      onClick: () => onBlockMove(block, block.draftId ? "inbox" : "draft"),
+    },
+    {
+      label: "Edit",
+      icon: <PencilSquareIcon />,
+      onClick: () => onEditBlock(block),
+    },
+    {
+      label: "Delete",
+      icon: <TrashIcon />,
+      onClick: () => {
+        (
+          document.getElementById(deleteModalId) as HTMLDialogElement
+        ).showModal();
+      },
+    },
+  ];
+
   return (
     <details className="dropdown dropdown-end">
       <summary className="btn btn-link">
@@ -29,35 +51,14 @@ export const BlockMenu = ({
         tabIndex={0}
         className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow-lg"
       >
-        <li>
-          <button
-            onClick={() =>
-              onBlockMove(block, block.draftId ? "inbox" : "draft")
-            }
-          >
-            {/* arrow left or right depending */}
-            {block.draftId ? <ArrowLeftCircleIcon /> : <ArrowRightCircleIcon />}
-            Move to {block.draftId ? "Inbox" : "Draft"}
-          </button>
-        </li>
-        <li>
-          <button onClick={() => onEditBlock(block)}>
-            <PencilSquareIcon />
-            Edit
-          </button>
-        </li>
-        <li>
-          <button
-            onClick={() =>
-              (
-                document.getElementById(deleteModalId) as HTMLDialogElement
-              ).showModal()
-            }
-          >
-            <TrashIcon />
-            Delete
-          </button>
-        </li>
+        {actions.map((action, index) => (
+          <li key={index}>
+            <button onClick={action.onClick}>
+              {action.icon}
+              {action.label}
+            </button>
+          </li>
+        ))}
       </ul>
     </details>
   );
