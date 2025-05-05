@@ -38,7 +38,7 @@ export default function BlockEditor() {
   useEffect(() => {
     const fetchData = async () => {
       const [inboxBlocks, drafts] = await Promise.all([
-        getInboxBlocks(10),
+        getInboxBlocks(100),
         getDraftsWithBlocks(),
       ]);
       setInboxBlocks(inboxBlocks);
