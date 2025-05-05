@@ -53,6 +53,11 @@ export default function DraftsGrid() {
     }
   };
 
+  const handleArchive = async (draftId) => {
+    console.log("Archiving draft:", draftId);
+    // Implement the archive logic here
+  };
+
   return (
     <div className="p-4 mt-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 place-items-center">
@@ -62,6 +67,7 @@ export default function DraftsGrid() {
             draft={draft}
             onDelete={handleDelete}
             onDuplicate={handleDuplicate}
+            onArchive={handleArchive}
           />
         ))}
       </div>
