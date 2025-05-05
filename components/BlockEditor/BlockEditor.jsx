@@ -59,7 +59,7 @@ export default function BlockEditor() {
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      syncData(drafts, isChanged, setSyncStatus, setIsChanged);
+      syncData(drafts, inboxBlocks, isChanged, setSyncStatus, setIsChanged);
     }, 2000);
     return () => clearInterval(intervalId);
   }, [drafts, isChanged]);

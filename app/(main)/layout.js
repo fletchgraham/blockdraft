@@ -10,7 +10,7 @@ export default function Layout({ children }) {
   return (
     <Sidebar>
       <main className="w-full">{children}</main>
-      <FeedbackModal />
+      {/* <FeedbackModal /> */}
     </Sidebar>
   );
 }

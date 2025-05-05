@@ -3,11 +3,9 @@
 import { getCollection } from "@/lib/db";
 import { ObjectId } from "mongodb";
 
-export async function syncDrafts(updatedDrafts) {
+export async function syncDrafts(updatedDrafts, inboxBlocks) {
   const blocksCollection = await getCollection("blocks");
   console.log("UPDATING DRAFTS");
-
-  const blocksInDrafts = [];
 
   try {
     // Iterate through each draft and update blocks with draftId and order
@@ -25,20 +23,22 @@ export async function syncDrafts(updatedDrafts) {
             },
           }
         );
-        blocksInDrafts.push(mongoBlockId);
       }
     }
 
-    // safeguard against moving all blocks to inbox
-    if (blocksInDrafts.length > 0) {
-      // Unset draftId and order for blocks not in any drafts
-      await blocksCollection.updateMany(
-        { _id: { $nin: blocksInDrafts } },
-        { $unset: { draftId: "", order: "" } }
-      );
-    } else {
-      console.warn(
-        "No blocks in drafts. Skipping updateMany operation to unset draftId."
+    // Iterate through each block in the inboxBlocks and update the draftId to null and order to null
+    for (const block of inboxBlocks) {
+      const mongoBlockId = ObjectId.createFromHexString(block._id);
+
+      // Update the draftId and order for each block in the inboxBlocks
+      await blocksCollection.updateOne(
+        { _id: mongoBlockId },
+        {
+          $set: {
+            draftId: null,
+            order: null, // Set the order to null for inbox blocks
+          },
+        }
       );
     }
 

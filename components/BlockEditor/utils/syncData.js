@@ -4,6 +4,7 @@ import { syncDrafts } from "@/actions/drafts/syncDrafts";
 
 export const syncData = async (
   drafts,
+  inboxBlocks,
   isChanged,
   setSyncStatus,
   setIsChanged
@@ -12,7 +13,7 @@ export const syncData = async (
 
   setSyncStatus("Syncing...");
   try {
-    const result = await syncDrafts(drafts); // Call the server action directly
+    const result = await syncDrafts(drafts, inboxBlocks); // Call the server action directly
 
     if (result.success) {
       setSyncStatus("Synced");
