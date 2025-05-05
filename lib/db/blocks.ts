@@ -6,7 +6,7 @@ import { auth } from "@/auth"; // Import the Auth.js function
 import { getCollection, cleanMongoDocument } from "@/lib/db";
 
 // Get inbox blocks for the authenticated user
-export const getInboxBlocks = async (limit = 100) => {
+export const getInboxBlocks = async (limit: number = 100) => {
   const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
@@ -26,7 +26,7 @@ export const getInboxBlocks = async (limit = 100) => {
 };
 
 // Get blocks for a specific draft
-export const getBlocksForDraft = async (draftId) => {
+export const getBlocksForDraft = async (draftId: string) => {
   const user = (await auth())?.user;
   if (!user) {
     return redirect("/");
