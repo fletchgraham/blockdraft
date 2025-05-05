@@ -3,8 +3,7 @@ import { useState, useEffect } from "react";
 
 import DraftCard from "./DraftCard";
 import { getDraftsWithBlocks } from "@/lib/db";
-import { deleteDraft } from "@/actions/drafts";
-import { duplicateDraft } from "@/actions/drafts";
+import { duplicateDraft, deleteDraft, archiveDraft } from "@/actions/drafts";
 
 export default function DraftsGrid() {
   const [drafts, setDrafts] = useState([]);
@@ -55,7 +54,7 @@ export default function DraftsGrid() {
 
   const handleArchive = async (draftId) => {
     console.log("Archiving draft:", draftId);
-    // Implement the archive logic here
+    const result = await archiveDraft(draftId);
   };
 
   return (

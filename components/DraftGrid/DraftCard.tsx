@@ -37,6 +37,11 @@ export default function DraftCard({
           alt={draft.name || "Draft"}
           className="object-cover w-full h-full"
         />
+        {draft.archived && (
+          <h3 className="absolute text-2xl font-bold text-white/70">
+            ARCHIVED
+          </h3>
+        )}
       </figure>
       <div className="card-body">
         <Link
