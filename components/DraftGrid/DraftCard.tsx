@@ -5,7 +5,19 @@ import DeleteDraftModal from "./DeleteDraftModal";
 import DuplicateDraftModal from "./DuplicateDraftModal";
 import { TrashIcon, DocumentDuplicateIcon } from "@/components/icons";
 
-export default function DraftCard({ draft, onDelete, onDuplicate }) {
+type DraftCardProps = {
+  draft: any;
+  onDelete: (draftId: string, moveBlocksToInbox: boolean) => void;
+  onDuplicate: (draftId: string, newName: string) => void;
+  onArchive: (draftId: string) => void;
+};
+
+export default function DraftCard({
+  draft,
+  onDelete,
+  onDuplicate,
+  onArchive,
+}: DraftCardProps) {
   let thumbnailUrl = "https://via.placeholder.com/150";
 
   if (draft.blocks) {
@@ -25,6 +37,11 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
           alt={draft.name || "Draft"}
           className="object-cover w-full h-full"
         />
+        {draft.archived && (
+          <h3 className="absolute text-2xl font-bold text-white/70">
+            ARCHIVED
+          </h3>
+        )}
       </figure>
       <div className="card-body">
         <Link
@@ -38,19 +55,30 @@ export default function DraftCard({ draft, onDelete, onDuplicate }) {
           {/* <button className="btn btn-ghost">Edit</button> */}
           <button
             className="btn btn-ghost text-xl"
-            tooltip="Duplicate"
             onClick={() =>
-              document
-                .getElementById(`duplicate-modal-${draft._id}`)
-                .showModal()
+              (
+                document.getElementById(
+                  `duplicate-modal-${draft._id}`
+                ) as HTMLDialogElement
+              ).showModal()
             }
           >
             <DocumentDuplicateIcon className="size-6" />
           </button>
           <button
+            className="btn btn-ghost text-xl"
+            onClick={() => onArchive(draft._id)}
+          >
+            A
+          </button>
+          <button
             className="btn btn-ghost text-xl text-red-500"
             onClick={() =>
-              document.getElementById(`delete-modal-${draft._id}`).showModal()
+              (
+                document.getElementById(
+                  `delete-modal-${draft._id}`
+                ) as HTMLDialogElement
+              ).showModal()
             }
           >
             <TrashIcon className="size-6" />
