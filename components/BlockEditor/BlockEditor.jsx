@@ -192,7 +192,7 @@ export default function BlockEditor() {
 
   return (
     <div className="flex flex-col">
-      <Header title="Draft Editor">
+      <Header title="Editor">
         <span className="btn btn-ghost">{syncStatus}</span>
         <OpenDraftMenu drafts={drafts} onOpenDraft={handleOpenDraft} />
       </Header>
@@ -220,9 +220,23 @@ export default function BlockEditor() {
         {activeTab === "inbox" && (
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex flex-col h-full p-4">
-              <Link href="/import-urls" className={blockListButtonClasses}>
-                + Import
-              </Link>
+              <div className="flex gap-2 mb-2">
+                <Link
+                  href="/import-urls"
+                  className="flex-1 btn bg-base-100 rounded-box"
+                >
+                  + Import
+                </Link>
+                <button
+                  className="btn bg-base-100 rounded-box"
+                  disabled={syncStatus !== "Synced"}
+                  onClick={() => {
+                    window.location.reload();
+                  }}
+                >
+                  Refresh
+                </button>
+              </div>
               <BlockList
                 blocks={inboxBlocks.sort(
                   (a, b) => b.contentDate - a.contentDate
@@ -265,9 +279,23 @@ export default function BlockEditor() {
         <DragDropContext onDragEnd={onDragEnd}>
           <div key="inbox" className="w-1/2 flex flex-col h-full relative">
             <h2 className="text-center font-bold mb-2">Inbox</h2>
-            <Link href="/import-urls" className={blockListButtonClasses}>
-              + Import
-            </Link>
+            <div className="flex gap-2 mb-2">
+              <Link
+                href="/import-urls"
+                className="flex-1 btn bg-base-100 rounded-box"
+              >
+                + Import
+              </Link>
+              <button
+                className="btn bg-base-100 rounded-box"
+                disabled={syncStatus !== "Synced"}
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                Refresh
+              </button>
+            </div>
             {/* sort blocks by contentDate newest first */}
             <BlockList
               blocks={inboxBlocks.sort((a, b) => b.contentDate - a.contentDate)}
