@@ -11,6 +11,10 @@ type BlockMenuProps = {
   block: Block;
   onEditBlock: (block: Block) => void;
   onBlockMove: (block: Block, target: "inbox" | "draft") => void;
+  onBlockMoveToTop: (block: Block) => void;
+  onBlockMoveToPreviousSection: (block: Block) => void;
+  onBlockMoveToNextSection: (block: Block) => void;
+  onBlockMoveToBottom: (block: Block) => void;
   deleteModalId: string;
 };
 
@@ -18,9 +22,13 @@ export const BlockMenu = ({
   block,
   onEditBlock,
   onBlockMove,
+  onBlockMoveToTop,
+  onBlockMoveToPreviousSection,
+  onBlockMoveToNextSection,
+  onBlockMoveToBottom,
   deleteModalId,
 }: BlockMenuProps) => {
-  const actions = [
+  const generalActions = [
     {
       label: `Move to ${block.draftId ? "Inbox" : "Draft"}`,
       icon: block.draftId ? <ArrowLeftCircleIcon /> : <ArrowRightCircleIcon />,
@@ -41,6 +49,36 @@ export const BlockMenu = ({
       },
     },
   ];
+
+  // prepend options to move within draft if the block is in the draft
+  const draftActions = [
+    {
+      label: "Move to top",
+      icon: <ArrowLeftCircleIcon />,
+      onClick: () => onBlockMoveToTop(block),
+    },
+    {
+      label: "Move to previous section",
+      icon: <ArrowLeftCircleIcon />,
+      onClick: () => onBlockMoveToPreviousSection(block),
+    },
+    {
+      label: "Move to next section",
+      icon: <ArrowLeftCircleIcon />,
+      onClick: () => onBlockMoveToNextSection?.(block),
+    },
+    {
+      label: "Move to bottom",
+      icon: <ArrowLeftCircleIcon />,
+      onClick: () => onBlockMoveToBottom(block),
+    },
+  ];
+
+  let actions = [...generalActions];
+
+  if (block.draftId) {
+    actions = [...draftActions, ...generalActions];
+  }
 
   return (
     <details className="dropdown dropdown-end">

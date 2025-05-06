@@ -9,6 +9,10 @@ export default function BlockList({
   onDeleteBlock,
   onEditBlock,
   onBlockMove,
+  onBlockMoveToTop,
+  onBlockMoveToBottom,
+  onBlockMoveToPreviousSection,
+  onBlockMoveToNextSection,
 }) {
   return (
     <Droppable droppableId={droppableId}>
@@ -27,6 +31,10 @@ export default function BlockList({
                 onDeleteBlock={onDeleteBlock}
                 onEditBlock={onEditBlock}
                 onBlockMove={onBlockMove}
+                onBlockMoveToTop={onBlockMoveToTop}
+                onBlockMoveToBottom={onBlockMoveToBottom}
+                onBlockMoveToPreviousSection={onBlockMoveToPreviousSection}
+                onBlockMoveToNextSection={onBlockMoveToNextSection}
               />
             ))}
             {provided.placeholder}

@@ -2,12 +2,6 @@
 
 import { Draggable } from "@hello-pangea/dnd";
 import AreYouSureModal from "@/components/AreYouSureModal";
-import {
-  TrashIcon,
-  ArrowLeftCircleIcon,
-  ArrowRightCircleIcon,
-} from "@/components/icons";
-import { PencilSquareIcon } from "@/components/icons";
 import { BlockMenu } from "./BlockMenu";
 
 export default function BlockItem({
@@ -16,6 +10,10 @@ export default function BlockItem({
   onDeleteBlock,
   onEditBlock,
   onBlockMove,
+  onBlockMoveToTop,
+  onBlockMoveToPreviousSection,
+  onBlockMoveToNextSection,
+  onBlockMoveToBottom,
 }) {
   // make a uuid
   const deleteModalId = Math.random().toString(36).substring(7);
@@ -68,6 +66,10 @@ export default function BlockItem({
               onEditBlock={onEditBlock}
               onBlockMove={onBlockMove}
               deleteModalId={deleteModalId}
+              onBlockMoveToTop={onBlockMoveToTop}
+              onBlockMoveToPreviousSection={onBlockMoveToPreviousSection}
+              onBlockMoveToNextSection={onBlockMoveToNextSection}
+              onBlockMoveToBottom={onBlockMoveToBottom}
             />
           </li>
         )}

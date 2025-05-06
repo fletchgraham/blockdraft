@@ -140,6 +140,72 @@ export default function BlockEditor() {
     document.getElementById("edit-block-modal-id").showModal();
   };
 
+  const handleBlockMoveToTop = (block) => {
+    setDraft((prevDraft) => {
+      const filtered = prevDraft.blocks.filter((b) => b._id !== block._id);
+      return {
+        ...prevDraft,
+        blocks: [block, ...filtered],
+      };
+    });
+    setIsChanged(true);
+  };
+
+  const handleBlockMoveToBottom = (block) => {
+    setDraft((prevDraft) => {
+      const filtered = prevDraft.blocks.filter((b) => b._id !== block._id);
+      return {
+        ...prevDraft,
+        blocks: [...filtered, block],
+      };
+    });
+    setIsChanged(true);
+  };
+
+  const handleBlockMoveToPreviousSection = (block) => {
+    setDraft((prevDraft) => {
+      const blocks = [...prevDraft.blocks];
+      const currentIndex = blocks.findIndex((b) => b._id === block._id);
+
+      let insertIndex = -1;
+      for (let i = currentIndex - 1; i >= 0; i--) {
+        if (blocks[i].type === "custom") {
+          insertIndex = i;
+          break;
+        }
+      }
+
+      if (insertIndex === -1) return prevDraft;
+
+      const newBlocks = blocks.filter((b) => b._id !== block._id);
+      newBlocks.splice(insertIndex, 0, block);
+      return { ...prevDraft, blocks: newBlocks };
+    });
+    setIsChanged(true);
+  };
+
+  const handleBlockMoveToNextSection = (block) => {
+    setDraft((prevDraft) => {
+      const blocks = [...prevDraft.blocks];
+      const currentIndex = blocks.findIndex((b) => b._id === block._id);
+
+      let insertIndex = -1;
+      for (let i = currentIndex + 1; i < blocks.length; i++) {
+        if (blocks[i].type === "custom") {
+          insertIndex = i + 1;
+          break;
+        }
+      }
+
+      if (insertIndex === -1) return prevDraft;
+
+      const newBlocks = blocks.filter((b) => b._id !== block._id);
+      newBlocks.splice(insertIndex, 0, block);
+      return { ...prevDraft, blocks: newBlocks };
+    });
+    setIsChanged(true);
+  };
+
   const closeEditBlockModal = () => {
     setBlockToEdit(null);
     closeAllDropdowns();
@@ -246,6 +312,10 @@ export default function BlockEditor() {
                 onDeleteBlock={handleDeleteBlock}
                 onEditBlock={handleEditBlock}
                 onBlockMove={handleBlockMove}
+                onBlockMoveToTop={handleBlockMoveToTop}
+                onBlockMoveToBottom={handleBlockMoveToBottom}
+                onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
+                onBlockMoveToNextSection={handleBlockMoveToNextSection}
               />
             </div>
           </DragDropContext>
@@ -268,6 +338,10 @@ export default function BlockEditor() {
                 onDeleteBlock={handleDeleteBlock}
                 onEditBlock={handleEditBlock}
                 onBlockMove={handleBlockMove}
+                onBlockMoveToTop={handleBlockMoveToTop}
+                onBlockMoveToBottom={handleBlockMoveToBottom}
+                onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
+                onBlockMoveToNextSection={handleBlockMoveToNextSection}
               />
             </div>
           </DragDropContext>
@@ -304,6 +378,10 @@ export default function BlockEditor() {
               onDeleteBlock={handleDeleteBlock}
               onEditBlock={handleEditBlock}
               onBlockMove={handleBlockMove}
+              onBlockMoveToTop={handleBlockMoveToTop}
+              onBlockMoveToBottom={handleBlockMoveToBottom}
+              onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
+              onBlockMoveToNextSection={handleBlockMoveToNextSection}
             />
           </div>
 
@@ -325,6 +403,10 @@ export default function BlockEditor() {
                 onDeleteBlock={handleDeleteBlock}
                 onEditBlock={handleEditBlock}
                 onBlockMove={handleBlockMove}
+                onBlockMoveToTop={handleBlockMoveToTop}
+                onBlockMoveToBottom={handleBlockMoveToBottom}
+                onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
+                onBlockMoveToNextSection={handleBlockMoveToNextSection}
               />
             </div>
           ) : (
