@@ -3,6 +3,10 @@ import {
   ArrowLeftCircleIcon,
   ArrowRightCircleIcon,
   PencilSquareIcon,
+  ChevronDoubleUpIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ChevronDoubleDownIcon,
 } from "@/components/icons";
 
 import { Block } from "@/types/block";
@@ -54,22 +58,22 @@ export const BlockMenu = ({
   const draftActions = [
     {
       label: "Move to top",
-      icon: <ArrowLeftCircleIcon />,
+      icon: <ChevronDoubleUpIcon />,
       onClick: () => onBlockMoveToTop(block),
     },
     {
       label: "Move to previous section",
-      icon: <ArrowLeftCircleIcon />,
+      icon: <ChevronUpIcon />,
       onClick: () => onBlockMoveToPreviousSection(block),
     },
     {
       label: "Move to next section",
-      icon: <ArrowLeftCircleIcon />,
+      icon: <ChevronDownIcon />,
       onClick: () => onBlockMoveToNextSection?.(block),
     },
     {
       label: "Move to bottom",
-      icon: <ArrowLeftCircleIcon />,
+      icon: <ChevronDoubleDownIcon />,
       onClick: () => onBlockMoveToBottom(block),
     },
   ];

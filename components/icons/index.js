@@ -25,3 +25,19 @@ export { ChatBubbleLeftEllipsisIcon };
 // DocumentDuplicateIcon
 import DocumentDuplicateIcon from "./DocumentDuplicateIcon";
 export { DocumentDuplicateIcon };
+
+// ChevronDownIcon
+import ChevronDownIcon from "./ChevronDownIcon";
+export { ChevronDownIcon };
+
+// ChevronUpIcon
+import ChevronUpIcon from "./ChevronUpIcon";
+export { ChevronUpIcon };
+
+// ChevronDoubleUpIcon
+import ChevronDoubleUpIcon from "./ChevronDoubleUpIcon";
+export { ChevronDoubleUpIcon };
+
+// ChevronDoubleDownIcon
+import ChevronDoubleDownIcon from "./ChevronDoubleDownIcon";
+export { ChevronDoubleDownIcon };

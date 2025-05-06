@@ -149,6 +149,7 @@ export default function BlockEditor() {
       };
     });
     setIsChanged(true);
+    closeAllDropdowns();
   };
 
   const handleBlockMoveToBottom = (block) => {
@@ -160,6 +161,7 @@ export default function BlockEditor() {
       };
     });
     setIsChanged(true);
+    closeAllDropdowns();
   };
 
   const handleBlockMoveToPreviousSection = (block) => {
@@ -182,6 +184,7 @@ export default function BlockEditor() {
       return { ...prevDraft, blocks: newBlocks };
     });
     setIsChanged(true);
+    closeAllDropdowns();
   };
 
   const handleBlockMoveToNextSection = (block) => {
@@ -204,6 +207,7 @@ export default function BlockEditor() {
       return { ...prevDraft, blocks: newBlocks };
     });
     setIsChanged(true);
+    closeAllDropdowns();
   };
 
   const closeEditBlockModal = () => {
