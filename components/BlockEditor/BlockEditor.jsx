@@ -169,10 +169,11 @@ export default function BlockEditor() {
       const blocks = [...prevDraft.blocks];
       const currentIndex = blocks.findIndex((b) => b._id === block._id);
 
+      // Find the previous section header
       let insertIndex = -1;
       for (let i = currentIndex - 1; i >= 0; i--) {
         if (blocks[i].type === "custom") {
-          insertIndex = i;
+          insertIndex = i + 1; // immediately after the previous section header
           break;
         }
       }
@@ -192,10 +193,11 @@ export default function BlockEditor() {
       const blocks = [...prevDraft.blocks];
       const currentIndex = blocks.findIndex((b) => b._id === block._id);
 
+      // Find the next section header
       let insertIndex = -1;
       for (let i = currentIndex + 1; i < blocks.length; i++) {
         if (blocks[i].type === "custom") {
-          insertIndex = i + 1;
+          insertIndex = i + 1; // immediately after the next section header
           break;
         }
       }
