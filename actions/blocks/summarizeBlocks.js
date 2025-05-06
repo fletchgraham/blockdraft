@@ -7,7 +7,7 @@ import { fetchPageText } from "@/lib/fetchPageText";
 import { summarizeText } from "@/lib/summarizeText";
 
 // Configuration for the block limit
-const MONTHLY_BLOCK_LIMIT = 500;
+const MONTHLY_BLOCK_LIMIT = 1000;
 // Hardcoded start date for tracking usage
 const BILLING_START_DATE = new Date("2024-12-09");
 
