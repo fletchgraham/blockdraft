@@ -11,9 +11,10 @@ import { DragDropContext } from "@hello-pangea/dnd";
 import { addBlock } from "@/actions/blocks";
 import { deleteBlock } from "@/actions/blocks";
 import { updateBlock } from "@/actions/blocks";
+import { updateBlockPosition } from "@/actions/blocks";
 
 // utils
-import { handleDragEnd, syncData } from "./utils";
+import { handleDragEndOptimistic } from "./utils";
 import { getInboxBlocks, getDraftsWithBlocks } from "@/lib/db";
 import { useWarnOnUnsavedChanges } from "@/hooks";
 
@@ -28,12 +29,8 @@ export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
   const [draft, setDraft] = useState();
   const [drafts, setDrafts] = useState([]);
-  const [syncStatus, setSyncStatus] = useState("Synced");
-  const [isChanged, setIsChanged] = useState(false);
   const [activeTab, setActiveTab] = useState("inbox"); // State for active tab
   const [blockToEdit, setBlockToEdit] = useState(null);
-
-  useWarnOnUnsavedChanges(isChanged);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,20 +46,9 @@ export default function BlockEditor() {
   }, []);
 
   useEffect(() => {
-    if (isChanged) setSyncStatus("Waiting to sync...");
-  }, [isChanged]);
-
-  useEffect(() => {
     const updatedDrafts = drafts.map((d) => (d._id === draft._id ? draft : d));
     setDrafts(updatedDrafts);
   }, [draft]);
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      syncData(drafts, inboxBlocks, isChanged, setSyncStatus, setIsChanged);
-    }, 2000);
-    return () => clearInterval(intervalId);
-  }, [drafts, isChanged]);
 
   // util to close all detail tags
   const closeAllDropdowns = () => {
@@ -117,13 +103,33 @@ export default function BlockEditor() {
   const handleBlockMove = async (block, destination) => {
     if (destination === "inbox") {
       const updatedBlock = { ...block, draftId: null };
+
+      // Optimistically update UI
       setDraft((prevDraft) => ({
         ...prevDraft,
         blocks: prevDraft.blocks.filter((b) => b._id !== block._id),
       }));
       setInboxBlocks((prevBlocks) => [updatedBlock, ...prevBlocks]);
+
+      // Update server
+      try {
+        await updateBlockPosition(block._id, null, 0);
+      } catch (error) {
+        console.error("Failed to move block to inbox:", error);
+        // Revert optimistic update
+        setInboxBlocks((prevBlocks) =>
+          prevBlocks.filter((b) => b._id !== block._id)
+        );
+        setDraft((prevDraft) => ({
+          ...prevDraft,
+          blocks: [block, ...prevDraft.blocks],
+        }));
+        alert("Failed to move block to inbox. Please try again.");
+      }
     } else {
       const updatedBlock = { ...block, draftId: draft._id };
+
+      // Optimistically update UI
       setInboxBlocks((prevBlocks) =>
         prevBlocks.filter((b) => b._id !== block._id)
       );
@@ -131,8 +137,21 @@ export default function BlockEditor() {
         ...prevDraft,
         blocks: [updatedBlock, ...prevDraft.blocks],
       }));
+
+      // Update server
+      try {
+        await updateBlockPosition(block._id, draft._id, 0);
+      } catch (error) {
+        console.error("Failed to move block to draft:", error);
+        // Revert optimistic update
+        setDraft((prevDraft) => ({
+          ...prevDraft,
+          blocks: prevDraft.blocks.filter((b) => b._id !== block._id),
+        }));
+        setInboxBlocks((prevBlocks) => [block, ...prevBlocks]);
+        alert("Failed to move block to draft. Please try again.");
+      }
     }
-    setIsChanged(true);
   };
 
   const handleEditBlock = (block) => {
@@ -140,7 +159,10 @@ export default function BlockEditor() {
     document.getElementById("edit-block-modal-id").showModal();
   };
 
-  const handleBlockMoveToTop = (block) => {
+  const handleBlockMoveToTop = async (block) => {
+    const originalDraft = draft;
+
+    // Optimistically update UI
     setDraft((prevDraft) => {
       const filtered = prevDraft.blocks.filter((b) => b._id !== block._id);
       return {
@@ -148,11 +170,24 @@ export default function BlockEditor() {
         blocks: [block, ...filtered],
       };
     });
-    setIsChanged(true);
+
+    // Update server
+    try {
+      await updateBlockPosition(block._id, draft._id, 0);
+    } catch (error) {
+      console.error("Failed to move block to top:", error);
+      // Revert optimistic update
+      setDraft(originalDraft);
+      alert("Failed to move block to top. Please try again.");
+    }
+
     closeAllDropdowns();
   };
 
-  const handleBlockMoveToBottom = (block) => {
+  const handleBlockMoveToBottom = async (block) => {
+    const originalDraft = draft;
+
+    // Optimistically update UI
     setDraft((prevDraft) => {
       const filtered = prevDraft.blocks.filter((b) => b._id !== block._id);
       return {
@@ -160,11 +195,25 @@ export default function BlockEditor() {
         blocks: [...filtered, block],
       };
     });
-    setIsChanged(true);
+
+    // Update server
+    try {
+      await updateBlockPosition(block._id, draft._id, draft.blocks.length - 1);
+    } catch (error) {
+      console.error("Failed to move block to bottom:", error);
+      // Revert optimistic update
+      setDraft(originalDraft);
+      alert("Failed to move block to bottom. Please try again.");
+    }
+
     closeAllDropdowns();
   };
 
-  const handleBlockMoveToPreviousSection = (block) => {
+  const handleBlockMoveToPreviousSection = async (block) => {
+    const originalDraft = draft;
+    let newPosition = -1;
+
+    // Optimistically update UI
     setDraft((prevDraft) => {
       const blocks = [...prevDraft.blocks];
       const currentIndex = blocks.findIndex((b) => b._id === block._id);
@@ -180,15 +229,32 @@ export default function BlockEditor() {
 
       if (insertIndex === -1) return prevDraft;
 
+      newPosition = insertIndex;
       const newBlocks = blocks.filter((b) => b._id !== block._id);
       newBlocks.splice(insertIndex, 0, block);
       return { ...prevDraft, blocks: newBlocks };
     });
-    setIsChanged(true);
+
+    // Update server
+    if (newPosition !== -1) {
+      try {
+        await updateBlockPosition(block._id, draft._id, newPosition);
+      } catch (error) {
+        console.error("Failed to move block to previous section:", error);
+        // Revert optimistic update
+        setDraft(originalDraft);
+        alert("Failed to move block to previous section. Please try again.");
+      }
+    }
+
     closeAllDropdowns();
   };
 
-  const handleBlockMoveToNextSection = (block) => {
+  const handleBlockMoveToNextSection = async (block) => {
+    const originalDraft = draft;
+    let newPosition = -1;
+
+    // Optimistically update UI
     setDraft((prevDraft) => {
       const blocks = [...prevDraft.blocks];
       const currentIndex = blocks.findIndex((b) => b._id === block._id);
@@ -204,11 +270,24 @@ export default function BlockEditor() {
 
       if (insertIndex === -1) return prevDraft;
 
+      newPosition = insertIndex;
       const newBlocks = blocks.filter((b) => b._id !== block._id);
       newBlocks.splice(insertIndex, 0, block);
       return { ...prevDraft, blocks: newBlocks };
     });
-    setIsChanged(true);
+
+    // Update server
+    if (newPosition !== -1) {
+      try {
+        await updateBlockPosition(block._id, draft._id, newPosition);
+      } catch (error) {
+        console.error("Failed to move block to next section:", error);
+        // Revert optimistic update
+        setDraft(originalDraft);
+        alert("Failed to move block to next section. Please try again.");
+      }
+    }
+
     closeAllDropdowns();
   };
 
@@ -249,9 +328,8 @@ export default function BlockEditor() {
   };
 
   const onDragEnd = (result) => {
-    handleDragEnd(
+    handleDragEndOptimistic(
       result,
-      setIsChanged,
       inboxBlocks,
       setInboxBlocks,
       draft,
@@ -265,7 +343,6 @@ export default function BlockEditor() {
   return (
     <div className="flex flex-col">
       <Header title="Editor">
-        <span className="btn btn-ghost">{syncStatus}</span>
         <OpenDraftMenu drafts={drafts} onOpenDraft={handleOpenDraft} />
       </Header>
 
@@ -301,7 +378,6 @@ export default function BlockEditor() {
                 </Link>
                 <button
                   className="btn bg-base-100 rounded-box"
-                  disabled={syncStatus !== "Synced"}
                   onClick={() => {
                     window.location.reload();
                   }}
@@ -368,7 +444,6 @@ export default function BlockEditor() {
               </Link>
               <button
                 className="btn bg-base-100 rounded-box"
-                disabled={syncStatus !== "Synced"}
                 onClick={() => {
                   window.location.reload();
                 }}
