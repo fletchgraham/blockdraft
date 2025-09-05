@@ -24,32 +24,80 @@ export async function updateBlockPosition(blockId, newDraftId, newPosition) {
     throw new Error("Block not found or not owned by the authenticated user.");
   }
 
-  // Prepare update document with proper MongoDB operators
-  let updateDoc = {};
+  // If moving between different containers (inbox to draft or vice versa)
+  // we just need to update the draftId and set a basic order
+  if (
+    (existingBlock.draftId &&
+      (newDraftId === null || newDraftId === "inbox")) ||
+    (!existingBlock.draftId && newDraftId && newDraftId !== "inbox")
+  ) {
+    // Moving between containers - simple update
+    let updateDoc = {};
 
-  // Handle draftId - set to null for inbox, or to the draftId for draft
-  if (newDraftId === null || newDraftId === "inbox") {
-    updateDoc = {
-      $set: { position: newPosition },
-      $unset: { draftId: "" },
-    };
-  } else {
-    updateDoc = {
-      $set: {
-        position: newPosition,
+    if (newDraftId === null || newDraftId === "inbox") {
+      updateDoc = {
+        $unset: { draftId: "", order: "" }, // Remove both draftId and order for inbox items
+      };
+    } else {
+      // Get current count of blocks in target draft to set order
+      const draftBlockCount = await blocksCollection.countDocuments({
         draftId: ObjectId.createFromHexString(newDraftId),
+        userId: userId,
+      });
+
+      updateDoc = {
+        $set: {
+          draftId: ObjectId.createFromHexString(newDraftId),
+          order: newPosition !== undefined ? newPosition : draftBlockCount,
+        },
+      };
+    }
+
+    const result = await blocksCollection.updateOne(
+      { _id: blockObjectId },
+      updateDoc
+    );
+
+    if (result.modifiedCount === 0) {
+      throw new Error("Failed to update block position");
+    }
+  } else if (newDraftId && newDraftId !== "inbox") {
+    // Reordering within the same draft - need to update order of multiple blocks
+    const draftObjectId = ObjectId.createFromHexString(newDraftId);
+
+    // Get all blocks in the draft sorted by current order
+    const draftBlocks = await blocksCollection
+      .find({
+        draftId: draftObjectId,
+        userId: userId,
+      })
+      .sort({ order: 1, _id: 1 })
+      .toArray();
+
+    // Remove the moving block from the array
+    const movingBlockIndex = draftBlocks.findIndex((block) =>
+      block._id.equals(blockObjectId)
+    );
+    if (movingBlockIndex === -1) {
+      throw new Error("Block not found in draft");
+    }
+
+    const movingBlock = draftBlocks.splice(movingBlockIndex, 1)[0];
+
+    // Insert at new position
+    draftBlocks.splice(newPosition, 0, movingBlock);
+
+    // Update order for all blocks
+    const bulkOps = draftBlocks.map((block, index) => ({
+      updateOne: {
+        filter: { _id: block._id },
+        update: { $set: { order: index } },
       },
-    };
-  }
+    }));
 
-  // Update the block
-  const result = await blocksCollection.updateOne(
-    { _id: blockObjectId },
-    updateDoc
-  );
-
-  if (result.modifiedCount === 0) {
-    throw new Error("Failed to update block position");
+    if (bulkOps.length > 0) {
+      await blocksCollection.bulkWrite(bulkOps);
+    }
   }
 
   return { success: true };
