@@ -41,3 +41,7 @@ export { ChevronDoubleUpIcon };
 // ChevronDoubleDownIcon
 import ChevronDoubleDownIcon from "./ChevronDoubleDownIcon";
 export { ChevronDoubleDownIcon };
+
+// ArchiveBoxIcon
+import ArchiveBoxIcon from "./ArchiveBoxIcon";
+export { ArchiveBoxIcon };

@@ -3,7 +3,11 @@
 import Link from "next/link";
 import DeleteDraftModal from "./DeleteDraftModal";
 import DuplicateDraftModal from "./DuplicateDraftModal";
-import { TrashIcon, DocumentDuplicateIcon } from "@/components/icons";
+import {
+  TrashIcon,
+  DocumentDuplicateIcon,
+  ArchiveBoxIcon,
+} from "@/components/icons";
 
 type DraftCardProps = {
   draft: any;
@@ -69,7 +73,7 @@ export default function DraftCard({
             className="btn btn-ghost text-xl"
             onClick={() => onArchive(draft._id)}
           >
-            A
+            <ArchiveBoxIcon className="size-6" />
           </button>
           <button
             className="btn btn-ghost text-xl text-red-500"
