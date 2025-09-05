@@ -12,7 +12,9 @@ export default function DraftsGrid() {
   useEffect(() => {
     const fetchData = async () => {
       const drafts = await getDraftsWithBlocks();
-      setDrafts(drafts);
+      // Filter out archived drafts
+      const activeDrafts = drafts.filter((draft) => !draft.archived);
+      setDrafts(activeDrafts);
     };
     fetchData();
   }, []);
@@ -55,6 +57,11 @@ export default function DraftsGrid() {
   const handleArchive = async (draftId) => {
     console.log("Archiving draft:", draftId);
     const result = await archiveDraft(draftId);
+
+    if (result.success) {
+      // Remove archived draft from the local state
+      setDrafts((drafts) => drafts.filter((draft) => draft._id !== draftId));
+    }
   };
 
   return (
