@@ -7,6 +7,7 @@ import {
   TrashIcon,
   DocumentDuplicateIcon,
   ArchiveBoxIcon,
+  DocumentArrowUpIcon,
 } from "@/components/icons";
 
 type DraftCardProps = {
@@ -14,6 +15,7 @@ type DraftCardProps = {
   onDelete: (draftId: string, moveBlocksToInbox: boolean) => void;
   onDuplicate: (draftId: string, newName: string) => void;
   onArchive: (draftId: string) => void;
+  onUnarchive?: (draftId: string) => void;
 };
 
 export default function DraftCard({
@@ -21,6 +23,7 @@ export default function DraftCard({
   onDelete,
   onDuplicate,
   onArchive,
+  onUnarchive,
 }: DraftCardProps) {
   let thumbnailUrl = null;
   let hasCustomThumbnail = false;
@@ -77,12 +80,23 @@ export default function DraftCard({
           >
             <DocumentDuplicateIcon className="size-6" />
           </button>
-          <button
-            className="btn btn-ghost text-xl"
-            onClick={() => onArchive(draft._id)}
-          >
-            <ArchiveBoxIcon className="size-6" />
-          </button>
+
+          {draft.archived ? (
+            <button
+              className="btn btn-ghost text-xl text-green-600"
+              onClick={() => onUnarchive?.(draft._id)}
+            >
+              <DocumentArrowUpIcon className="size-6" />
+            </button>
+          ) : (
+            <button
+              className="btn btn-ghost text-xl"
+              onClick={() => onArchive(draft._id)}
+            >
+              <ArchiveBoxIcon className="size-6" />
+            </button>
+          )}
+
           <button
             className="btn btn-ghost text-xl text-red-500"
             onClick={() =>

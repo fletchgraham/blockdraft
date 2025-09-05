@@ -45,3 +45,7 @@ export { ChevronDoubleDownIcon };
 // ArchiveBoxIcon
 import ArchiveBoxIcon from "./ArchiveBoxIcon";
 export { ArchiveBoxIcon };
+
+// DocumentArrowUpIcon
+import DocumentArrowUpIcon from "./DocumentArrowUpIcon";
+export { DocumentArrowUpIcon };

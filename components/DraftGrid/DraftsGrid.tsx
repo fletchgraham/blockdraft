@@ -3,7 +3,12 @@ import { useState, useEffect } from "react";
 
 import DraftCard from "./DraftCard";
 import { getDraftsWithBlocks } from "@/lib/db";
-import { duplicateDraft, deleteDraft, archiveDraft } from "@/actions/drafts";
+import {
+  duplicateDraft,
+  deleteDraft,
+  archiveDraft,
+  unarchiveDraft,
+} from "@/actions/drafts";
 
 export default function DraftsGrid() {
   const [drafts, setDrafts] = useState([]);
@@ -43,11 +48,14 @@ export default function DraftsGrid() {
       // Call the server action directly
       const result = await deleteDraft(draftId, moveBlocksToInbox);
 
-      // remove draft from drafts
+      // remove draft from both active and archived drafts
       setDrafts((drafts) => drafts.filter((draft) => draft._id !== draftId));
+      setArchivedDrafts((archived) =>
+        archived.filter((draft) => draft._id !== draftId)
+      );
     } catch (error) {
-      console.error("Failed to add block:", error);
-      alert("An error occurred while adding the block.");
+      console.error("Failed to delete draft:", error);
+      alert("An error occurred while deleting the draft.");
     }
 
     try {
@@ -79,6 +87,29 @@ export default function DraftsGrid() {
     }
   };
 
+  const handleUnarchive = async (draftId) => {
+    console.log("Unarchiving draft:", draftId);
+    const result = await unarchiveDraft(draftId);
+
+    if (result.success) {
+      // Find the draft being unarchived
+      const draftToUnarchive = archivedDrafts.find(
+        (draft) => draft._id === draftId
+      );
+
+      if (draftToUnarchive) {
+        // Remove from archived drafts
+        setArchivedDrafts((archived) =>
+          archived.filter((draft) => draft._id !== draftId)
+        );
+
+        // Add to active drafts without archived flag
+        const { archived, ...unarchivedDraft } = draftToUnarchive;
+        setDrafts((drafts) => [unarchivedDraft, ...drafts]);
+      }
+    }
+  };
+
   const toggleArchived = () => {
     setShowArchived(!showArchived);
   };
@@ -93,6 +124,7 @@ export default function DraftsGrid() {
             onDelete={handleDelete}
             onDuplicate={handleDuplicate}
             onArchive={handleArchive}
+            onUnarchive={handleUnarchive}
           />
         ))}
       </div>
@@ -121,6 +153,7 @@ export default function DraftsGrid() {
                 onDelete={handleDelete}
                 onDuplicate={handleDuplicate}
                 onArchive={handleArchive}
+                onUnarchive={handleUnarchive}
               />
             ))}
           </div>
