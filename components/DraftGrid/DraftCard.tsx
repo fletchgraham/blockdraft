@@ -22,12 +22,14 @@ export default function DraftCard({
   onDuplicate,
   onArchive,
 }: DraftCardProps) {
-  let thumbnailUrl = "https://via.placeholder.com/150";
+  let thumbnailUrl = null;
+  let hasCustomThumbnail = false;
 
   if (draft.blocks) {
     for (const block of draft.blocks) {
       if (block.thumbnailUrl) {
         thumbnailUrl = block.thumbnailUrl;
+        hasCustomThumbnail = true;
         break;
       }
     }
@@ -35,12 +37,18 @@ export default function DraftCard({
 
   return (
     <div className="card card-compact bg-base-100 w-full sm:w-60 shadow-md">
-      <figure className="h-40 overflow-hidden">
-        <img
-          src={thumbnailUrl}
-          alt={draft.name || "Draft"}
-          className="object-cover w-full h-full"
-        />
+      <figure className="h-40 overflow-hidden relative">
+        {hasCustomThumbnail ? (
+          <img
+            src={thumbnailUrl}
+            alt={draft.name || "Draft"}
+            className="object-cover w-full h-full"
+          />
+        ) : (
+          <div className="w-full h-full bg-gray-400 flex items-center justify-center">
+            <span className="text-white text-xl font-semibold">DRAFT</span>
+          </div>
+        )}
         {draft.archived && (
           <h3 className="absolute text-2xl font-bold text-white/70">
             ARCHIVED
