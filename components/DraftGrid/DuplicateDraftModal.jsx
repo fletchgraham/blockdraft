@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getTodayFormatted, getTomorrowFormatted } from "@/lib/dateUtils";
 
 export default function DuplicateDraftModal({ draft, onDuplicate }) {
   const [inputText, setInputText] = useState(draft.name + " Copy");
@@ -10,6 +11,14 @@ export default function DuplicateDraftModal({ draft, onDuplicate }) {
       document.getElementById(`duplicate-modal-${draft._id}`).close();
       setInputText("");
     }
+  };
+
+  const setToday = () => {
+    setInputText(getTodayFormatted());
+  };
+
+  const setTomorrow = () => {
+    setInputText(getTomorrowFormatted());
   };
 
   return (
@@ -26,6 +35,22 @@ export default function DuplicateDraftModal({ draft, onDuplicate }) {
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
           />
+          <div className="flex gap-2 mt-3">
+            <button
+              type="button"
+              className="btn btn-outline btn-sm flex-1"
+              onClick={setToday}
+            >
+              Today
+            </button>
+            <button
+              type="button"
+              className="btn btn-outline btn-sm flex-1"
+              onClick={setTomorrow}
+            >
+              Tomorrow
+            </button>
+          </div>
         </div>
         <div className="modal-action">
           <button type="submit" className="btn btn-primary">
