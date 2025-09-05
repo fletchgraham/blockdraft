@@ -83,7 +83,7 @@ export default function DraftCard({
 
           {draft.archived ? (
             <button
-              className="btn btn-ghost text-xl text-green-600"
+              className="btn btn-ghost text-xl"
               onClick={() => onUnarchive?.(draft._id)}
             >
               <DocumentArrowUpIcon className="size-6" />
