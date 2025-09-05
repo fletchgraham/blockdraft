@@ -7,14 +7,18 @@ import { duplicateDraft, deleteDraft, archiveDraft } from "@/actions/drafts";
 
 export default function DraftsGrid() {
   const [drafts, setDrafts] = useState([]);
+  const [archivedDrafts, setArchivedDrafts] = useState([]);
+  const [showArchived, setShowArchived] = useState(false);
 
   // Fetch drafts with blocks to get thumbnail URLs
   useEffect(() => {
     const fetchData = async () => {
-      const drafts = await getDraftsWithBlocks();
-      // Filter out archived drafts
-      const activeDrafts = drafts.filter((draft) => !draft.archived);
+      const allDrafts = await getDraftsWithBlocks();
+      // Separate active and archived drafts
+      const activeDrafts = allDrafts.filter((draft) => !draft.archived);
+      const archived = allDrafts.filter((draft) => draft.archived);
       setDrafts(activeDrafts);
+      setArchivedDrafts(archived);
     };
     fetchData();
   }, []);
@@ -59,9 +63,24 @@ export default function DraftsGrid() {
     const result = await archiveDraft(draftId);
 
     if (result.success) {
-      // Remove archived draft from the local state
-      setDrafts((drafts) => drafts.filter((draft) => draft._id !== draftId));
+      // Find the draft being archived
+      const draftToArchive = drafts.find((draft) => draft._id === draftId);
+
+      if (draftToArchive) {
+        // Remove from active drafts
+        setDrafts((drafts) => drafts.filter((draft) => draft._id !== draftId));
+
+        // Add to archived drafts with archived flag
+        setArchivedDrafts((archived) => [
+          { ...draftToArchive, archived: true },
+          ...archived,
+        ]);
+      }
     }
+  };
+
+  const toggleArchived = () => {
+    setShowArchived(!showArchived);
   };
 
   return (
@@ -77,6 +96,36 @@ export default function DraftsGrid() {
           />
         ))}
       </div>
+
+      {/* Show/Hide Archived Button */}
+      {archivedDrafts.length > 0 && (
+        <div className="text-center mt-8">
+          <button onClick={toggleArchived} className="btn btn-outline">
+            {showArchived ? "Hide Archived" : "Show Archived"} (
+            {archivedDrafts.length})
+          </button>
+        </div>
+      )}
+
+      {/* Archived Drafts Section */}
+      {showArchived && archivedDrafts.length > 0 && (
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4 text-center text-gray-600">
+            Archived Drafts
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 place-items-center">
+            {archivedDrafts.map((draft) => (
+              <DraftCard
+                key={draft._id}
+                draft={draft}
+                onDelete={handleDelete}
+                onDuplicate={handleDuplicate}
+                onArchive={handleArchive}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
