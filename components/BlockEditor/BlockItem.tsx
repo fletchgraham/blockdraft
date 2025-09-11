@@ -46,7 +46,7 @@ export default function BlockItem({
                     href={block.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="font-semibold hover:underline"
+                    className="font-semibold hover:underline break-all line-clamp-2"
                   >
                     {block.title}
                   </a>
