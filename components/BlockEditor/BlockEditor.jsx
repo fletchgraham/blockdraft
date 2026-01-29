@@ -24,6 +24,7 @@ import BlockList from "./BlockList";
 import OpenDraftMenu from "./OpenDraftMenu";
 import AddBlockModal from "./AddBlockModal";
 import EditBlockModal from "./EditBlockModal";
+import ExportModal, { openExportModal } from "./ExportModal";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -384,6 +385,12 @@ export default function BlockEditor() {
                 >
                   Refresh
                 </button>
+                <button
+                  className="btn bg-base-100 rounded-box"
+                  onClick={openExportModal}
+                >
+                  Export
+                </button>
               </div>
               <BlockList
                 blocks={inboxBlocks.sort(
@@ -450,6 +457,12 @@ export default function BlockEditor() {
               >
                 Refresh
               </button>
+              <button
+                className="btn bg-base-100 rounded-box"
+                onClick={openExportModal}
+              >
+                Export
+              </button>
             </div>
             {/* sort blocks by contentDate newest first */}
             <BlockList
@@ -502,6 +515,7 @@ export default function BlockEditor() {
         onEditBlock={onUpdateBlock}
         onClose={closeEditBlockModal}
       />
+      <ExportModal blocks={inboxBlocks} />
     </div>
   );
 }
