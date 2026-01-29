@@ -11,8 +11,7 @@ export default function BlockList({
   onBlockMove,
   onBlockMoveToTop,
   onBlockMoveToBottom,
-  onBlockMoveToPreviousSection,
-  onBlockMoveToNextSection,
+  onOpenMoveToSection,
 }) {
   return (
     <Droppable droppableId={droppableId}>
@@ -33,8 +32,7 @@ export default function BlockList({
                 onBlockMove={onBlockMove}
                 onBlockMoveToTop={onBlockMoveToTop}
                 onBlockMoveToBottom={onBlockMoveToBottom}
-                onBlockMoveToPreviousSection={onBlockMoveToPreviousSection}
-                onBlockMoveToNextSection={onBlockMoveToNextSection}
+                onOpenMoveToSection={onOpenMoveToSection}
               />
             ))}
             {provided.placeholder}

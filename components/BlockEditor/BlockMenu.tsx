@@ -4,9 +4,8 @@ import {
   ArrowRightCircleIcon,
   PencilSquareIcon,
   ChevronDoubleUpIcon,
-  ChevronUpIcon,
-  ChevronDownIcon,
   ChevronDoubleDownIcon,
+  ArchiveBoxIcon,
 } from "@/components/icons";
 
 import { Block } from "@/types/block";
@@ -16,8 +15,7 @@ type BlockMenuProps = {
   onEditBlock: (block: Block) => void;
   onBlockMove: (block: Block, target: "inbox" | "draft") => void;
   onBlockMoveToTop: (block: Block) => void;
-  onBlockMoveToPreviousSection: (block: Block) => void;
-  onBlockMoveToNextSection: (block: Block) => void;
+  onOpenMoveToSection: (block: Block) => void;
   onBlockMoveToBottom: (block: Block) => void;
   deleteModalId: string;
 };
@@ -27,8 +25,7 @@ export const BlockMenu = ({
   onEditBlock,
   onBlockMove,
   onBlockMoveToTop,
-  onBlockMoveToPreviousSection,
-  onBlockMoveToNextSection,
+  onOpenMoveToSection,
   onBlockMoveToBottom,
   deleteModalId,
 }: BlockMenuProps) => {
@@ -62,14 +59,9 @@ export const BlockMenu = ({
       onClick: () => onBlockMoveToTop(block),
     },
     {
-      label: "Move to previous section",
-      icon: <ChevronUpIcon />,
-      onClick: () => onBlockMoveToPreviousSection(block),
-    },
-    {
-      label: "Move to next section",
-      icon: <ChevronDownIcon />,
-      onClick: () => onBlockMoveToNextSection?.(block),
+      label: "Move to section",
+      icon: <ArchiveBoxIcon />,
+      onClick: () => onOpenMoveToSection(block),
     },
     {
       label: "Move to bottom",

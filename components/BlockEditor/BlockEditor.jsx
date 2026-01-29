@@ -25,6 +25,7 @@ import OpenDraftMenu from "./OpenDraftMenu";
 import AddBlockModal from "./AddBlockModal";
 import EditBlockModal from "./EditBlockModal";
 import ExportModal, { openExportModal } from "./ExportModal";
+import MoveToSectionModal from "./MoveToSectionModal";
 
 export default function BlockEditor() {
   const [inboxBlocks, setInboxBlocks] = useState([]);
@@ -32,6 +33,7 @@ export default function BlockEditor() {
   const [drafts, setDrafts] = useState([]);
   const [activeTab, setActiveTab] = useState("inbox"); // State for active tab
   const [blockToEdit, setBlockToEdit] = useState(null);
+  const [blockToMove, setBlockToMove] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -210,86 +212,52 @@ export default function BlockEditor() {
     closeAllDropdowns();
   };
 
-  const handleBlockMoveToPreviousSection = async (block) => {
-    const originalDraft = draft;
-    let newPosition = -1;
-
-    // Optimistically update UI
-    setDraft((prevDraft) => {
-      const blocks = [...prevDraft.blocks];
-      const currentIndex = blocks.findIndex((b) => b._id === block._id);
-
-      // Find the previous section header
-      let insertIndex = -1;
-      for (let i = currentIndex - 1; i >= 0; i--) {
-        if (blocks[i].type === "custom") {
-          insertIndex = i + 1; // immediately after the previous section header
-          break;
-        }
-      }
-
-      if (insertIndex === -1) return prevDraft;
-
-      newPosition = insertIndex;
-      const newBlocks = blocks.filter((b) => b._id !== block._id);
-      newBlocks.splice(insertIndex, 0, block);
-      return { ...prevDraft, blocks: newBlocks };
-    });
-
-    // Update server
-    if (newPosition !== -1) {
-      try {
-        await updateBlockPosition(block._id, draft._id, newPosition);
-      } catch (error) {
-        console.error("Failed to move block to previous section:", error);
-        // Revert optimistic update
-        setDraft(originalDraft);
-        alert("Failed to move block to previous section. Please try again.");
-      }
-    }
-
+  const handleOpenMoveToSection = (block) => {
+    setBlockToMove(block);
     closeAllDropdowns();
+    document.getElementById("move-to-section-modal-id").showModal();
   };
 
-  const handleBlockMoveToNextSection = async (block) => {
+  const handleMoveToSection = async (targetSection) => {
+    if (!blockToMove) return;
+
     const originalDraft = draft;
-    let newPosition = -1;
+    const block = blockToMove;
+
+    // Find the position right after the target section
+    const sectionIndex = draft.blocks.findIndex(
+      (b) => b._id === targetSection._id
+    );
+    if (sectionIndex === -1) return;
+
+    const insertIndex = sectionIndex + 1;
 
     // Optimistically update UI
     setDraft((prevDraft) => {
-      const blocks = [...prevDraft.blocks];
-      const currentIndex = blocks.findIndex((b) => b._id === block._id);
-
-      // Find the next section header
-      let insertIndex = -1;
-      for (let i = currentIndex + 1; i < blocks.length; i++) {
-        if (blocks[i].type === "custom") {
-          insertIndex = i + 1; // immediately after the next section header
-          break;
-        }
-      }
-
-      if (insertIndex === -1) return prevDraft;
-
-      newPosition = insertIndex;
-      const newBlocks = blocks.filter((b) => b._id !== block._id);
-      newBlocks.splice(insertIndex, 0, block);
+      const newBlocks = prevDraft.blocks.filter((b) => b._id !== block._id);
+      // Adjust insert index if the block was before the section
+      const blockIndex = prevDraft.blocks.findIndex((b) => b._id === block._id);
+      const adjustedInsertIndex =
+        blockIndex < sectionIndex ? insertIndex - 1 : insertIndex;
+      newBlocks.splice(adjustedInsertIndex, 0, block);
       return { ...prevDraft, blocks: newBlocks };
     });
 
     // Update server
-    if (newPosition !== -1) {
-      try {
-        await updateBlockPosition(block._id, draft._id, newPosition);
-      } catch (error) {
-        console.error("Failed to move block to next section:", error);
-        // Revert optimistic update
-        setDraft(originalDraft);
-        alert("Failed to move block to next section. Please try again.");
-      }
+    try {
+      await updateBlockPosition(block._id, draft._id, insertIndex);
+    } catch (error) {
+      console.error("Failed to move block to section:", error);
+      // Revert optimistic update
+      setDraft(originalDraft);
+      alert("Failed to move block to section. Please try again.");
     }
 
-    closeAllDropdowns();
+    setBlockToMove(null);
+  };
+
+  const closeMoveToSectionModal = () => {
+    setBlockToMove(null);
   };
 
   const closeEditBlockModal = () => {
@@ -403,8 +371,7 @@ export default function BlockEditor() {
                 onBlockMove={handleBlockMove}
                 onBlockMoveToTop={handleBlockMoveToTop}
                 onBlockMoveToBottom={handleBlockMoveToBottom}
-                onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
-                onBlockMoveToNextSection={handleBlockMoveToNextSection}
+                onOpenMoveToSection={handleOpenMoveToSection}
               />
             </div>
           </DragDropContext>
@@ -429,8 +396,7 @@ export default function BlockEditor() {
                 onBlockMove={handleBlockMove}
                 onBlockMoveToTop={handleBlockMoveToTop}
                 onBlockMoveToBottom={handleBlockMoveToBottom}
-                onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
-                onBlockMoveToNextSection={handleBlockMoveToNextSection}
+                onOpenMoveToSection={handleOpenMoveToSection}
               />
             </div>
           </DragDropContext>
@@ -474,8 +440,7 @@ export default function BlockEditor() {
               onBlockMove={handleBlockMove}
               onBlockMoveToTop={handleBlockMoveToTop}
               onBlockMoveToBottom={handleBlockMoveToBottom}
-              onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
-              onBlockMoveToNextSection={handleBlockMoveToNextSection}
+              onOpenMoveToSection={handleOpenMoveToSection}
             />
           </div>
 
@@ -499,8 +464,7 @@ export default function BlockEditor() {
                 onBlockMove={handleBlockMove}
                 onBlockMoveToTop={handleBlockMoveToTop}
                 onBlockMoveToBottom={handleBlockMoveToBottom}
-                onBlockMoveToPreviousSection={handleBlockMoveToPreviousSection}
-                onBlockMoveToNextSection={handleBlockMoveToNextSection}
+                onOpenMoveToSection={handleOpenMoveToSection}
               />
             </div>
           ) : (
@@ -516,6 +480,12 @@ export default function BlockEditor() {
         onClose={closeEditBlockModal}
       />
       <ExportModal blocks={inboxBlocks} />
+      <MoveToSectionModal
+        modalId="move-to-section-modal-id"
+        sections={draft?.blocks?.filter((b) => b.type === "custom") || []}
+        onSelectSection={handleMoveToSection}
+        onClose={closeMoveToSectionModal}
+      />
     </div>
   );
 }

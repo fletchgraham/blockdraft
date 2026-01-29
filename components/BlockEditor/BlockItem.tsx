@@ -11,8 +11,7 @@ export default function BlockItem({
   onEditBlock,
   onBlockMove,
   onBlockMoveToTop,
-  onBlockMoveToPreviousSection,
-  onBlockMoveToNextSection,
+  onOpenMoveToSection,
   onBlockMoveToBottom,
 }) {
   // make a uuid
@@ -67,8 +66,7 @@ export default function BlockItem({
               onBlockMove={onBlockMove}
               deleteModalId={deleteModalId}
               onBlockMoveToTop={onBlockMoveToTop}
-              onBlockMoveToPreviousSection={onBlockMoveToPreviousSection}
-              onBlockMoveToNextSection={onBlockMoveToNextSection}
+              onOpenMoveToSection={onOpenMoveToSection}
               onBlockMoveToBottom={onBlockMoveToBottom}
             />
           </li>
